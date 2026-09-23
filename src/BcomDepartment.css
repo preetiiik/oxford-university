@@ -1,0 +1,24 @@
+.bcom-section { padding-block: 65px; }
+.bcom-detail .bcom-intro-photo { aspect-ratio: auto; max-height: 520px; object-fit: contain; }
+.bcom-photo-gallery { align-items: start; }
+.bcom-photo-gallery img { aspect-ratio: auto; height: auto; }
+.bcom-copy h2 { margin: 0 0 30px; font-size: 40px; line-height: 1.15; }
+.bcom-copy h3 { margin: 30px 0 16px; font-size: 26px; line-height: 1.2; }
+.bcom-copy p + p { margin-top: 20px; }
+.bcom-copy ul { padding-left: 22px; margin: 20px 0; list-style: disc; }
+.bcom-copy li { padding-left: 7px; font-size: 14px; line-height: 1.7; }
+.bcom-copy li + li { margin-top: 14px; }
+.bcom-copy li::marker { color: #407f55; }
+.bcom-contact { padding: 32px; background: #f8f8f0; border: 1px solid #dfe6d9; border-radius: 16px; overflow-wrap: anywhere; }
+.bcom-contact a { color: #407f55; text-decoration: underline; text-underline-offset: 3px; }
+.bcom-contact a:focus-visible { outline: 2px solid #407f55; outline-offset: 4px; }
+.bcom-stage-copy { margin-top: 38px; columns: 2; column-gap: 70px; }
+.bcom-stage-copy h3 { break-after: avoid; color: #407f55; font-style: italic; }
+.bcom-stage-copy ul { break-inside: avoid; }
+.bcom-result-placeholder { margin-top: 30px; max-width: 720px; }
+@media (max-width: 767px) {
+  .bcom-section { padding-block: 40px; }
+  .bcom-copy h2 { font-size: 32px; }
+  .bcom-stage-copy { columns: 1; }
+  .bcom-contact { padding: 22px; }
+}

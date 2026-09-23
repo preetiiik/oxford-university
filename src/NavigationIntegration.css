@@ -1,0 +1,23 @@
+/* Keep every top-level link visible above the mobile breakpoint. */
+.oxford-department-control { gap: 2px; }
+.oxford-department-control > a { display: flex; align-items: center; align-self: stretch; }
+.oxford-department-arrow { display: flex; align-items: center; justify-content: center; align-self: stretch; padding: 0 3px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.oxford-department-arrow[aria-expanded="true"] > svg { transform: rotate(180deg); }
+@media (max-width: 767px) {
+  .oxford-header .oxford-department-control { display: flex; width: 100%; }
+  .oxford-department-control > a { flex: 1; }
+  .oxford-department-arrow { min-width: 44px; }
+}
+
+@media (min-width: 768px) {
+  .oxford-navigation { min-width: 0; flex-wrap: wrap; justify-content: space-between; column-gap: 10px; row-gap: 0; }
+  .oxford-header .oxford-apply { padding-inline: 12px; }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .oxford-header .oxford-brand { width: 270px; gap: 8px; }
+  .oxford-brand img { width: 48px; height: 60px; }
+  .oxford-brand-background { right: calc(100% - 210px); }
+  .oxford-brand-background svg { width: 45px; }
+  .oxford-header .oxford-nav-link, .oxford-header .oxford-apply { height: 36px; }
+}

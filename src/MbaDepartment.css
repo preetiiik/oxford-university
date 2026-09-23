@@ -1,0 +1,22 @@
+.mba-section { padding-block: 65px; }
+.mba-copy h2 { margin: 0 0 30px; font-size: 40px; line-height: 1.15; }
+.mba-copy h3 { margin: 30px 0 20px; font-size: 28px; line-height: 1.2; }
+.mba-copy p + p { margin-top: 22px; }
+.mba-copy ul { list-style: disc; margin: 24px 0 0; padding-left: 22px; }
+.mba-copy li { padding-left: 6px; font-size: 14px; line-height: 1.7; }
+.mba-copy li + li { margin-top: 14px; }
+.mba-copy li::marker { color: #407f55; }
+.mba-copy ul + p { margin-top: 24px; }
+.mba-copy a { color: #407f55; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.mba-copy a:focus-visible { outline: 2px solid #407f55; outline-offset: 4px; }
+.mba-specialisations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 35px; }
+.mba-specialisations h3 { margin-top: 0; }
+.mba-specialisations .bca-photo-placeholder { aspect-ratio: 4 / 3; }
+.mba-copy .mba-apply { display: inline-flex; align-items: center; gap: 16px; margin-top: 28px; padding: 12px 26px; border-radius: 100px; color: white; background: #407f55; text-decoration: none; }
+.mba-apply:hover { background: #2f6541; }
+.mba-detail .mba-date-note { padding: 16px 20px; margin-bottom: 24px; border-left: 3px solid #407f55; background: #eef1e8; }
+@media (max-width: 767px) {
+  .mba-section { padding-block: 40px; }
+  .mba-copy h2 { font-size: 32px; }
+  .mba-specialisations { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,158 @@
+/* Updated About Us landing-page layout. */
+.integrated-pages .about-page .about-intro{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(45px,7vw,100px);align-items:center;background:var(--cream);overflow:visible}.integrated-pages .about-page .about-intro-copy h2{max-width:620px;font-size:clamp(44px,5vw,70px);margin-bottom:22px}.integrated-pages .about-page .about-intro-copy>p:not(.eyebrow){max-width:570px;color:var(--text);font-size:13px;line-height:1.9}.integrated-pages .about-page .about-intro-visual{position:relative;min-height:500px}.integrated-pages .about-page .about-intro-visual figure{position:absolute;margin:0;overflow:hidden;border-radius:18px;box-shadow:0 18px 36px rgba(10,22,40,.12)}.integrated-pages .about-page .about-intro-visual img{width:100%;height:100%;object-fit:cover}.integrated-pages .about-page .about-intro-image-main{left:0;bottom:0;width:58%;height:420px}.integrated-pages .about-page .about-intro-image-top{right:0;top:0;width:45%;height:225px}.integrated-pages .about-page .about-intro-image-bottom{right:0;bottom:0;width:45%;height:225px}.integrated-pages .about-page .about-intro-badge{position:absolute;left:47%;top:40%;display:flex;flex-direction:column;align-items:center;justify-content:center;width:92px;height:92px;border:7px solid var(--cream);border-radius:50%;background:var(--green);color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.1em;z-index:2}.integrated-pages .about-page .about-intro-badge strong{font:28px var(--serif);color:#d9ef91;line-height:1}
+@media(max-width:820px){.integrated-pages .about-page .about-intro{grid-template-columns:1fr;gap:42px}.integrated-pages .about-page .about-intro-visual{min-height:430px}.integrated-pages .about-page .about-intro-image-main{height:350px}.integrated-pages .about-page .about-intro-image-top,.integrated-pages .about-page .about-intro-image-bottom{height:185px}}
+@media(max-width:560px){.integrated-pages .about-page .about-intro-visual{min-height:350px}.integrated-pages .about-page .about-intro-image-main{width:62%;height:300px}.integrated-pages .about-page .about-intro-image-top,.integrated-pages .about-page .about-intro-image-bottom{width:42%;height:145px}.integrated-pages .about-page .about-intro-badge{width:72px;height:72px;border-width:5px}.integrated-pages .about-page .about-intro-badge strong{font-size:22px}}
+
+/* About subpages. */
+
+/* Detailed About Us subpage treatments from the supplied reference. */
+.integrated-pages .chairman-page .chairman-portrait,.integrated-pages .director-page .director-portrait,.integrated-pages .principal-page .principal-portrait{background:#fff;box-shadow:0 18px 40px rgba(10,22,40,.12)}
+.integrated-pages .chairman-page .chairman-portrait img,.integrated-pages .director-page .director-portrait img,.integrated-pages .principal-page .principal-portrait img{height:620px;mix-blend-mode:normal;opacity:1;filter:none}
+.integrated-pages .chairman-portrait span,.integrated-pages .director-portrait span,.integrated-pages .principal-portrait span{position:absolute;left:26px;bottom:24px;padding:12px 16px;border-radius:10px;background:#081b12dc;color:#fff;font-size:10px;line-height:1.4;letter-spacing:.12em;text-transform:uppercase}
+.integrated-pages .chairman-portrait strong,.integrated-pages .director-portrait strong,.integrated-pages .principal-portrait strong{color:#d9ef91;font-family:var(--serif);font-size:22px;letter-spacing:0;text-transform:none}
+.integrated-pages .chairman-copy,.integrated-pages .director-copy,.integrated-pages .principal-copy{padding-top:8px}
+.integrated-pages .chairman-copy h2,.integrated-pages .director-copy h2,.integrated-pages .principal-copy h2{max-width:650px;margin-bottom:30px}
+.integrated-pages .chairman-copy>p:not(.eyebrow),.integrated-pages .director-copy>p:not(.eyebrow),.integrated-pages .principal-copy>p:not(.eyebrow){max-width:760px;margin-bottom:23px}
+.integrated-pages .chairman-signature,.integrated-pages .director-signature,.integrated-pages .principal-signature{display:flex;flex-direction:column;gap:3px;margin-top:42px;padding-top:24px;border-top:1px solid #d4ddd2}
+.integrated-pages .chairman-signature span,.integrated-pages .director-signature span,.integrated-pages .principal-signature span{font-size:11px;color:var(--text)}
+.integrated-pages .chairman-signature strong,.integrated-pages .director-signature strong,.integrated-pages .principal-signature strong{font:italic 30px var(--serif);color:var(--green)}
+.integrated-pages .chairman-signature small,.integrated-pages .director-signature small,.integrated-pages .principal-signature small{font-size:10px;color:var(--text)}
+
+.integrated-pages .vision-mission-intro{padding-bottom:55px}
+.integrated-pages .vision-mission-intro h2{font-size:clamp(44px,5vw,72px);margin-bottom:15px}
+.integrated-pages .vision-mission-intro>p:last-child{max-width:520px;color:var(--text);font-size:14px}
+.integrated-pages .vision-mission-page .vision-mission-grid{gap:22px;padding-bottom:100px}
+.integrated-pages .vision-mission-page .vision-mission-grid article{padding:46px 42px;border:0;border-radius:22px;box-shadow:0 15px 35px rgba(10,22,40,.07)}
+.integrated-pages .vision-mission-page .vision-card{background:#fff}
+.integrated-pages .vision-card-heading{display:flex;align-items:flex-start;gap:20px;padding-bottom:27px;border-bottom:1px solid #dfe6dc}
+.integrated-pages .vision-mission-page .mission-card .vision-card-heading{border-color:#ffffff35}
+.integrated-pages .vision-card-heading>span{font:italic 54px var(--serif);line-height:1;color:var(--green)}
+.integrated-pages .vision-mission-page .mission-card .vision-card-heading>span{color:#d9ef91}
+.integrated-pages .vision-card-heading .eyebrow{margin-bottom:5px}
+.integrated-pages .vision-mission-page .mission-card .eyebrow{color:#d9ef91}
+.integrated-pages .vision-card-heading h2{margin:0;font-size:43px}
+.integrated-pages .vision-mission-grid ul{display:grid;gap:15px;margin:28px 0 0;padding:0;list-style:none}
+.integrated-pages .vision-mission-grid li{position:relative;padding-left:24px;font-size:12px;line-height:1.7;color:var(--text)}
+.integrated-pages .vision-mission-page .mission-card li{color:#e2eee5}
+.integrated-pages .vision-mission-grid li:before{content:'+';position:absolute;left:0;top:-2px;font:20px var(--serif);color:var(--green)}
+.integrated-pages .vision-mission-page .mission-card li:before{color:#d9ef91}
+
+@media(max-width:820px){.integrated-pages .chairman-message,.integrated-pages .director-message,.integrated-pages .principal-message{padding-block:65px}.integrated-pages .chairman-portrait,.integrated-pages .director-portrait,.integrated-pages .principal-portrait{min-height:420px}.integrated-pages .chairman-portrait img,.integrated-pages .director-portrait img,.integrated-pages .principal-portrait img{height:420px}.integrated-pages .vision-mission-intro{padding-bottom:35px}.integrated-pages .vision-mission-grid article{padding:34px 28px}}
+@media(max-width:560px){.integrated-pages .chairman-message,.integrated-pages .director-message,.integrated-pages .principal-message{padding-block:50px}.integrated-pages .chairman-portrait,.integrated-pages .director-portrait,.integrated-pages .principal-portrait{min-height:330px;border-radius:14px}.integrated-pages .chairman-portrait img,.integrated-pages .director-portrait img,.integrated-pages .principal-portrait img{height:330px}.integrated-pages .chairman-copy h2,.integrated-pages .director-copy h2,.integrated-pages .principal-copy h2{font-size:42px}.integrated-pages .vision-mission-grid article{padding:30px 22px;border-radius:15px}.integrated-pages .vision-card-heading h2{font-size:37px}}
+.integrated-pages .chairman-page,.integrated-pages .director-page,.integrated-pages .principal-page,.integrated-pages .vision-mission-page,.integrated-pages .advisory-board-page,.integrated-pages .oxford-group-page{background:#f7f8f2}.integrated-pages .chairman-message,.integrated-pages .director-message,.integrated-pages .principal-message,.integrated-pages .oxford-group-story{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(42px,7vw,100px);align-items:start;padding-block:100px}.integrated-pages .oxford-group-story{grid-template-columns:.95fr 1.05fr}.integrated-pages .chairman-portrait,.integrated-pages .director-portrait,.integrated-pages .principal-portrait,.integrated-pages .oxford-group-gallery{position:sticky;top:30px;min-height:620px;border-radius:22px;overflow:hidden}.integrated-pages .oxford-group-gallery{display:grid;grid-template-columns:1.15fr .85fr;grid-template-rows:1fr 1fr;gap:14px;border-radius:0}.integrated-pages .oxford-group-gallery figure{margin:0;overflow:hidden;border-radius:18px}.integrated-pages .oxford-group-gallery figure:first-child{grid-row:1/3}.integrated-pages .chairman-portrait img,.integrated-pages .director-portrait img,.integrated-pages .principal-portrait img,.integrated-pages .oxford-group-gallery img{width:100%;height:100%;object-fit:cover}.integrated-pages .chairman-copy h2,.integrated-pages .director-copy h2,.integrated-pages .principal-copy h2,.integrated-pages .oxford-group-copy h2{font-size:clamp(42px,5vw,72px)}.integrated-pages .chairman-copy>p:not(.eyebrow),.integrated-pages .director-copy>p:not(.eyebrow),.integrated-pages .principal-copy>p:not(.eyebrow),.integrated-pages .oxford-group-copy>p:not(.eyebrow),.integrated-pages .oxford-group-copy li{color:var(--text);font-size:14px;line-height:1.9}.integrated-pages .vision-mission-grid,.integrated-pages .advisory-board-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-bottom:100px}.integrated-pages .vision-mission-grid article,.integrated-pages .advisory-board-grid article{padding:30px;background:#fff;border:1px solid #dfe6dc;border-radius:18px}.integrated-pages .mission-card,.integrated-pages .advisory-board-grid article:nth-child(even){background:var(--green)!important;color:#fff}.integrated-pages .advisory-number{font:italic 43px var(--serif);color:var(--green)}@media(max-width:820px){.integrated-pages .chairman-message,.integrated-pages .director-message,.integrated-pages .principal-message,.integrated-pages .oxford-group-story,.integrated-pages .vision-mission-grid,.integrated-pages .advisory-board-grid{grid-template-columns:1fr;padding-bottom:65px}.integrated-pages .chairman-portrait,.integrated-pages .director-portrait,.integrated-pages .principal-portrait,.integrated-pages .oxford-group-gallery{position:relative;top:auto;min-height:420px}}
+
+/* Advisory Board — redesigned to match the supplied reference image. */
+.integrated-pages .advisory-board-page{
+  background:#f7f8f2;
+  min-height:100vh;
+  padding-bottom:110px;
+}
+.integrated-pages .advisory-board-page .advisory-board-intro{
+  width:min(1240px,calc(100% - 9vw));
+  margin-inline:auto;
+  padding-top:72px;
+  padding-bottom:56px;
+}
+.integrated-pages .advisory-board-page .advisory-board-intro .eyebrow{
+  margin-bottom:17px;
+  font-size:11px;
+  letter-spacing:.34em;
+  color:#407f55;
+}
+.integrated-pages .advisory-board-page .advisory-board-intro h1{
+  max-width:1100px;
+  margin:0 0 20px;
+  font-family:var(--serif);
+  font-size:clamp(52px,5.2vw,76px);
+  line-height:.98;
+  letter-spacing:-.035em;
+  font-weight:600;
+  color:#0a1628;
+  font-style:normal;
+}
+.integrated-pages .advisory-board-page .advisory-board-description{
+  max-width:720px;
+  margin:0;
+  color:#68758a;
+  font-size:14px;
+  line-height:1.75;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid{
+  width:min(1240px,calc(100% - 9vw));
+  margin-inline:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px 20px;
+  padding-bottom:0;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid article{
+  min-height:158px;
+  padding:31px 32px;
+  display:grid;
+  grid-template-columns:64px 1fr;
+  align-items:center;
+  gap:0;
+  border:1px solid #e0e4dc;
+  border-radius:19px;
+  background:#fff;
+  box-shadow:0 9px 28px rgba(10,22,40,.055);
+}
+.integrated-pages .advisory-board-page .advisory-board-grid article:nth-child(even){
+  background:#407f55 !important;
+  border-color:#407f55;
+  color:#fff;
+  box-shadow:none;
+}
+.integrated-pages .advisory-board-page .advisory-number{
+  display:block;
+  font-family:var(--serif);
+  font-size:30px;
+  line-height:1;
+  font-style:italic;
+  font-weight:600;
+  color:#407f55;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid article:nth-child(even) .advisory-number{
+  color:#d9ef91;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid h3{
+  margin:0 0 8px;
+  font-family:var(--sans);
+  font-size:18px;
+  line-height:1.25;
+  font-weight:700;
+  letter-spacing:.01em;
+  color:#182438;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid article:nth-child(even) h3{
+  color:#fff;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid p{
+  margin:0;
+  max-width:680px;
+  color:#6f7a8b;
+  font-size:12px;
+  line-height:1.65;
+}
+.integrated-pages .advisory-board-page .advisory-board-grid article:nth-child(even) p{
+  color:#e9f0ea;
+}
+
+@media(max-width:820px){
+  .integrated-pages .advisory-board-page{padding-bottom:70px}
+  .integrated-pages .advisory-board-page .advisory-board-intro,
+  .integrated-pages .advisory-board-page .advisory-board-grid{width:min(100% - 40px,680px)}
+  .integrated-pages .advisory-board-page .advisory-board-intro{padding-top:55px;padding-bottom:40px}
+  .integrated-pages .advisory-board-page .advisory-board-grid{grid-template-columns:1fr;gap:16px}
+}
+@media(max-width:560px){
+  .integrated-pages .advisory-board-page .advisory-board-intro,
+  .integrated-pages .advisory-board-page .advisory-board-grid{width:calc(100% - 32px)}
+  .integrated-pages .advisory-board-page .advisory-board-intro{padding-top:42px;padding-bottom:32px}
+  .integrated-pages .advisory-board-page .advisory-board-intro h1{font-size:46px;line-height:1.02}
+  .integrated-pages .advisory-board-page .advisory-board-description{font-size:12px}
+  .integrated-pages .advisory-board-page .advisory-board-grid article{min-height:138px;padding:24px 22px;grid-template-columns:52px 1fr;border-radius:15px}
+  .integrated-pages .advisory-board-page .advisory-number{font-size:27px}
+  .integrated-pages .advisory-board-page .advisory-board-grid h3{font-size:15px}
+  .integrated-pages .advisory-board-page .advisory-board-grid p{font-size:10.5px;line-height:1.55}
+}

@@ -8,8 +8,10 @@
  *   default  DepartmentsPage     – header + department rows + footer
  *   named    DepartmentsSections – only the <main> content
  */
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
+import { assets } from './assets'
 
 import { Footer, Header, PageStyles } from './Home'
 
@@ -25,13 +27,6 @@ import mcaImg from './assets/departments/mca.jpg'
 /* -------------------------------------------------------------------------- */
 /*  Shared class strings (same tokens as Home.tsx)                             */
 /* -------------------------------------------------------------------------- */
-
-const wrap = 'mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-[92px]'
-const serif = "font-['Cormorant_Garamond',Georgia,serif]"
-const display = "font-['DM_Serif_Display',Georgia,serif]"
-const focusRing =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#407F55]'
-const btnPrimary = `inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#407F55] px-8 text-[14px] font-medium text-white transition-colors hover:bg-[#2F6443] ${focusRing}`
 
 /* -------------------------------------------------------------------------- */
 /*  Content                                                                    */
@@ -51,14 +46,14 @@ const departments: Department[] = [
     name: 'BCA Department',
     img: bcaImg,
     alt: 'BCA students and faculty in front of the Tata Consultancy Services wall',
-    to: '/admissions',
+    to: '/bca-department',
     text: 'The BCA (Bachelor of Computer Application) programme provides student with necessary skills to make successful career in Information Technology sector area. It also prepares students with the requisite background to proceed with confidence for higher studies in the form of MCA, MIT, MS in computers, MBA, etc, and thus acquire greater competency. The BCA course structure is spread across six semesters in three years and is a programme of Karnataka University, Dharwad. The course content is regular updated to keep pace with IT sector.',
   },
   {
     name: 'B.COM Department',
     img: bcomImg,
     alt: 'B.Com students and faculty at an Oxford College event',
-    to: '/admissions',
+    to: '/bcom-department',
     text: 'Oxford College of Commerce is one of the premier institutes rendering education in the realm of Commerce studies since 2008. It has played a key role in shaping and refining the students in the field of Commerce. The Bachelor of Commerce (B.Com) program is an inclusive 3-year undergraduate program (6 semesters) offered by Karnataka University Dharwad and Affiliated to AICTE, provides students with essential skills and knowledge in areas such as cost accounting, taxation, international trade, and financial services, etc.',
   },
   {
@@ -79,21 +74,21 @@ const departments: Department[] = [
     name: 'M.COM Department',
     img: mcomImg,
     alt: 'M.Com students and faculty in a classroom',
-    to: '/admissions',
+    to: '/mcom-department',
     text: 'The course shall be of four semesters and each semester is of Sixteen weeks duration. No student shall be permitted to obtain degree earlier than four semesters or to take more than eight semesters i.e., the student shall complete the course within four years from the date of admission to the first semester of Post Graduate Programme. The academic session in each semester will provide 90 teaching days. Candidates shall not register for any other regular course other than Diploma and Certificate Courses during the duration of the PG Programme.',
   },
   {
     name: 'MBA Department',
     img: mbaImg,
     alt: 'MBA students working at computers in a lab',
-    to: '/admissions',
+    to: '/mba-department',
     text: 'Since its inception in 2006, Oxford College has consistently upheld excellence in education, under the stewardship of Shri Vasant Horatti, Chairman Oxford Group of Institutions. Over the past 18 years, we have provided exceptional educational experiences in various sectors, cultivating talent and fostering innovation. At OXFORD, we take pride in offering a comprehensive and rigorous Master of Business Administration (MBA) program to equip with the business knowledge, skills, and practical experience to excel in today’s business world.',
   },
   {
     name: 'MCA Department',
     img: mcaImg,
     alt: 'MCA students working on laptops in a classroom',
-    to: '/admissions',
+    to: '/mca-department',
     text: 'Oxford Group of Institutions, one of the renowned and prominent institution rendering its services in the field of education for 18 years. The Group of institutions has created history with remarkable achievements in the field of academics, co-curriculum, placements, sports etc. In the span of 18 Years the institutions have shaped the following results. Oxford College is proud to announce its new AICTE approved Master of Computer Applications (MCA) programme, designed to equip students with advanced skills in Computer Science and Technology management.',
   },
 ]
@@ -103,33 +98,22 @@ const departments: Department[] = [
 /* -------------------------------------------------------------------------- */
 
 function DepartmentRow({ dept, index }: { dept: Department; index: number }) {
-  // Even rows: photo left / text right. Odd rows: text left / photo right (desktop only).
-  const flipped = index % 2 === 1
   return (
-    <article
-      className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-[69px] ${
-        flipped ? 'xl:grid-cols-[minmax(0,1fr)_647px]' : 'xl:grid-cols-[647px_minmax(0,1fr)]'
-      }`}
-    >
-      <img
-        src={dept.img}
-        alt={dept.alt}
-        width={647}
-        height={422}
-        loading={index === 0 ? 'eager' : 'lazy'}
-        decoding="async"
-        className={`aspect-[647/422] w-full rounded-[10px] object-cover ${flipped ? 'lg:order-2' : ''}`}
-      />
-      <div className={flipped ? 'lg:order-1' : ''}>
-        <h2
-          className={`${display} mb-6 text-[36px] font-normal italic leading-[1.15] tracking-[0.28px] text-black sm:text-[42px] xl:text-[48px]`}
-        >
-          {dept.name}
-        </h2>
-        <p className="max-w-[542px] text-[14px] font-medium leading-[25px] tracking-[0.28px] text-[#3E3B3B]">
-          {dept.text}
-        </p>
-        <Link to={dept.to} className={`${btnPrimary} mt-9`}>
+    <article id={dept.name === 'PUC Science Department' ? 'puc-science' : dept.name === 'PUC Commerce Department' ? 'puc-commerce' : undefined} className={`department-row${index % 2 === 1 ? ' department-row-reversed' : ''}`}>
+      <div className="department-photo">
+        <img
+          src={dept.img}
+          alt={dept.alt}
+          width={647}
+          height={422}
+          loading={index === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      </div>
+      <div className="department-copy">
+        <h2>{dept.name}</h2>
+        <p>{dept.text}</p>
+        <Link to={dept.to} className="department-explore" aria-label={`Explore ${dept.name}`}>
           Explore Program <ChevronRight size={16} aria-hidden="true" />
         </Link>
       </div>
@@ -138,14 +122,44 @@ function DepartmentRow({ dept, index }: { dept: Department; index: number }) {
 }
 
 export function DepartmentsSections() {
+  const pageRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const page = pageRef.current
+    if (!page || !('IntersectionObserver' in window)) return
+    const rows = page.querySelectorAll<HTMLElement>('.department-row')
+    const reveal = (row: Element) => row.classList.add('department-visible')
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          reveal(entry.target)
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.08 })
+    rows.forEach((row) => {
+      row.classList.add('department-animated')
+      observer.observe(row)
+    })
+    // Keyboard navigation reveals a row immediately, even before scrolling.
+    const onFocus = (event: FocusEvent) => {
+      const row = (event.target as Element).closest('.department-row')
+      if (row) reveal(row)
+    }
+    page.addEventListener('focusin', onFocus)
+    return () => {
+      observer.disconnect()
+      page.removeEventListener('focusin', onFocus)
+      rows.forEach((row) => row.classList.remove('department-animated', 'department-visible'))
+    }
+  }, [])
+
   return (
-    <main className={`${wrap} pb-14 pt-10 lg:pb-[72px] lg:pt-[76px]`}>
-      <h1
-        className={`${serif} mb-10 text-[48px] font-bold leading-none tracking-[0.28px] text-black sm:text-[56px] lg:mb-[60px] lg:text-[64px]`}
-      >
-        Departments
-      </h1>
-      <div className="flex flex-col gap-16 lg:gap-[112px]">
+    <main ref={pageRef} className="departments-page">
+      <section className="page-hero" style={{ backgroundImage: `linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})` }}>
+        <div><h1>Departments</h1><p>Discover academic programmes that prepare you for your future.</p></div>
+      </section>
+      <div className="departments-rows home-container">
         {departments.map((dept, i) => (
           <DepartmentRow key={dept.name} dept={dept} index={i} />
         ))}

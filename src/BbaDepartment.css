@@ -1,0 +1,72 @@
+.bba-detail { color: #000; background: white; font-family: 'Montserrat', Arial, sans-serif; }
+.bba-detail h1, .bba-detail h2, .bba-detail h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: .28px; }
+.bba-detail p { margin: 0; font-size: 14px; line-height: 22.4px; letter-spacing: .28px; }
+.bba-banner { position: relative; height: 385px; display: grid; place-items: center; overflow: hidden; }
+.bba-banner > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+.bba-banner::after { content: ''; position: absolute; inset: 0; background: rgb(0 0 0 / 70%); }
+.bba-banner h1 { position: relative; z-index: 1; margin: 0; color: white; font-size: 64px; line-height: 1.15; font-style: italic; text-align: center; }
+.bba-course { padding-block: 72px 55px; text-align: center; }
+.bba-course h2 { margin: 0 0 40px; font-size: 48px; line-height: 1.15; font-style: italic; }
+.bba-course p + p { margin-top: 25px; }
+.bba-introduction { display: grid; grid-template-columns: minmax(0, 555fr) minmax(0, 641fr); align-items: center; gap: 60px; padding-block: 53px 32px; }
+.bba-introduction .bba-eyebrow { margin-bottom: 24px; font-size: 14px; font-weight: 600; line-height: 19px; letter-spacing: 6px; text-transform: uppercase; color: #407f55; }
+.bba-introduction h2 { margin: 0 0 22px; font-size: 40px; line-height: 1.15; }
+.bba-introduction h2 em { display: block; color: black; font-size: 50px; line-height: 56px; font-weight: 400; }
+.bba-introduction-copy > p:last-child { max-width: 441px; line-height: 24px; }
+.bba-introduction > img { display: block; width: 100%; height: auto; aspect-ratio: 641 / 326; object-fit: cover; border-radius: 20px 10px 10px 20px; }
+.bba-subjects { padding-block: 50px; background: #f8f8f0; }
+.bba-subjects > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.bba-subject { display: flex; align-items: flex-start; gap: 30px; min-height: 222px; padding: 35px; background: white; border-radius: 10px; box-shadow: 0 4px 20px #0000004d; }
+.bba-subject-icon { display: grid; place-items: center; flex: 0 0 74px; height: 74px; border-radius: 50%; background: #407f55; color: white; }
+.bba-subject-icon > img { display: block; width: 51px; height: 51px; object-fit: contain; }
+.bba-subject h3 { margin: 12px 0 20px; font-family: 'Montserrat', Arial, sans-serif; font-size: 18px; line-height: 24px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+.bba-subject h3::after { content: ''; display: block; width: 64px; height: 2px; margin-top: 17px; background: #407f55; }
+.bba-subject p { font-size: 14px; line-height: 19.2px; letter-spacing: 1px; }
+.bba-ocba { padding-block: 83px 80px; }
+.bba-ocba > h2 { margin: 0 auto 65px; font-size: 40px; line-height: 45px; text-align: center; }
+.bba-activity-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
+.bba-activity-gallery > div { overflow: hidden; border-radius: 10px; }
+.bba-activity-gallery img { width: 100%; height: auto; aspect-ratio: 411 / 286; object-fit: cover; }
+.bba-stages { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-template-columns: 1fr 1fr; gap: 8px 90px; list-style: none; margin: 35px 0 0; padding: 0; }
+.bba-stages li { display: flex; align-items: flex-start; gap: 12px; }
+.bba-stages .bba-stage-arrow { flex-shrink: 0; color: #407f55; margin-top: 6px; }
+.bba-stages h3 { margin: 0; font-size: 20px; line-height: 36px; font-style: italic; }
+.bba-stages p { font-size: 18px; line-height: 30px; font-weight: 500; }
+@media (prefers-reduced-motion: no-preference) {
+  .bba-course.bba-visible, .bba-ocba.bba-visible > h2, .bba-visible .bba-introduction-copy, .bba-visible .bba-subject { animation: bba-fade-up .8s ease-out both; }
+  .bba-visible.bba-introduction > img { animation: bba-slide .9s ease-out both; }
+  .bba-activity-gallery img { transition: transform .4s ease; }
+  .bba-activity-gallery img:hover { transform: scale(1.04); }
+  .bba-subject { transition: translate .25s ease; }
+  .bba-subject:hover { translate: 0 -5px; }
+}
+@keyframes bba-fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bba-slide { from { opacity: 0; transform: translateX(35px); } to { opacity: 1; transform: translateX(0); } }
+@media (max-width: 1199px) {
+  .bba-introduction { gap: 35px; }
+  .bba-introduction h2 { font-size: 34px; }
+  .bba-introduction h2 em { font-size: 40px; line-height: 1.15; }
+  .bba-subject { padding: 24px; gap: 18px; }
+  .bba-subject-icon { flex-basis: 54px; height: 54px; }
+  .bba-subject-icon > img { width: 34px; height: 34px; }
+  .bba-subject h3 { font-size: 15px; white-space: normal; }
+}
+@media (max-width: 767px) {
+  .bba-banner { height: 280px; }
+  .bba-banner h1 { font-size: 46px; }
+  .bba-course { padding-block: 45px 20px; }
+  .bba-course h2 { font-size: 36px; margin-bottom: 28px; }
+  .bba-introduction { grid-template-columns: 1fr; padding-block: 35px; }
+  .bba-subjects { padding-block: 35px; }
+  .bba-subjects > div { grid-template-columns: 1fr; }
+  .bba-subject { min-height: 0; padding: 28px; }
+  .bba-subject h3 { margin-top: 0; }
+  .bba-ocba { padding-block: 45px; }
+  .bba-ocba > h2 { font-size: 32px; line-height: 1.2; margin-bottom: 35px; }
+  .bba-desktop-break { display: none; }
+  .bba-activity-gallery { grid-template-columns: 1fr; gap: 20px; }
+  .bba-stages { grid-template-columns: 1fr; grid-template-rows: auto; grid-auto-flow: row; gap: 22px; }
+  .bba-stages p { font-size: 16px; line-height: 26px; }
+}
+
+.bba-stage-arrow { width: 30px; height: 30px; object-fit: contain; }

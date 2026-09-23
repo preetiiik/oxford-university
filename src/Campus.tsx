@@ -2,34 +2,35 @@
  * Oxford Institutions — Campus page (single file, Tailwind CSS)
  *
  * Reuses <Header />, <Footer /> and <PageStyles /> from ./Home.
- * Images: ./assets/campus/*.jpg  (see the imports below).
+ * Images: ./assets/campus/*.png  (see the imports below).
  *
  * Exports:
  *   default  CampusPage     – header + hero + sections + footer
- *   named    CampusSections – only the <main> content
+ *   named    CampusSections – only the <main className="campus-page"> content
  */
 import type { ReactNode } from 'react'
+import './Campus.css'
 
 import { Footer, Header, PageStyles } from './Home'
 
-import heroImg from './assets/campus/hero.jpg'
-import aboutLabImg from './assets/campus/about-lab.jpg'
-import classroomImg from './assets/campus/classroom.jpg'
-import courtyardImg from './assets/campus/courtyard.jpg'
-import studentLaptopImg from './assets/campus/student-laptop.jpg'
-import gallery1 from './assets/campus/gallery-1.jpg'
-import gallery2 from './assets/campus/gallery-2.jpg'
-import gallery3 from './assets/campus/gallery-3.jpg'
-import gallery4 from './assets/campus/gallery-4.jpg'
-import gallery5 from './assets/campus/gallery-5.jpg'
-import gallery6 from './assets/campus/gallery-6.jpg'
+import heroImg from './assets/campus/hero.png'
+import aboutLabImg from './assets/campus/about-lab.png'
+import classroomImg from './assets/campus/classroom.png'
+import courtyardImg from './assets/campus/courtyard.png'
+import studentLaptopImg from './assets/campus/student-laptop.png'
+import gallery1 from './assets/campus/gallery-1.png'
+import gallery2 from './assets/campus/gallery-2.png'
+import gallery3 from './assets/campus/gallery-3.png'
+import gallery4 from './assets/campus/gallery-4.png'
+import gallery5 from './assets/campus/gallery-5.png'
+import gallery6 from './assets/campus/gallery-6.png'
 
 /* -------------------------------------------------------------------------- */
 /*  Shared class strings (same tokens as Home.tsx)                             */
 /* -------------------------------------------------------------------------- */
 
 const wrap = 'mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-[92px]'
-const display = "font-['DM_Serif_Display',Georgia,serif]"
+const display = "font-['Cormorant_Garamond',Georgia,serif]"
 
 /* -------------------------------------------------------------------------- */
 /*  Content                                                                    */
@@ -40,7 +41,7 @@ const gallery = [
   { src: gallery2, alt: 'Faculty and students in a group photo outside a building' },
   { src: gallery3, alt: 'Students on an industry visit to a factory floor' },
   { src: gallery4, alt: 'Chief guest addressing the audience at a Zenith event' },
-  { src: gallery5, alt: 'Guests seated on the dais beside a ceremonial lamp' },
+  { src: gallery5, alt: 'Guests seated beside a ceremonial lamp at the Accendo event' },
   { src: gallery6, alt: 'A group of smiling students posing together' },
 ]
 
@@ -89,21 +90,17 @@ function PhotoTile({
 
 function Hero() {
   return (
-    <section className="relative flex h-[240px] items-center justify-center overflow-hidden sm:h-[300px] lg:h-[385px]">
-      <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
-      <div aria-hidden="true" className="absolute inset-0 bg-black/70" />
-      <h1 className={`${display} relative text-[56px] font-normal italic leading-none text-white sm:text-[64px] lg:text-[72px]`}>
-        Campus
-      </h1>
+    <section className="page-hero" style={{ backgroundImage: `linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${heroImg})` }}>
+      <div><h1>Campus</h1><p>Explore the spaces where our students learn, connect and grow.</p></div>
     </section>
   )
 }
 
 function Feature() {
   return (
-    <div className="grid gap-x-[23px] gap-y-[17px] md:grid-cols-2 xl:grid-cols-[minmax(0,618fr)_minmax(0,298fr)_minmax(0,298fr)] xl:grid-rows-[287px_287px]">
+    <div className="campus-feature-layout grid gap-x-[23px] gap-y-[17px] md:grid-cols-2 xl:grid-cols-[minmax(0,618fr)_minmax(0,298fr)_minmax(0,298fr)] xl:grid-rows-[287px_287px]">
       {/* About us */}
-      <article className="grid gap-6 rounded-[20px] bg-[#F8F8F0] p-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,296px)] sm:items-center sm:gap-2 md:col-span-2 xl:col-span-1 xl:py-[22px] xl:pl-6 xl:pr-[21px]">
+      <article className="campus-about-card grid gap-6 rounded-[20px] bg-[#F8F8F0] p-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,296px)] sm:items-center sm:gap-2 md:col-span-2 xl:col-span-1 xl:py-[22px] xl:pl-6 xl:pr-[21px]">
         <div>
           <Eyebrow>About Us</Eyebrow>
           <CardTitle>Oxford College shapes minds for a brighter tomorrow.</CardTitle>
@@ -123,7 +120,7 @@ function Feature() {
         src={courtyardImg}
         alt="Palm trees and a green lawn in the campus courtyard"
         caption="A place to work quietly on your own and your projects"
-        className="h-[287px]"
+        className="campus-courtyard-tile h-[287px]"
       />
 
       {/* Tall student photo */}
@@ -131,11 +128,11 @@ function Feature() {
         src={studentLaptopImg}
         alt="A student studying on a laptop in class"
         caption="Empowering students through knowledge and innovation."
-        className="h-[360px] md:h-[287px] xl:row-span-2 xl:h-auto"
+        className="campus-student-tile h-[360px] md:h-[287px] xl:row-span-2 xl:h-auto"
       />
 
       {/* Classrooms */}
-      <article className="grid gap-6 rounded-[20px] bg-[#F8F8F0] p-5 md:col-span-2 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:items-center md:gap-8 xl:col-span-2 xl:grid-cols-[minmax(0,579px)_minmax(0,1fr)] xl:gap-[51px] xl:py-[22px] xl:pl-5 xl:pr-[54px]">
+      <article className="campus-classroom-card grid gap-6 rounded-[20px] bg-[#F8F8F0] p-5 md:col-span-2 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:items-center md:gap-8 xl:col-span-2 xl:grid-cols-[minmax(0,579px)_minmax(0,1fr)] xl:gap-[51px] xl:py-[22px] xl:pl-5 xl:pr-[54px]">
         <img
           src={classroomImg}
           alt="A teacher lecturing in a full classroom"
@@ -178,12 +175,12 @@ function Gallery() {
 
 export function CampusSections() {
   return (
-    <main>
+    <main className="campus-page">
       <Hero />
-      <div className={`${wrap} pb-14 pt-10 lg:pb-[90px] lg:pt-[85px]`}>
+      <div className={`campus-content ${wrap} pb-14 pt-10 lg:pb-[90px] lg:pt-[51px]`}>
         <Feature />
 
-        <div className="mt-14 lg:mt-[90px]">
+        <div className="mt-14 lg:mt-[80px]">
           <Gallery />
         </div>
 

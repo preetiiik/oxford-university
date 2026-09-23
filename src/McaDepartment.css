@@ -1,0 +1,25 @@
+.mca-foundation h3 { margin: 32px 0 18px; font-size: 30px; line-height: 1.2; }
+.mca-detail .mca-tagline { color: #407f55; font-weight: 600; }
+.mca-list { list-style: disc; padding-left: 22px; margin: 24px 0 0; }
+.mca-learning-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; margin-top: 32px; }
+.mca-learning-gallery img, .mca-admission-photo { width: 100%; height: auto; border-radius: 16px; }
+.mca-admission-photo { align-self: center; }
+.mca-list li { padding-left: 6px; font-size: 14px; line-height: 1.7; }
+.mca-list li + li { margin-top: 14px; }
+.mca-list li::marker { color: #407f55; }
+.mca-achievements { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; padding: 0; margin: 0; list-style: none; }
+.mca-achievements li { display: flex; flex-direction: column; gap: 14px; text-align: center; }
+.mca-achievements strong { font-family: 'DM Serif Display', Georgia, serif; font-size: 44px; line-height: 1; font-weight: 400; color: #407f55; }
+.mca-achievements span { font-size: 13px; line-height: 1.6; }
+.mca-features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; margin: 0; padding: 0; }
+.mca-features li > span { display: block; margin-bottom: 18px; font-family: 'DM Serif Display', Georgia, serif; font-size: 30px; color: #407f55; }
+@media (max-width: 1023px) {
+  .mca-achievements, .mca-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .mca-learning-gallery { grid-template-columns: 1fr; }
+  .mca-features { grid-template-columns: 1fr; }
+  .mca-achievements { gap: 12px; }
+  .mca-achievements .bca-card { padding: 20px 12px; }
+  .mca-achievements strong { font-size: 36px; }
+}

@@ -1,0 +1,8 @@
+.submission-popup { width: min(420px, calc(100vw - 40px)); max-height: calc(100dvh - 40px); margin: auto; padding: 36px 28px; border: 0; border-radius: 20px; background: white; color: #0a1628; text-align: center; box-shadow: 0 20px 70px #0004; }
+.submission-popup::backdrop { background: #081b1299; backdrop-filter: blur(3px); }
+.submission-popup-icon { margin: 0 auto 18px; color: #407f55; }
+.submission-popup-icon.is-error { color: #a12626; }
+.submission-popup h2 { margin: 0 0 12px; font-size: 34px; }
+.submission-popup p { margin: 0 0 24px; font-size: 14px; line-height: 1.7; }
+.submission-popup button { padding: 12px 30px; border: 0; border-radius: 999px; background: #407f55; color: white; font: inherit; cursor: pointer; }
+.submission-popup button:focus-visible { outline: 2px solid #c9a84c; outline-offset: 4px; }

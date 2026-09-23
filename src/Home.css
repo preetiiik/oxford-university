@@ -1,0 +1,437 @@
+/* Home reference: 1440px canvas with 90px side margins. Keep these rules
+   scoped so the legacy inner-page styles cannot change the home typography. */
+.home-container { width: min(var(--page-max-width), calc(100% - 2 * var(--page-gutter))); margin-inline: auto; padding-inline: 0; }
+.home-design { color: #0a1628; font-family: 'Montserrat', Arial, sans-serif; }
+.home-design h1, .home-design h2, .home-design h3 { margin-bottom: 0; letter-spacing: 0; }
+.home-design h2 { font-size: 48px; font-weight: 500; line-height: 1.08; }
+.home-design h2 em { color: inherit; font-weight: 400; }
+.home-design p { margin-bottom: 0; }
+.home-design .home-button { gap: 8px; height: 48px; font-size: 14px; font-weight: 500; color: white; }
+.home-design .home-button.border { color: #407f55; }
+.home-design .home-button.border:hover { color: white; }
+.home-design .home-button:focus-visible { outline: 2px solid #407f55; outline-offset: 4px; }
+
+.home-hero { border: 0; }
+.home-hero > .home-container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 54px; min-height: 643px; padding-block: 64px 72px; }
+.home-hero > .home-container > :first-child { padding-top: 32px; container-type: inline-size; }
+.home-design .home-hero h1 { margin: 0; font-size: clamp(36px, 10.5cqi, 64px); font-weight: 600; line-height: 1.11; letter-spacing: -.76px; white-space: normal; color: black; }
+.home-design .home-hero h1 em { font-weight: 400; }
+.home-hero p { max-width: 563px; margin-top: 23px; font-size: 16px; line-height: 29.75px; color: #3e3b3b; }
+.home-hero p + div { margin-top: 26px; gap: 16px; }
+.home-hero dl { margin-top: 31px; gap: 43px; }
+.home-hero dd { font-size: 42px; }
+.home-hero dt { margin-top: 9px; font-size: 13px; }
+.home-hero > .home-container > :last-child { width: 100%; max-width: 599px; }
+.home-hero > .home-container > :last-child > :first-child { margin-bottom: 40px; }
+.home-hero > .home-container > :last-child > :first-child > span { height: 33px; padding-inline: 16px; font-size: 10px; letter-spacing: 1.6px; background: #407f551f; }
+.home-hero > .home-container > :last-child > :last-child { border-radius: 80px 5px 80px 5px; }
+.home-hero img { aspect-ratio: 599 / 434; }
+.home-hero img + div { top: -25px; right: -21px; width: 100px; height: 100px; padding-top: 25px; padding-right: 21px; border-radius: 50%; }
+.home-hero img + div > :first-child { font-size: 28px; }
+.home-hero img + div > :last-child { font-size: 8px; }
+.home-hero img ~ div:last-child { left: -29px; bottom: 37px; width: 187px; height: 66px; border-radius: 14px; padding-left: 43px; }
+.home-hero img ~ div:last-child > :first-child { font-size: 13px; }
+.home-hero img ~ div:last-child > :last-child { font-size: 10px; }
+.home-marquee > div { height: 49px; }
+.home-marquee > div > div { width: 1440px; justify-content: space-around; }
+.home-marquee span { margin-inline: 50px; }
+
+.home-legacy > .home-container { grid-template-columns: minmax(0, 617px) minmax(0, 1fr); gap: 64px; padding-block: 88px 68px; }
+.home-legacy img { aspect-ratio: 617 / 545; border-radius: 5px 50px 5px 5px; }
+.home-legacy img + div { left: 0; top: 81px; width: 164px; height: 87px; border-radius: 16px; }
+.home-legacy img + div > :first-child { font-size: 44px; }
+.home-legacy img + div > :last-child { font-size: 10px; }
+.home-legacy .home-container > :last-child { max-width: none; }
+.home-legacy h2 { margin-top: 27px; }
+.home-legacy p { font-size: 16px; line-height: 29px; }
+.home-legacy .home-button { margin-top: 25px; }
+
+.home-programs { background: #f8f8f0; }
+.home-programs > .home-container { padding-block: 68px 74px; }
+.home-programs .home-container > .grid { margin-top: 82px; gap: 48px 36px; }
+.home-programs article { min-height: 314px; border-radius: 20px; border-top-width: 2px; padding: 25px 33px 26px; box-shadow: 0 4px 20px #2f584e1a; }
+.home-programs article > div { width: 70px; height: 70px; }
+.home-programs article h3 { margin-top: 24px; font-size: 27px; font-weight: 500; line-height: 1.15; }
+.home-programs article p { margin-top: 20px; padding-bottom: 22px; font-size: 14px; line-height: 24px; }
+.home-programs article a { color: #407f55; font-size: 13px; }
+
+.home-why { min-height: 550px; }
+.home-why > div.absolute { background: #0006; }
+.home-why > .home-container { padding-block: 64px 72px; }
+.home-why h2 { color: white; margin-top: 20px; }
+.home-why .grid { gap: 18px; margin-top: 48px; }
+.home-why article { min-height: 278px; padding: 22px 30px; border-radius: 20px; }
+.home-why article > div { font-size: 48px; }
+.home-why article h3 { font-size: 22px; font-weight: 500; line-height: 1.2; margin-top: 32px; }
+.home-why article p { font-size: 13px; line-height: 23px; margin-top: 20px; }
+
+.home-campus > .home-container { padding-block: 96px 56px; }
+.home-campus .grid { gap: 16px; margin-top: 60px; grid-template-columns: 1.9fr 1fr 1fr; grid-template-rows: 280px 280px; }
+.home-campus figure { border-radius: 16px; }
+.home-campus figcaption { bottom: 16px; left: 16px; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 18px; background: #ffffffcc; backdrop-filter: blur(10px); }
+
+/* .home-testimonials > .home-container { padding-block: 60px 64px; }
+.home-testimonials .grid { gap: 25px; margin-top: 48px; }
+.home-testimonials figure { min-height: 299px; border-radius: 20px; padding: 30px 36px; box-shadow: 0 4px 20px #0000001a; }
+.home-testimonials blockquote { font-size: 15px; line-height: 27px; margin-top: 20px; }
+.home-testimonials figcaption { gap: 14px; }
+.home-testimonials figcaption > span:first-child { width: 44px; height: 44px; }
+.home-testimonials figcaption > span:last-child > span:last-child { font-size: 11px; } */
+
+/* -------------------------------------------------------------------------- */
+/* Testimonials                                                               */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* Animated Testimonials                                                      */
+/* -------------------------------------------------------------------------- */
+
+.testimonial-slider {
+  position: relative;
+  width: 100%;
+  min-height: 325px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  align-items: center;
+  gap: 48px;
+
+  overflow: hidden;
+}
+
+.testimonial-card {
+  position: relative;
+
+  min-height: 285px;
+  padding: 28px 28px 25px;
+
+  background: #ffffff;
+  border: 1px solid rgba(20, 32, 51, 0.05);
+  border-radius: 17px;
+
+  display: flex;
+  flex-direction: column;
+
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease,
+    box-shadow 0.65s ease;
+}
+
+/* Side cards */
+
+.testimonial-card-side {
+  opacity: 0.32;
+  transform: scale(0.96);
+}
+
+/* Center card */
+
+.testimonial-card-center {
+  min-height: 322px;
+
+  opacity: 1;
+  transform: scale(1);
+
+  z-index: 2;
+
+  box-shadow:
+    0 8px 24px rgba(50, 75, 72, 0.10),
+    0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Quote */
+
+.testimonial-quote-mark {
+  height: 28px;
+
+  font-family: Georgia, serif;
+  font-size: 40px;
+  line-height: 28px;
+  font-weight: 700;
+
+  color: #e4a1a5;
+}
+
+/* Stars */
+
+.testimonial-stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-top: 17px;
+}
+
+/* Text */
+
+.testimonial-text {
+  margin-top: 18px;
+
+  font-size: 13px;
+  line-height: 22px;
+
+  color: #536783;
+}
+
+.testimonial-card-center .testimonial-text {
+  color: #3d3535;
+}
+
+/* User */
+
+.testimonial-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: auto;
+  padding-top: 22px;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.testimonial-avatar-gold {
+  background: #f1d39e;
+  color: white;
+}
+
+.testimonial-avatar-green {
+  background: #208d50;
+  color: white;
+}
+
+.testimonial-avatar-blue {
+  background: #a8c8dc;
+  color: white;
+}
+
+.testimonial-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+
+  color: #222222;
+}
+
+.testimonial-role {
+  margin-top: 3px;
+
+  font-size: 9px;
+  line-height: 13px;
+
+  color: #9aa3ad;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Pagination dots                                                            */
+/* -------------------------------------------------------------------------- */
+
+.testimonial-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 38px;
+}
+
+.testimonial-dot {
+  width: 8px;
+  height: 8px;
+
+  padding: 0;
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #edcaca;
+
+  cursor: pointer;
+
+  transition:
+    width 0.35s ease,
+    background 0.35s ease,
+    transform 0.35s ease;
+}
+
+.testimonial-dot:hover {
+  transform: scale(1.15);
+}
+
+.testimonial-dot-active {
+  width: 25px;
+  border-radius: 999px;
+
+  background: #b40000;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Tablet                                                                    */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 950px) {
+  .testimonial-slider {
+    grid-template-columns: 1fr;
+    gap: 18px;
+
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card-side {
+    display: none;
+  }
+
+  .testimonial-card-center {
+    min-height: 300px;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Mobile                                                                    */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .testimonial-slider {
+    min-height: 0;
+  }
+
+  .testimonial-card-center {
+    min-height: 285px;
+
+    padding: 25px 22px;
+  }
+
+  .testimonial-text {
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .testimonial-dots {
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .testimonial-dot-active {
+    width: 22px;
+  }
+}
+
+.home-partners > .home-container { padding-block: 38px 64px; min-height: 342px; }
+.home-partners h2 { color: black; }
+.home-partners .flex.flex-wrap { margin-top: 58px; gap: 34px; }
+.home-partners .flex.flex-wrap > div { height: 103px; min-width: 0; }
+.home-partners img { max-width: 100%; }
+.home-partners .flex.flex-wrap > div:nth-child(1) img { height: 92px; }
+.home-partners .flex.flex-wrap > div:nth-child(2) img { height: 40px; }
+.home-partners .flex.flex-wrap > div:nth-child(3) img { height: 103px; }
+.home-partners .flex.flex-wrap > div:nth-child(4) { flex: 1.6; }
+.home-partners .flex.flex-wrap > div:nth-child(4) img { height: 90px; }
+.home-partners .flex.flex-wrap > div:nth-child(5) img { height: 68px; }
+.home-partners .flex.flex-wrap > div:nth-child(6) img,
+.home-partners .flex.flex-wrap > div:nth-child(7) img { height: 100px; }
+
+.home-cta { min-height: 502px; }
+.home-cta > div.absolute { background: #0006; }
+.home-cta > div.relative { min-height: 502px; justify-content: flex-start; padding-top: 100px; padding-bottom: 70px; }
+.home-design .home-cta h2 { font-size: 56px; font-weight: 500; color: white; }
+.home-design .home-cta h2 em { color: #407f55; }
+.home-cta p { max-width: 708px; font-size: 16px; line-height: 27px; }
+.home-cta p + div { margin-top: 42px; }
+.home-design .home-cta .home-button { height: 54px; }
+.home-design .home-cta .home-button.border { color: white; }
+.home-design .home-cta .home-button.border:hover { color: black; }
+
+/* One shared footer; explicitly override the old global footer element rules. */
+.oxford-footer { background: black; color: white; padding: 0; }
+.oxford-footer > .home-container { padding-block: 30px 20px; }
+.oxford-footer .home-container > .grid { grid-template-columns: 1.25fr 1fr 1.15fr 1.5fr; gap: 64px; }
+.oxford-footer .grid > div:first-child { text-align: center; }
+.oxford-footer .grid > div:first-child img { height: 124px; margin-inline: auto; }
+.oxford-footer .grid > div:first-child p { margin: 30px auto 0; max-width: 265px; font-size: 13px; line-height: 23px; text-align: center; color: white; }
+.oxford-footer .grid > div:not(:first-child) { padding-top: 30px; }
+.oxford-footer h3 { margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-size: 13px; font-weight: 600; line-height: 20px; color: white; }
+.oxford-footer ul { font-size: 14px; line-height: 23px; margin-top: 23px; }
+.oxford-footer a { color: white; }
+.oxford-footer li svg { flex-shrink: 0; }
+.oxford-footer .home-container > div:last-child { margin-top: 32px; padding-top: 19px; }
+.oxford-footer .home-container > div:last-child p { margin: 0; color: white; font-size: 12px; }
+
+@media (max-width: 1199px) {
+  .home-hero > .home-container { grid-template-columns: 1fr 1fr; gap: 35px; min-height: 0; padding-block: 50px 65px; }
+  .home-design .home-hero h1 { font-size: 48px; line-height: 1.08; white-space: normal; }
+  .home-hero p { font-size: 14px; line-height: 25px; }
+  .home-hero dl { gap: 24px; }
+  .home-hero dd { font-size: 34px; }
+  .home-hero dt { font-size: 10px; }
+  .home-legacy > .home-container { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .home-legacy img + div { left: 0; }
+  .home-design h2 { font-size: 40px; }
+  .home-legacy p { font-size: 14px; line-height: 25px; }
+  .home-programs article { padding-inline: 24px; }
+  .home-programs article h3 { font-size: 24px; }
+  .home-why article { padding-inline: 22px; }
+  .home-campus .grid { grid-template-rows: 230px 230px; }
+  .home-testimonials figure { padding: 24px; }
+  .home-testimonials blockquote { font-size: 13px; line-height: 24px; }
+  .oxford-footer .home-container > .grid { gap: 30px; }
+  .oxford-footer ul { font-size: 12px; }
+}
+@media (max-width: 767px) {
+  .home-hero > .home-container, .home-legacy > .home-container { grid-template-columns: 1fr; gap: 38px; padding-block: 40px 50px; }
+  .home-hero > .home-container > :first-child { padding: 0; }
+  .home-design .home-hero h1 { font-size: clamp(36px, 8vw, 52px); }
+  .home-hero > .home-container > :last-child { max-width: none; }
+  .home-hero > .home-container > :last-child > :first-child { margin-bottom: 22px; }
+  .home-hero dl { justify-content: space-between; gap: 12px; }
+  .home-hero img { min-height: 260px; }
+  .home-legacy img + div { left: 0; top: 45px; }
+  .home-design h2 { font-size: 36px; }
+  .home-programs > .home-container, .home-testimonials > .home-container, .home-campus > .home-container, .home-why > .home-container { padding-block: 50px; }
+  .home-programs .home-container > .grid { margin-top: 36px; gap: 24px; }
+  .home-programs article { min-height: 300px; }
+  .home-why { min-height: 0; }
+  .home-why article { min-height: 245px; }
+  .home-campus .grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 12px; margin-top: 32px; }
+  .home-campus figure:not(:first-child) { height: 210px; }
+  .home-campus figcaption { left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 7px 9px; font-size: 10px; }
+  .home-testimonials .grid { margin-top: 32px; }
+  .home-testimonials figure { min-height: 260px; }
+  .home-partners .flex.flex-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 36px; }
+  .home-partners .flex.flex-wrap > div { height: 80px; }
+  .home-partners img { max-height: 75px; }
+  .home-cta, .home-cta > div.relative { min-height: 420px; }
+  .home-cta > div.relative { padding-block: 75px; }
+  .home-design .home-cta h2 { font-size: 40px; }
+  .home-cta p { font-size: 14px; line-height: 25px; }
+  .oxford-footer .home-container > .grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+  .oxford-footer .grid > div:first-child { grid-column: 1 / -1; }
+  .oxford-footer .grid > div:not(:first-child) { padding-top: 0; }
+  .oxford-footer .grid > div:last-child { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .home-marquee > div { animation: none; }
+  .home-design img { transition: none; }
+}

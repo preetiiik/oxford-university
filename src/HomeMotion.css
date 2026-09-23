@@ -1,0 +1,79 @@
+/* Two identical groups make the loop seamless at every viewport width. */
+.motion-rail { margin-top: 48px; }
+.motion-window { overflow: hidden; padding-block: 10px 20px; }
+.motion-track { display: flex; width: 200%; animation: home-slide 32s linear infinite; }
+.motion-group { display: flex; flex: 0 0 50%; gap: 25px; padding-right: 25px; }
+.motion-rail-stories .motion-group > figure { flex: 0 0 calc((100% - 50px) / 3); min-width: 0; margin: 0; }
+.motion-rail-partners .motion-track { animation-duration: 26s; }
+.motion-rail-partners .motion-group { align-items: center; gap: 30px; padding-right: 30px; }
+.motion-rail-partners .motion-group > div { flex: 1 0 0; min-width: 0; height: 103px; }
+.motion-rail-partners .motion-group > div:nth-child(4) { flex-grow: 1.6; }
+.motion-rail-partners img { max-width: 100%; max-height: 100px; object-fit: contain; }
+.motion-rail-partners .motion-group > div:nth-child(1) img { height: 92px; }
+.motion-rail-partners .motion-group > div:nth-child(2) img { height: 40px; }
+.motion-rail-partners .motion-group > div:nth-child(3) img { height: 103px; }
+.motion-rail-partners .motion-group > div:nth-child(4) img { height: 90px; }
+.motion-rail-partners .motion-group > div:nth-child(5) img { height: 68px; }
+.motion-rail-partners .motion-group > div:nth-child(n+6) img { height: 100px; }
+.motion-rail:hover .motion-track,
+.motion-rail:focus-within .motion-track { animation-play-state: paused; }
+.motion-window:focus-visible { outline: 2px solid #407f55; outline-offset: 3px; }
+@keyframes home-slide { to { transform: translateX(-50%); } }
+@keyframes home-reveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .home-programs article, .home-why article, .home-testimonials figure {
+    transition: translate .25s ease, box-shadow .25s ease, background-color .25s ease;
+  }
+  /* Individual translate composes with the scroll-reveal transform. */
+  .home-programs article:hover, .home-programs article:focus-within,
+  .home-why article:hover, .home-testimonials figure:hover {
+    translate: 0 -6px;
+    box-shadow: 0 12px 28px #265f3d26;
+  }
+  .home-why article:hover { background-color: #407f55e6; }
+  .home-hero img, .home-legacy img, .home-campus img,
+  .motion-rail-partners img { transition: transform .4s ease, filter .4s ease; }
+  .home-hero img:hover, .home-campus figure:hover img { transform: scale(1.04); }
+  .home-legacy img:hover { filter: brightness(1.06); }
+  .motion-rail-partners .motion-group > div:hover img {
+    transform: scale(1.09);
+    filter: drop-shadow(0 5px 6px #0002);
+  }
+  .home-programs article a svg, .home-button svg { transition: transform .25s ease; }
+  .home-programs article a:hover svg, .home-button:hover svg { transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .home-design .section-revealed > .home-container,
+  .home-design .home-cta.section-revealed > div.relative { animation: home-reveal .75s ease-out both; }
+  .home-design .section-revealed article,
+  .home-design .home-campus.section-revealed figure { animation: home-reveal .7s ease-out both; }
+  .home-design .section-revealed article:nth-child(2),
+  .home-design .home-campus.section-revealed figure:nth-child(2) { animation-delay: .1s; }
+  .home-design .section-revealed article:nth-child(3),
+  .home-design .home-campus.section-revealed figure:nth-child(3) { animation-delay: .2s; }
+  .home-design .section-revealed article:nth-child(n+4),
+  .home-design .home-campus.section-revealed figure:nth-child(n+4) { animation-delay: .3s; }
+  .home-design .home-button { transition: transform .2s, box-shadow .2s, background-color .2s; }
+  .home-design .home-button:hover { transform: translateY(-3px); box-shadow: 0 8px 18px #265f3d20; }
+}
+@media (max-width: 1023px) {
+  .motion-rail-stories .motion-track { width: 300%; }
+  .motion-rail-partners .motion-track { width: 300%; }
+}
+@media (max-width: 639px) {
+  .motion-rail { margin-top: 28px; }
+  .motion-rail-stories .motion-track { width: 600%; animation-duration: 36s; }
+  .motion-rail-partners .motion-track { width: 600%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-rail .motion-track { animation: none; width: 100%; }
+  .motion-window { overflow-x: auto; }
+  .motion-group { flex-basis: 100%; padding-right: 0; }
+  .motion-group[aria-hidden="true"] { display: none; }
+  .motion-rail-stories .motion-group > figure { flex-basis: max(280px, calc((100% - 50px) / 3)); }
+  .motion-rail-partners .motion-group > div { flex: 1 0 100px; }
+  .home-design .section-revealed, .home-design .section-revealed * { animation: none; }
+}

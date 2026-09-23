@@ -1,0 +1,33 @@
+.placements-page{background:#fff}.placements-hero{min-height:540px;display:flex;align-items:center;background:linear-gradient(110deg,#edf4ed,#f8f5e9 62%,#e4eee5);overflow:hidden}.placements-hero .section-shell{position:relative}.placements-hero .section-shell:after{content:'BCA';position:absolute;right:2vw;top:50%;transform:translateY(-50%);font:italic 230px Georgia,serif;color:#dbe8d7}.placements-hero .section-shell>*{position:relative;z-index:1}.placements-hero h1{max-width:650px;font-size:clamp(52px,6vw,86px);margin-bottom:20px}.placements-hero h1 em{color:var(--green);font-style:normal}.placements-hero p:not(.eyebrow){max-width:470px;color:var(--text);font-size:15px}.placements-hero .button{margin-top:18px}.placements-intro{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:end}.placements-intro h2{max-width:620px}.placements-intro>p{max-width:480px;color:var(--text);font-size:14px;margin-bottom:4px}.placement-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:35px}.placement-stats>div{display:flex;align-items:center;gap:17px;padding:25px 28px;border:1px solid #dfe6dc;border-radius:15px;background:var(--cream)}.placement-stats svg{width:28px;color:var(--green)}.placement-stats strong{font:32px Georgia,serif;color:var(--green);line-height:1}.placement-stats span{font-size:10px;color:var(--text);text-transform:uppercase;letter-spacing:.08em}.directory-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:35px}.directory-heading h2{margin-bottom:0;max-width:650px}.placement-search{display:flex;align-items:center;gap:9px;width:280px;padding:12px 15px;border:1px solid #d6e0d6;border-radius:99px;color:var(--green);background:#fff}.placement-search input{width:100%;border:0;outline:0;background:transparent;color:var(--navy);font:11px var(--sans)}.placement-table{overflow:hidden;border:1px solid #dfe6dc;border-radius:16px;box-shadow:0 12px 30px #1b35220c}.placement-table-head,.placement-row{display:grid;grid-template-columns:110px 1fr 1.2fr;align-items:center}.placement-table-head{padding:21px 26px;background:var(--green);color:#fff;text-transform:uppercase;letter-spacing:.12em;font-size:10px}.placement-row{min-height:72px;padding:0 26px;border-top:1px solid #e4e9e1;background:#fff;color:var(--text);font-size:13px}.placement-row:nth-child(even){background:#fbfcf8}.placement-row>span:first-child{font:italic 22px Georgia,serif;color:#b5cdb1}.placement-row strong{color:var(--navy);font-weight:600}.placements-cta{margin-bottom:90px;border-radius:18px;background:var(--green);color:#fff}.placements-cta .eyebrow{color:#d9ef91}.placements-cta h2{max-width:700px}.placements-cta p:last-child{max-width:550px;color:#e1efe3;font-size:13px}@media(max-width:820px){.placements-hero{min-height:450px}.placements-hero .section-shell:after{font-size:150px;right:0}.placements-intro{grid-template-columns:1fr;gap:25px}.placement-stats{grid-template-columns:1fr}.directory-heading{display:block}.placement-search{margin-top:24px;width:100%}.placement-table{overflow-x:auto}.placement-table-head,.placement-row{min-width:650px}.placements-cta{margin-bottom:55px;border-radius:12px}}@media(max-width:560px){.placements-hero{min-height:400px}.placements-hero h1{font-size:48px}.placements-hero .section-shell:after{font-size:100px;top:25%;opacity:.7}.placements-intro{padding-block:55px}.placement-stats>div{padding:20px}.placement-directory{padding-top:55px}.placement-table-head,.placement-row{grid-template-columns:82px 1fr 1fr;min-width:560px;padding-inline:17px}.placement-row{min-height:65px;font-size:12px}.placements-cta{padding-inline:28px}}
+/* Match the Admissions page hero treatment while keeping the placement copy and CTA. */
+.placements-hero{min-height:390px;justify-content:center;text-align:center;background-position:center;background-size:cover}
+.placements-hero>div{width:min(900px,calc(100% - 9vw))}
+.placements-hero .eyebrow{color:#d9ef91}
+.placements-hero h1{max-width:850px;margin-bottom:0;color:#fff;font-size:clamp(46px,5vw,74px);font-style:italic}
+.placements-hero h1 em{color:#fff;font-style:italic}
+.placements-hero h1 span{display:block;white-space:nowrap}
+.placements-hero p:not(.eyebrow){max-width:560px;margin:16px auto 0;color:#edf3ef;font-size:14px}
+.placements-hero .button{margin-top:18px}
+.placements-cta{padding-inline:clamp(28px,5vw,70px)}
+
+/* Multi-department placement dashboard below the unchanged hero. */
+.department-overview{padding-bottom:65px}
+.department-overview-heading{display:flex;justify-content:space-between;align-items:end;gap:35px;margin-bottom:32px}
+.department-overview-heading h2{max-width:620px;margin-bottom:0}
+.department-overview-heading>p{max-width:340px;color:var(--text);font-size:13px;margin-bottom:5px}
+.department-card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.department-card{display:flex;flex-direction:column;align-items:flex-start;min-height:142px;padding:22px;text-align:left;border:1px solid #dfe6dc;border-radius:15px;background:#fff;color:var(--navy);cursor:pointer;transition:.25s}
+.department-card:hover,.department-card.active{border-color:var(--green);background:var(--cream);transform:translateY(-3px)}
+.department-card>span{font:26px var(--serif);color:var(--green)}
+.department-card strong{margin-top:auto;font-size:12px}
+.department-card small{font-size:10px;color:var(--text)}
+.department-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px}
+.department-tabs button{min-height:44px;padding:8px 12px;border:1px solid #dfe6dc;border-radius:9px;background:#fff;color:var(--text);font-size:11px;cursor:pointer}
+.department-tabs button span{margin-left:5px;color:var(--green);font-weight:600}
+.department-tabs button.active{background:var(--green);border-color:var(--green);color:#fff}
+.department-tabs button.active span{color:#d9ef91}
+.placement-empty{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-height:190px;padding:30px;text-align:center;background:#fbfcf8;color:var(--text)}
+.placement-empty strong{font:26px var(--serif);color:var(--navy)}
+.placement-empty span{font-size:12px}
+@media(max-width:820px){.department-overview-heading{display:block}.department-overview-heading>p{margin-top:16px}.department-card-grid{grid-template-columns:repeat(2,1fr)}.department-tabs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.department-card-grid{grid-template-columns:1fr 1fr;gap:10px}.department-card{min-height:125px;padding:16px}.department-card>span{font-size:22px}.department-tabs{gap:7px}.department-tabs button{font-size:10px;padding-inline:7px}}

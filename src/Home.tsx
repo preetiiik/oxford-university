@@ -1,20 +1,6 @@
-/**
- * Oxford Institutions — Home page (single file, Tailwind CSS)
- *
- * Needs: react, react-router-dom, lucide-react, Tailwind CSS (v3.3+ or v4).
- * Images: put the `assets/home` folder next to this file (./assets/home/*).
- * Fonts (Cormorant Garamond, DM Serif Display, Montserrat, Playball) and the
- * marquee keyframes are injected by the <style> tag inside <HomePage />.
- *
- * Exports:
- *   default  HomePage      – header + all sections + footer
- *   named    HomeSections  – only the sections (use inside an existing layout
- *                            that already renders its own Header / Footer)
- *   named    Header, Footer
- */
-import { useState } from 'react'
-import type { ReactNode } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import WelfareNavigation from './WelfareNavigation'
 import {
   ArrowRight,
   Atom,
@@ -22,10 +8,10 @@ import {
   BriefcaseBusiness,
   Calculator,
   ChevronRight,
+  ChevronDown,
   Clock3,
   Cpu,
   GraduationCap,
-  Landmark,
   Laptop,
   Mail,
   MapPin,
@@ -54,145 +40,209 @@ import partnerOmega from './assets/home/partner-omega.png'
 import partnerItc from './assets/home/partner-itc.png'
 import partnerTata from './assets/home/partner-tata.png'
 
-/* -------------------------------------------------------------------------- */
-/*  Shared class strings                                                       */
-/* -------------------------------------------------------------------------- */
-
-// Figma frame is 1440px wide with 92px side margins → 1256px content width.
-const wrap = 'mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-[92px]'
+/*
+  Figma reference:
+  1440px desktop screenshots supplied by the user.
+  Main design tokens extracted from those screenshots.
+*/
+const GREEN = '#407F55'
+const CREAM = '#F8F8F0'
+const NAVY = '#0A1628'
+const BODY = '#536783'
+const GOLD = '#C9A84C'
 
 const serif = "font-['Cormorant_Garamond',Georgia,serif]"
+const sans = "font-['Montserrat',Arial,sans-serif]"
 const display = "font-['DM_Serif_Display',Georgia,serif]"
 
-const h2 = `${serif} text-[36px] font-medium leading-[1.1] text-[#0A1628] sm:text-[44px] lg:text-[48px]`
-const emDark = `${display} font-normal italic`
-
-const focusRing =
+const container = 'home-container'
+const buttonBase =
+  'home-button inline-flex h-[48px] items-center justify-center rounded-full px-[23px] text-[13px] font-medium transition'
+const focus =
   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#407F55]'
-const btn = `inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-[14px] font-medium transition-colors ${focusRing}`
-const btnPrimary = `${btn} bg-[#407F55] text-white hover:bg-[#2F6443]`
-const btnOutline = `${btn} border border-[#407F55] text-[#407F55] hover:bg-[#407F55] hover:text-white`
-const btnLight = `${btn} h-10 bg-white px-5 text-[#407F55] hover:bg-[#F2F3E2]`
-const btnGhostLight = `${btn} border border-white/70 text-white hover:bg-white hover:text-[#0A1628]`
 
-function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+function Eyebrow({
+  children,
+  light = false,
+}: {
+  children: ReactNode
+  light?: boolean
+}) {
   return (
-    <p
-      className={`mb-3 text-[11px] font-medium uppercase tracking-[0.3em] ${
+    <div
+      className={`${sans} text-[11px] font-semibold uppercase tracking-[0.34em] ${
         light ? 'text-white' : 'text-[#407F55]'
       }`}
     >
       {children}
-    </p>
+    </div>
   )
 }
 
-function scrollToId(id: string) {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    block: 'start',
+  })
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Header                                                                     */
+/* Header                                                                     */
 /* -------------------------------------------------------------------------- */
 
-type NavEntry = { label: string; to: string } | { label: string; anchor: string }
-
-const navEntries: NavEntry[] = [
+const nav = [
   { label: 'Home', to: '/' },
-  { label: 'About Us', anchor: 'about-us' },
+  { label: 'About Us', to: '/about-us' },
   { label: 'Departments', to: '/departments' },
   { label: 'Campus', to: '/campus' },
   { label: 'Admissions', to: '/admissions' },
-  { label: 'Events', anchor: 'events' },
-  { label: 'Placements', anchor: 'placements' },
-]
+  { label: 'Events', to: '/events' },
+  { label: 'Faculty', to: '/faculty' },
+  { label: 'Placements', to: '/placements' },
+] as const
 
-const navItem = `rounded-full px-3 py-2.5 text-[14px] text-white transition-colors hover:bg-white/15 ${focusRing} focus-visible:outline-white min-[1360px]:py-2`
-const navItemActive = 'bg-white !text-[#407F55] hover:!bg-white min-[1360px]:px-5 min-[1360px]:py-2.5'
+const aboutLinks = [
+  ['The Oxford Group', '/oxford-group'],
+  ["Chairman’s Message", '/chairman-message'],
+  ['Director Message', '/director-message'],
+  ["Principal’s Message", '/principal-message'],
+  ['Vision & Mission', '/vision-mission'],
+  ['Advisory Board', '/advisory-board'],
+] as const
+
+function AboutNavigation({ onNavigate }: { onNavigate: () => void }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const { pathname } = useLocation()
+  const isActive = pathname === '/about-us' || aboutLinks.some(([, to]) => pathname === to)
+  return <div className="oxford-department-dropdown oxford-about-dropdown" onPointerEnter={(event) => { if (event.pointerType === 'mouse') setIsOpen(true) }} onPointerLeave={(event) => { if (event.pointerType === 'mouse') setIsOpen(false) }}>
+    <div className={`oxford-nav-link oxford-department-control${isActive ? ' is-active' : ''}`}>
+      <Link to="/about-us" onClick={onNavigate}>About Us</Link>
+      <button type="button" className="oxford-department-arrow" aria-label="Toggle About Us menu" aria-expanded={isOpen} aria-controls="about-us-links" onClick={() => setIsOpen(!isOpen)}><ChevronDown size={14} aria-hidden="true" /></button>
+    </div>
+    <ul id="about-us-links" className="oxford-department-links" hidden={!isOpen}>{aboutLinks.map(([label, to]) => <li key={to}><NavLink to={to} className={() => pathname === to ? 'active' : ''} onClick={() => { setIsOpen(false); onNavigate() }}>{label}</NavLink></li>)}</ul>
+  </div>
+}
 
 export function Header() {
   const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
+  const [departmentsOpen, setDepartmentsOpen] = useState(false)
+  const departmentRef = useRef<HTMLDivElement>(null)
+  const departmentButtonRef = useRef<HTMLButtonElement>(null)
+  const keepDepartmentsOpen = useRef(false)
+  const { pathname, hash, key } = useLocation()
+
+  useEffect(() => {
+    if (keepDepartmentsOpen.current && pathname === '/departments' && !hash) {
+      keepDepartmentsOpen.current = false
+      setDepartmentsOpen(true)
+      return
+    }
+    setOpen(false)
+    setDepartmentsOpen(false)
+  }, [pathname, hash])
+
+  useEffect(() => {
+    if (!departmentsOpen) return
+    const closeOutside = (event: PointerEvent) => {
+      if (!departmentRef.current?.contains(event.target as Node)) setDepartmentsOpen(false)
+    }
+    document.addEventListener('pointerdown', closeOutside)
+    return () => document.removeEventListener('pointerdown', closeOutside)
+  }, [departmentsOpen])
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (hash) scrollTo(decodeURIComponent(hash.slice(1)))
+      else window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [pathname, hash, key])
 
   return (
-    <header className="relative z-50 h-[89px] bg-[#407F55] min-[1360px]:bg-white">
-      {/* Desktop: green bar with the S-curve cut-out around the logo */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-[calc(50%_-_296px)] right-0 hidden min-[1360px]:flex"
-      >
-        <svg
-          className="h-full w-[116px] shrink-0 text-[#407F55]"
-          viewBox="0 0 116 89"
-          preserveAspectRatio="none"
-          fill="currentColor"
-        >
-          <path d="M0 0C58 0 58 89 116 89V0Z" />
-        </svg>
-        <div className="flex-1 bg-[#407F55]" />
-      </div>
-
-      <div className="relative mx-auto flex h-full max-w-[1440px] items-center justify-between">
-        <Link
-          to="/"
-          onClick={close}
-          className={`flex h-full items-center gap-3.5 rounded-br-[44px] bg-white pl-5 pr-8 sm:pl-8 min-[1360px]:rounded-none min-[1360px]:bg-transparent min-[1360px]:pl-[92px] min-[1360px]:pr-0 ${focusRing}`}
-        >
-          <img src={logoCrest} alt="" width={62} height={72} className="h-[56px] w-auto min-[1360px]:h-[72px]" />
-          <span className="flex flex-col">
-            <span className="font-['Playball',cursive] text-[19px] leading-tight text-[#171717] min-[1360px]:text-[20px]">
-              Oxford Institutions
-            </span>
-            <span className="hidden text-[9px] uppercase tracking-[0.18em] text-[#565656] sm:block">
-              Est. 1998 · Excellence in Education
-            </span>
+    <header className="oxford-header">
+      <div className="oxford-header-inner">
+        <div className="oxford-brand-background" aria-hidden="true">
+          <svg viewBox="0 0 126 89" preserveAspectRatio="none">
+            <path d="M0 0 C40 0 62 18 78 45 C94 73 108 86 126 89 H0 Z" fill="white" />
+          </svg>
+        </div>
+        <Link to="/" className="oxford-brand" onClick={() => setOpen(false)} aria-label="Oxford Institutions home">
+          <img src={logoCrest} alt="Oxford Institutions crest" />
+          <span className="oxford-brand-copy">
+            <span className="oxford-brand-name">Oxford Institutions</span>
+            <span className="oxford-brand-tagline">Est. 1998 | Excellence in Education</span>
           </span>
         </Link>
-
         <button
           type="button"
-          className={`mr-5 rounded-md p-2 text-white sm:mr-8 min-[1360px]:hidden ${focusRing} focus-visible:outline-white`}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          className="oxford-menu-toggle"
+          aria-label={open ? 'Close navigation' : 'Open navigation'}
           aria-expanded={open}
-          aria-controls="site-nav"
-          onClick={() => setOpen((v) => !v)}
+          aria-controls="oxford-navigation"
+          onClick={() => { setOpen(!open); setDepartmentsOpen(false) }}
         >
-          {open ? <X size={26} /> : <Menu size={26} />}
+          {open ? <X size={24} /> : <Menu size={24} />}
         </button>
-
-        <nav
-          id="site-nav"
-          aria-label="Main"
-          className={`${open ? 'flex' : 'hidden'} absolute inset-x-0 top-full flex-col gap-1 bg-[#407F55] px-5 pb-5 pt-2 shadow-xl min-[1360px]:static min-[1360px]:flex min-[1360px]:flex-row min-[1360px]:items-center min-[1360px]:gap-[22px] min-[1360px]:bg-transparent min-[1360px]:p-0 min-[1360px]:pr-[92px] min-[1360px]:shadow-none`}
-        >
-          {navEntries.map((entry) =>
-            'to' in entry ? (
-              <NavLink
-                key={entry.label}
-                to={entry.to}
-                end={entry.to === '/'}
-                onClick={close}
-                className={({ isActive }) => `${navItem} ${isActive ? navItemActive : ''}`}
-              >
-                {entry.label}
-              </NavLink>
-            ) : (
-              <button
-                key={entry.label}
-                type="button"
-                className={`${navItem} text-left`}
-                onClick={() => {
-                  close()
-                  scrollToId(entry.anchor)
+        <nav id="oxford-navigation" aria-label="Main navigation" className={`oxford-navigation${open ? ' is-open' : ''}`}>
+          {nav.map((item) => (
+            item.label === 'About Us' ? <AboutNavigation key={item.label} onNavigate={() => setOpen(false)} /> : item.label === 'Departments' ? (
+              <div className="oxford-department-dropdown" key={item.label} ref={departmentRef}
+                onPointerEnter={(event) => { if (event.pointerType === 'mouse') setDepartmentsOpen(true) }}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === 'mouse' && !event.currentTarget.contains(document.activeElement)) setDepartmentsOpen(false)
                 }}
+                onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setDepartmentsOpen(false) }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    setDepartmentsOpen(false)
+                    departmentButtonRef.current?.focus()
+                  }
+                }}>
+                <div className={`oxford-nav-link oxford-department-control${pathname === '/departments' || pathname.endsWith('-department') ? ' is-active' : ''}`}>
+                  <Link to="/departments" aria-current={pathname === '/departments' && !hash ? 'page' : undefined}
+                    onClick={(event) => {
+                      if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                      keepDepartmentsOpen.current = pathname !== '/departments' || Boolean(hash)
+                      setDepartmentsOpen(true)
+                    }}>
+                    Departments
+                  </Link>
+                  <button type="button" ref={departmentButtonRef} className="oxford-department-arrow"
+                    aria-label="Toggle departments dropdown" aria-expanded={departmentsOpen} aria-controls="oxford-department-links"
+                    onClick={() => setDepartmentsOpen(!departmentsOpen)}>
+                    <ChevronDown size={14} aria-hidden="true" />
+                  </button>
+                </div>
+                <ul id="oxford-department-links" className="oxford-department-links" hidden={!departmentsOpen}>
+                  {[
+                    ['All Departments', '/departments'],
+                    ['BBA', '/bba-department'], ['BCA', '/bca-department'],
+                    ['PUC Science', '/departments#puc-science'],
+                    ['PUC Commerce', '/departments#puc-commerce'],
+                    ['B.Com', '/bcom-department'], ['M.Com', '/mcom-department'],
+                    ['MBA', '/mba-department'], ['MCA', '/mca-department'],
+                  ].map(([label, to]) => <li key={to}><NavLink to={to} end
+                    className={() => pathname + hash === to ? 'active' : ''}
+                    onClick={() => { setDepartmentsOpen(false); setOpen(false); if (to.includes('#')) scrollTo(to.split('#')[1]) }}>
+                    {label}
+                  </NavLink></li>)}
+                </ul>
+              </div>
+            ) : (
+              <NavLink
+                key={item.label}
+                to={item.to}
+                end={item.to === '/'}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) => `oxford-nav-link${isActive ? ' is-active' : ''}`}
               >
-                {entry.label}
-              </button>
-            ),
-          )}
-          <Link to="/admissions" onClick={close} className={`${btnLight} mt-2 min-[1360px]:mt-0 min-[1360px]:ml-1`}>
-            Apply Now <ChevronRight size={16} aria-hidden="true" />
+                {item.label}
+              </NavLink>
+            )
+          ))}
+          <WelfareNavigation onNavigate={() => setOpen(false)} />
+          <Link to="/apply-now" className="oxford-apply" onClick={() => setOpen(false)}>
+            Apply Now <ChevronRight size={16} strokeWidth={1.7} />
           </Link>
         </nav>
       </div>
@@ -201,74 +251,100 @@ export function Header() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Hero + marquee                                                             */
+/* Hero                                                                       */
 /* -------------------------------------------------------------------------- */
 
-const heroStats = [
+const stats = [
   ['98%', 'Placement Rate'],
   ['250+', 'Industry Partners'],
   ['40+', 'Programs Offered'],
-] as const
+]
 
 function Hero() {
   return (
-    <section
-      className={`${wrap} grid items-center gap-12 pb-14 pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,599px)] lg:gap-[79px] lg:pb-[72px] lg:pt-16`}
-    >
-      <div>
-        <h1
-          className={`${serif} text-[44px] font-semibold leading-[1.11] tracking-[-0.76px] text-[#0A1628] sm:text-[56px] lg:text-[64px]`}
-        >
-          Shaping Future Leaders <br className="hidden sm:block" />
-          of <em className={`${display} font-normal italic text-[#407F55]`}>Tomorrow</em>
-        </h1>
-        <p className="mt-6 max-w-[563px] text-[16px] leading-[1.86] text-[#3E3B3B]">
-          Where academic excellence meets limitless ambition. Oxford Institutions offers world-class education
-          designed to unlock your full potential.
-        </p>
+    <section className="home-hero border-b-[2px] border-[#407F55] bg-white">
+      <div className={`${container} grid min-h-[570px] grid-cols-1 items-start gap-10 py-[65px] lg:grid-cols-[1fr_539px] lg:gap-[55px] lg:py-[75px]`}>
+        <div className="pt-[8px]">
+          <h1 className={`${serif} whitespace-nowrap text-[50px] font-medium leading-[1.01] tracking-[-1.1px] text-black xl:text-[54px]`}>
+            Shaping Future Leaders
+            <br />
+            of{' '}
+            <em className={`${display} font-normal italic text-[#407F55]`}>
+              Tomorrow
+            </em>
+          </h1>
 
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          <Link to="/admissions" className={btnPrimary}>
-            Apply Now <ChevronRight size={16} aria-hidden="true" />
-          </Link>
-          <Link to="/departments" className={btnOutline}>
-            Explore Programs
-          </Link>
+          <p className={`${sans} mt-[28px] max-w-[470px] text-[14px] leading-[26px] text-[#5B5B5B]`}>
+            Where academic excellence meets limitless ambition. Oxford
+            Institutions offers world-class education designed to unlock your
+            full potential.
+          </p>
+
+          <div className="mt-[26px] flex flex-wrap gap-[14px]">
+            <Link
+              to="/admissions"
+              className={`${buttonBase} bg-[#407F55] text-white hover:bg-[#356B48] ${focus}`}
+            >
+              Apply Now
+              <ChevronRight size={16} />
+            </Link>
+
+            <Link
+              to="/departments"
+              className={`${buttonBase} border border-[#407F55] text-[#407F55] hover:bg-[#407F55] hover:text-white ${focus}`}
+            >
+              Explore Programs
+            </Link>
+          </div>
+
+          <dl className="mt-[30px] flex items-start gap-[43px]">
+            {stats.map(([value, label]) => (
+              <div key={label}>
+                <dd className={`${display} text-[34px] italic leading-none text-[#407F55]`}>
+                  {value}
+                </dd>
+                <dt className={`${sans} mt-[8px] whitespace-nowrap text-[11px] text-[#626262]`}>
+                  {label}
+                </dt>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <dl className="mt-1 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8">
-          {heroStats.map(([value, label]) => (
-            <div key={label} className="flex flex-col-reverse">
-              <dt className="mt-1 text-[12px] text-[#3E3B3B]">{label}</dt>
-              <dd className={`${display} text-[38px] italic leading-none text-[#407F55] lg:text-[40px]`}>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-
-      <div className="flex flex-col">
-        <span className="mb-6 inline-flex h-[33px] items-center gap-2 self-start rounded-full border-[0.8px] border-[#2F584E]/30 bg-[#407F55]/[0.12] px-5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#2F584E] lg:mb-10 lg:self-end">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#407F55]" />
-          Ranked #1 in Student Outcomes
-        </span>
-
-        <div className="relative aspect-[599/434] w-full overflow-hidden rounded-[48px_5px_48px_5px] lg:rounded-[80px_5px_80px_5px]">
-          <img
-            src={heroCampus}
-            alt="Oxford College campus building lit up at dusk"
-            width={900}
-            height={584}
-            className="h-full w-full object-cover"
-          />
-          {/* “25 years” badge — circle is clipped by the image frame, as in the design */}
-          <div className="absolute -right-[21px] -top-[25px] flex h-[100px] w-[100px] flex-col items-center justify-center rounded-full bg-[#407F55] pt-1 text-white">
-            <span className={`${display} text-[28px] italic leading-none`}>25</span>
-            <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.12em]">Years</span>
+        <div className="w-full max-w-[539px] justify-self-end">
+          <div className="mb-[34px] flex justify-end">
+            <span
+              className={`${sans} inline-flex h-[29px] items-center gap-[9px] rounded-full border border-[#407F55]/25 bg-[#407F55]/[0.08] px-[15px] text-[8px] font-medium uppercase tracking-[0.16em] text-[#407F55]`}
+            >
+              <span className="h-[5px] w-[5px] rounded-full bg-[#407F55]" />
+              Ranked #1 in Student Outcomes
+            </span>
           </div>
-          {/* “Admissions Open” card */}
-          <div className="absolute bottom-[37px] left-0 flex h-[66px] w-[158px] flex-col justify-center rounded-r-[14px] bg-white pl-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-            <span className="text-[12px] font-medium leading-tight text-[#0A1628]">Admissions Open</span>
-            <span className="mt-0.5 text-[10px] text-[#6B7280]">2026-27 Batch</span>
+
+          <div className="relative overflow-hidden rounded-[66px_0_66px_0]">
+            <img
+              src={heroCampus}
+              alt="Oxford College campus"
+              className="block aspect-[539/391] w-full object-cover"
+            />
+
+            <div className="absolute right-0 top-0 flex h-[70px] w-[70px] flex-col items-center justify-center rounded-bl-[8px] bg-[#407F55] text-white">
+              <span className={`${display} text-[23px] italic leading-none`}>
+                25
+              </span>
+              <span className={`${sans} mt-[4px] text-[7px] uppercase tracking-[0.1em]`}>
+                Years
+              </span>
+            </div>
+
+            <div className="absolute bottom-[32px] left-0 flex h-[59px] w-[141px] flex-col justify-center rounded-r-[15px] bg-white pl-[12px] shadow-[0_8px_25px_rgba(0,0,0,.16)]">
+              <span className={`${sans} text-[11px] font-medium leading-none text-[#162033]`}>
+                Admissions Open
+              </span>
+              <span className={`${sans} mt-[6px] text-[8px] text-[#8490A0]`}>
+                2026–27 Batch
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -276,23 +352,36 @@ function Hero() {
   )
 }
 
-const marqueeItems = ['Engineering', 'Management', 'Law', 'Medicine', 'Architecture', 'Data Science', 'Economics']
+/* -------------------------------------------------------------------------- */
+/* Green study marquee                                                        */
+/* -------------------------------------------------------------------------- */
+
+const marquee = [
+  'ENGINEERING',
+  'MANAGEMENT',
+  'LAW',
+  'MEDICINE',
+  'ARCHITECTURE',
+  'DATA SCIENCE',
+  'ECONOMICS',
+]
 
 function Marquee() {
-  // Two identical halves → translating by -50% loops seamlessly.
-  const half = [...marqueeItems, ...marqueeItems]
   return (
-    <div className="overflow-hidden bg-[#407F55]" aria-label="Fields of study: Engineering, Management, Law, Medicine, Architecture, Data Science, Economics">
-      <div className="flex h-[49px] w-max animate-[oxford-marquee_45s_linear_infinite] motion-reduce:animate-none">
-        {[0, 1].map((copy) => (
-          <ul key={copy} aria-hidden="true" className="flex shrink-0 items-center">
-            {half.map((item, i) => (
-              <li key={`${copy}-${i}`} className="flex items-center text-[12px] uppercase tracking-[0.12em] text-white">
+    <div className="home-marquee overflow-hidden bg-[#407F55]" aria-label="Fields of study">
+      <div className="flex h-[47px] w-max animate-[marquee_34s_linear_infinite] motion-reduce:animate-none">
+        {[0, 1, 2].map((copy) => (
+          <div key={copy} aria-hidden={copy > 0} className="flex items-center">
+            {marquee.map((item) => (
+              <div
+                key={`${copy}-${item}`}
+                className={`${sans} flex items-center whitespace-nowrap text-[10px] font-medium tracking-[0.16em] text-white`}
+              >
                 {item}
-                <span className="mx-[46px] h-1 w-1 rounded-full bg-white/70" />
-              </li>
+                <span className="mx-[51px] h-[4px] w-[4px] rounded-full bg-white/65" />
+              </div>
             ))}
-          </ul>
+          </div>
         ))}
       </div>
     </div>
@@ -300,45 +389,61 @@ function Marquee() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Legacy / About                                                             */
+/* About                                                                      */
 /* -------------------------------------------------------------------------- */
 
 function Legacy() {
   return (
-    <section id="about-us" className={`${wrap} py-14 lg:py-[88px]`}>
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,617px)_minmax(0,1fr)] lg:gap-[65px]">
+    <section id="about-us" className="home-legacy bg-white">
+      <div className={`${container} grid items-center gap-14 py-[78px] lg:grid-cols-[557px_1fr] lg:gap-[56px] lg:py-[78px]`}>
         <div className="relative">
           <img
             src={legacyCampus}
-            alt="Oxford College entrance with students walking"
-            width={1075}
-            height={849}
-            loading="lazy"
-            decoding="async"
-            className="aspect-[617/545] w-full rounded-[5px_50px_5px_5px] object-cover shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+            alt="Oxford College campus with students"
+            className="aspect-[557/491] w-full rounded-[5px_50px_5px_5px] object-cover shadow-[0_5px_20px_rgba(0,0,0,.12)]"
           />
-          <div className="absolute left-4 top-[81px] flex h-[87px] w-[164px] flex-col items-center justify-center rounded-2xl bg-[#407F55] text-white shadow-[0_20px_60px_rgba(10,22,40,0.3)] xl:-left-[69px]">
-            <span className={`${display} text-[32px] italic leading-none`}>25+</span>
-            <span className="mt-1 text-[11px]">Years of Excellence</span>
+
+          <div className="absolute -left-[1px] top-[73px] flex h-[79px] w-[148px] flex-col items-center justify-center rounded-r-[15px] bg-[#407F55] text-white shadow-[0_15px_35px_rgba(0,0,0,.16)] lg:-left-[62px]">
+            <span className={`${display} text-[35px] italic leading-none`}>
+              25+
+            </span>
+            <span className={`${sans} mt-[3px] text-[9px]`}>
+              Years of Excellence
+            </span>
           </div>
         </div>
 
-        <div>
+        <div className="max-w-[530px]">
           <Eyebrow>Who We Are</Eyebrow>
-          <h2 className={`${h2} mb-6`}>
-            A Legacy of <em className={emDark}>Academic Excellence</em>
+
+          <h2 className={`${serif} mt-[27px] text-[39px] font-medium leading-[1.02] text-[#080D13] sm:text-[43px]`}>
+            A Legacy of{' '}
+            <em className={`${display} font-normal italic`}>
+              Academic
+              <br />
+              Excellence
+            </em>
           </h2>
-          <p className="mb-4 max-w-[560px] text-[14px] leading-[1.85] text-[#3D4F6B]">
-            Founded in 1998, Oxford Institutions has been at the forefront of transformative education. We believe
-            learning is not merely the transfer of knowledge — it is the cultivation of minds that dare to question,
-            create, and lead.
+
+          <p className={`${sans} mt-[25px] text-[13px] leading-[26px] text-[#536783]`}>
+            Founded in 1998, Oxford Institutions has been at the forefront of
+            transformative education. We believe learning is not merely the
+            transfer of knowledge — it is the cultivation of minds that dare to
+            question, create, and lead.
           </p>
-          <p className="mb-8 max-w-[560px] text-[14px] leading-[1.85] text-[#3D4F6B]">
-            Our faculty comprises distinguished scholars, industry veterans, and Nobel laureates who bring unmatched
-            depth to every classroom. Our campuses are laboratories of innovation and incubators of ideas.
+
+          <p className={`${sans} mt-[14px] text-[13px] leading-[26px] text-[#536783]`}>
+            Our faculty comprises distinguished scholars, industry veterans,
+            and Nobel laureates who bring unmatched depth to every classroom.
+            Our campuses are laboratories of innovation and incubators of ideas.
           </p>
-          <Link to="/campus" className={btnPrimary}>
-            Discover Our Story <ChevronRight size={16} aria-hidden="true" />
+
+          <Link
+            to="/campus"
+            className={`${buttonBase} mt-[24px] bg-[#407F55] text-white hover:bg-[#356B48] ${focus}`}
+          >
+            Discover Our Story
+            <ChevronRight size={16} />
           </Link>
         </div>
       </div>
@@ -347,10 +452,15 @@ function Legacy() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Programs                                                                   */
+/* Programs                                                                   */
 /* -------------------------------------------------------------------------- */
 
-type Program = { title: string; desc: string; Icon: LucideIcon; to: string }
+type Program = {
+  title: string
+  desc: string
+  Icon: LucideIcon
+  to: string
+}
 
 const programs: Program[] = [
   {
@@ -363,90 +473,113 @@ const programs: Program[] = [
     title: 'BCA',
     desc: 'Oxford College of BCA pursue the highest standards professionally, personally, and ethically. Empowered by a bold mindset.',
     Icon: Laptop,
-    to: '/departments',
+    to: '/bca-department',
   },
   {
     title: 'B.COM',
     desc: 'Oxford College of Commerce is one of the premier institutes rendering education in the realm of Commerce studies since 2008.',
-    Icon: Landmark,
-    to: '/departments',
+    Icon: Atom,
+    to: '/bcom-department',
   },
   {
     title: 'PUC SCIENCE',
     desc: 'Oxford College of PUC Science empowers students to excel in engineering, medicine, pure sciences, and other professional fields.',
-    Icon: Atom,
+    Icon: BriefcaseBusiness,
     to: '/departments',
   },
   {
     title: 'PUC COMMERCE',
     desc: 'Oxford College of PUC Commerce course designed to build a strong foundation for careers in business, finance, and management.',
-    Icon: BarChart3,
+    Icon: Laptop,
     to: '/departments',
   },
   {
     title: 'M.COM',
     desc: 'Oxford College of M.COM program focused on advanced studies in commerce, finance, research, and management.',
-    Icon: Calculator,
-    to: '/departments',
+    Icon: Atom,
+    to: '/mcom-department',
   },
   {
     title: 'MBA',
     desc: 'An MBA is a postgraduate degree that builds leadership, management, and strategic decision-making skills.',
-    Icon: GraduationCap,
-    to: '/departments',
+    Icon: BriefcaseBusiness,
+    to: '/mba-department',
   },
   {
     title: 'MCA (AI & ML Specialisation)',
     desc: 'An MCA is a postgraduate degree focused on advanced computing, software development, and IT management.',
-    Icon: Cpu,
-    to: '/departments',
+    Icon: Laptop,
+    to: '/mca-department',
   },
 ]
 
 function Programs() {
   return (
-    <section className="bg-[#F2F3E2]/50 py-14 lg:py-20">
-      <div className={wrap}>
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-6 lg:mb-12">
+    <section className="home-programs bg-[#F8F8F0]">
+      <div className={`${container} py-[61px]`}>
+        <div className="flex items-end justify-between">
           <div>
             <Eyebrow>Academic Programs</Eyebrow>
-            <h2 className={h2}>Explore Our Programs</h2>
+            <h2 className={`${serif} mt-[22px] text-[40px] font-medium leading-none text-[#0A1628] sm:text-[42px]`}>
+              Explore Our Programs
+            </h2>
           </div>
-          <Link to="/departments" className={btnPrimary}>
-            View All Programs <ChevronRight size={16} aria-hidden="true" />
+
+          <Link
+            to="/departments"
+            className={`${buttonBase} hidden bg-[#407F55] text-white sm:inline-flex`}
+          >
+            View All Programs
+            <ChevronRight size={15} />
           </Link>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-9">
+        <div className="mt-[80px] grid gap-[46px_32px] sm:grid-cols-2 lg:grid-cols-3">
           {programs.map(({ title, desc, Icon, to }) => (
             <article
               key={title}
-              className="flex min-h-[314px] flex-col rounded-[20px] border-[0.8px] border-[#0A1628]/10 border-t-[3px] border-t-[#407F55] bg-white px-9 pb-7 pt-7 shadow-[0_4px_20px_rgba(47,88,78,0.1)]"
+              className="flex min-h-[283px] flex-col rounded-[19px] border border-black/[0.04] border-t-[3px] border-t-[#407F55] bg-white px-[31px] pb-[23px] pt-[22px] shadow-[0_7px_21px_rgba(50,75,72,.10)]"
             >
-              <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[14px] bg-[linear-gradient(135deg,#F5E9C8,#F0ECE0)] text-[#6B5A2B]">
-                <Icon size={30} strokeWidth={1.5} aria-hidden="true" />
+              <div className="flex h-[64px] w-[64px] items-center justify-center rounded-[15px] bg-[#F3E9CD] text-[#242424]">
+                <Icon size={30} strokeWidth={1.25} />
               </div>
-              <h3 className={`${serif} mb-2 mt-6 text-[26px] font-semibold leading-tight text-[#0A1628]`}>{title}</h3>
-              <p className="mb-5 text-[12.5px] leading-[1.7] text-[#3D4F6B]">{desc}</p>
+
+              <h3 className={`${serif} mt-[23px] text-[24px] font-medium leading-none text-[#142033]`}>
+                {title}
+              </h3>
+
+              <p className={`${sans} mt-[22px] max-w-[310px] text-[12px] leading-[21px] text-[#536783]`}>
+                {desc}
+              </p>
+
               <Link
                 to={to}
-                className={`mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#407F55] hover:underline ${focusRing}`}
+                className={`${sans} mt-auto inline-flex items-center gap-1 text-[11px] font-medium text-[#407F55] ${focus}`}
               >
-                Explore Program <ArrowRight size={14} aria-hidden="true" />
+                Explore Program
+                <ArrowRight size={13} />
               </Link>
             </article>
           ))}
         </div>
+
+        <Link
+          to="/departments"
+          className={`${buttonBase} mt-8 bg-[#407F55] text-white sm:hidden`}
+        >
+          View All Programs
+          <ChevronRight size={15} />
+        </Link>
       </div>
     </section>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Why Oxford                                                                 */
+/* Why Oxford                                                                 */
 /* -------------------------------------------------------------------------- */
 
-const whyCards = [
+const why = [
   ['01', '98% Placement', 'Our dedicated career services team ensures every graduate is connected with top-tier opportunities before graduation.'],
   ['02', 'Elite Faculty', 'Learn from 400+ accomplished professors, 60% of whom hold doctoral degrees from global top-50 universities.'],
   ['03', 'World-Class Campus', '80-acre campus featuring smart labs, innovation hubs, libraries, sports complexes, and sustainable architecture.'],
@@ -455,33 +588,38 @@ const whyCards = [
 
 function WhyOxford() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="home-why relative overflow-hidden">
       <img
         src={whyLibrary}
         alt=""
-        width={1536}
-        height={1024}
-        loading="lazy"
-        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/48" />
 
-      <div className={`${wrap} relative pb-16 pt-14 lg:pb-[70px] lg:pt-20`}>
+      <div className={`${container} relative py-[53px]`}>
         <Eyebrow light>Why Oxford</Eyebrow>
-        <h2 className={`${serif} mb-10 text-[36px] font-medium leading-[1.1] text-white sm:text-[44px] lg:mb-[42px] lg:text-[48px]`}>
-          What Sets Us <em className="italic font-semibold">Apart</em>
+
+        <h2 className={`${serif} mt-[24px] text-[40px] font-medium leading-none text-white`}>
+          What Sets Us <em className={`${display} font-normal italic`}>Apart</em>
         </h2>
 
-        <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
-          {whyCards.map(([num, title, copy]) => (
+        <div className="mt-[48px] grid gap-[17px] sm:grid-cols-2 lg:grid-cols-4">
+          {why.map(([num, title, text]) => (
             <article
               key={num}
-              className="flex min-h-[278px] flex-col rounded-[20px] border-[0.8px] border-white/30 bg-[#407F55]/70 p-7 backdrop-blur-[6px]"
+              className="min-h-[251px] rounded-[18px] border border-white/70 bg-[#407F55]/70 px-[27px] py-[20px]"
             >
-              <span className={`${display} text-[40px] italic leading-none text-white`}>{num}</span>
-              <h3 className={`${serif} mb-3 mt-5 text-[20px] font-semibold leading-tight text-white`}>{title}</h3>
-              <p className="text-[12.5px] leading-[1.7] text-white/85">{copy}</p>
+              <div className={`${display} text-[43px] italic leading-none text-white`}>
+                {num}
+              </div>
+
+              <h3 className={`${serif} mt-[31px] text-[19px] font-medium text-white`}>
+                {title}
+              </h3>
+
+              <p className={`${sans} mt-[17px] text-[11px] leading-[21px] text-white`}>
+                {text}
+              </p>
             </article>
           ))}
         </div>
@@ -491,28 +629,31 @@ function WhyOxford() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Campus life (bento grid)                                                   */
+/* Campus life                                                                */
 /* -------------------------------------------------------------------------- */
 
-function Tile({
+function CampusTile({
   src,
   alt,
   label,
-  className = '',
-  w,
-  h,
+  className,
 }: {
   src: string
   alt: string
   label: string
-  className?: string
-  w: number
-  h: number
+  className: string
 }) {
   return (
-    <figure className={`relative overflow-hidden rounded-2xl ${className}`}>
-      <img src={src} alt={alt} width={w} height={h} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-      <figcaption className="absolute bottom-4 left-4 rounded-lg border-[0.8px] border-white/10 bg-white/80 px-4 py-2 text-[13px] font-medium text-[#2F6443] backdrop-blur-[8px]">
+    <figure id={label === 'Cultural Amphitheatre' ? 'events' : undefined} className={`group relative overflow-hidden rounded-[16px] ${className}`}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+      />
+      <figcaption
+        className={`${sans} absolute bottom-[14px] left-[14px] rounded-[7px] bg-white/85 px-[12px] py-[7px] text-[10px] font-medium text-[#407F55]`}
+      >
         {label}
       </figcaption>
     </figure>
@@ -521,38 +662,59 @@ function Tile({
 
 function CampusLife() {
   return (
-    <section id="events" className={`${wrap} py-14 lg:py-20`}>
-      <Eyebrow>Campus Life</Eyebrow>
-      <h2 className={`${h2} mb-10 lg:mb-12`}>
-        Beyond the <em className={emDark}>Classroom</em>
-      </h2>
+    <section className="home-campus bg-white">
+      <div className={`${container} py-[46px]`}>
+        <Eyebrow>Campus Life</Eyebrow>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-[1.9fr_1fr_1fr] md:grid-rows-[repeat(2,279px)]">
-        <Tile
-          src={campusLibrary}
-          alt="Students studying together around a table"
-          label="Main Library & Research Center"
-          w={1100}
-          h={1100}
-          className="col-span-2 h-[300px] md:col-span-1 md:row-span-2 md:h-auto"
-        />
-        <Tile src={campusLab} alt="Teacher demonstrating a chemistry experiment" label="Innovation Labs" w={1100} h={503} className="h-[200px] md:h-auto" />
-        <Tile src={campusSports} alt="Cricket players celebrating with their team" label="Sports Complex" w={891} h={899} className="h-[200px] md:h-auto" />
-        <Tile src={campusCulture} alt="Students performing a classical dance on stage" label="Cultural Amphitheatre" w={960} h={638} className="h-[200px] md:h-auto" />
-        <Tile src={campusCafeteria} alt="Students having lunch in the cafeteria" label="Student Cafeteria" w={1000} h={750} className="h-[200px] md:h-auto" />
+        <h2 className={`${serif} mt-[23px] text-[41px] font-medium leading-none text-[#0A1628]`}>
+          Beyond the <em className={`${display} font-normal italic`}>Classroom</em>
+        </h2>
+
+        <div className="mt-[56px] grid grid-cols-2 gap-[14px] md:grid-cols-[1.9fr_1fr_1fr] md:grid-rows-[252px_252px]">
+          <CampusTile
+            src={campusLibrary}
+            alt="Students studying around a table"
+            label="Main Library & Research Center"
+            className="col-span-2 h-[310px] md:col-span-1 md:row-span-2 md:h-auto"
+          />
+          <CampusTile
+            src={campusLab}
+            alt="Innovation laboratory"
+            label="Innovation Labs"
+            className="h-[150px] md:h-auto"
+          />
+          <CampusTile
+            src={campusSports}
+            alt="Sports complex"
+            label="Sports Complex"
+            className="h-[150px] md:h-auto"
+          />
+          <CampusTile
+            src={campusCulture}
+            alt="Cultural amphitheatre"
+            label="Cultural Amphitheatre"
+            className="h-[150px] md:h-auto"
+          />
+          <CampusTile
+            src={campusCafeteria}
+            alt="Students in cafeteria"
+            label="Student Cafeteria"
+            className="h-[150px] md:h-auto"
+          />
+        </div>
       </div>
     </section>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Testimonials                                                               */
+/* Testimonials                                                               */
 /* -------------------------------------------------------------------------- */
 
 const testimonials = [
   {
     quote:
-      '“Oxford Institutions didn\u2019t just give me a degree — it gave me a mindset. The faculty challenged me to think differently, and today I lead a team of 200 at Google.”',
+      '“Oxford Institutions didn’t just give me a degree — it gave me a mindset. The faculty challenged me to think differently, and today I lead a team of 200 at Google.”',
     name: 'Arjun Patel',
     initials: 'AP',
     role: 'Senior Director, Google India · B.Tech 2015',
@@ -566,48 +728,224 @@ const testimonials = [
   },
   {
     quote:
-      'From zero industry exposure to being placed at McKinsey — Oxford\u2019s placement cell and the rigorous curriculum made it possible. I am forever grateful.',
+      'From zero industry exposure to being placed at McKinsey — Oxford’s placement cell and the rigorous curriculum made it possible. I am forever grateful.',
     name: 'Kavya Menon',
     initials: 'KM',
     role: 'Associate Consultant, McKinsey · BBA 2021',
   },
 ]
+// const testimonials = [
+//   {
+//     quote:
+//       "Oxford College is a place where I can freely meet and talk with faculty and staff that help to create an excellent learning environment for me and my friends. They also create wonderful job opportunities for the learners in and off campus. The faculty focuses on extra-curricular activities without hindering the academics when I developed various skills such as leadership, fitness, management, and communication. Oxford is especially sweet because it provides positivity, greenery, and a friendly atmosphere on its campus that assisted me, my friends, and my faculty to be in tune with the education. Graduating from Oxford College will not just promote the students in securing better results in academics but also guarantees a better individual to the society.",
+//     name: "Sanket S Dushi",
+//     initials: "SD",
+//     role: "Student",
+//   },
+//   {
+//     quote:
+//       "I am thankful to all the faculty members of the College for their continuous efforts and support. Apart from excellent academic experience, I also gained the benefits of being a part of events. I cherish every moment spent at Oxford College. My graduation at Oxford has been a very interesting and awesome journey.",
+//     name: "Ms. Deepa Kaahappagouda",
+//     initials: "DK",
+//     role: "Student",
+//   },
+//   {
+//     quote:
+//       "My 5 years of experience in Oxford College Hubballi has been tremendous and the best days of my life. The encouraging support shown by our beloved Chairman Shri Vasant BHoratti sir has laid a strong foundation in my student life. With the events and fests conducted by Oxford College, I brought out the hidden talents within me and became a successful student with good exposure to the outside world. I am grateful to the lectures, management, and friends who have shown true love and countless support to me. This college has provided the best facilities a student can ever get. I am honored and grateful to be a part of the Oxford family. These campus memories will always remain fresh in my mind forever.",
+//     name: "Ron Regy",
+//     initials: "RR",
+//     role: "Student",
+//   },
+// ]
+
+function MotionRail({ children, label, variant }: { children: ReactNode; label: string; variant: 'stories' | 'partners' }) {
+  return (
+    <div className={`motion-rail motion-rail-${variant}`}>
+      <div className="motion-window" role="region" aria-label={label} tabIndex={0}>
+        <div className="motion-track">
+          <div className="motion-group">{children}</div>
+          <div className="motion-group" aria-hidden="true">{children}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function Testimonials() {
-  return (
-    <section className="bg-[#F2F3E2]/50 py-14 lg:py-[72px]">
-      <div className={wrap}>
-        <Eyebrow>Student Stories</Eyebrow>
-        <h2 className={`${h2} mb-10`}>
-          Voices of Our <em className={emDark}>Alumni</em>
-        </h2>
+  const [activeIndex, setActiveIndex] = useState(0)
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <figure
-              key={t.name}
-              className="flex flex-col rounded-[20px] border-[0.8px] border-[#0A1628]/10 bg-white p-7 shadow-[0_4px_20px_rgba(47,88,78,0.1)]"
-            >
-              <div className="mb-4 flex gap-1" role="img" aria-label="Rated 5 out of 5 stars">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} size={20} className="fill-[#C9A84C] text-[#C9A84C]" aria-hidden="true" />
-                ))}
-              </div>
-              <blockquote className="mb-6 text-[14px] leading-[1.75] text-[#3D4F6B]">{t.quote}</blockquote>
-              <figcaption className="mt-auto flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#407F55] text-[12px] font-semibold text-white"
-                >
-                  {t.initials}
-                </span>
-                <span className="flex flex-col">
-                  <span className={`${serif} text-[17px] font-semibold leading-tight text-[#0A1628]`}>{t.name}</span>
-                  <span className="text-[11px] text-[#8A8F98]">{t.role}</span>
-                </span>
-              </figcaption>
-            </figure>
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % testimonials.length)
+    }, 4000)
+
+    return () => window.clearInterval(interval)
+  }, [])
+
+  const getIndex = (offset: number) =>
+    (activeIndex + offset + testimonials.length) % testimonials.length
+
+  const visibleTestimonials = [
+    testimonials[getIndex(-1)],
+    testimonials[getIndex(0)],
+    testimonials[getIndex(1)],
+  ]
+
+  return (
+    <section className="home-testimonials bg-[#F8F7F3]">
+      <div className={`${container} py-[65px]`}>
+
+        {/* Heading */}
+        <div className="mb-[42px] text-left">
+          <Eyebrow>Student Stories</Eyebrow>
+
+          <h2
+            className={`${serif} mt-[20px] text-[40px] font-medium leading-none text-[#0A1628]`}
+          >
+            Voices of Our{" "}
+            <em className={`${display} font-normal italic text-[#407F55]`}>
+              Alumni
+            </em>
+          </h2>
+        </div>
+
+        {/* Animated testimonials */}
+        <div className="testimonial-slider">
+
+          {visibleTestimonials.map((item, position) => {
+            const isCenter = position === 1
+
+            return (
+              <article
+                key={`${item.name}-${activeIndex}-${position}`}
+                className={`testimonial-card ${
+                  isCenter
+                    ? "testimonial-card-center"
+                    : "testimonial-card-side"
+                }`}
+              >
+
+                {/* Quote */}
+                <div className="testimonial-quote-mark">
+                  {isCenter ? "”" : "”"}
+                </div>
+
+                {/* Stars */}
+                <div className="testimonial-stars">
+                  {[0, 1, 2, 3, 4].map((star) => (
+                    <Star
+                      key={star}
+                      size={14}
+                      strokeWidth={1.5}
+                      className="fill-[#D99A18] text-[#D99A18]"
+                    />
+                  ))}
+                </div>
+
+                {/* Text */}
+                <p className={`${sans} testimonial-text`}>
+                  {item.quote}
+                </p>
+
+                {/* User */}
+                <div className="testimonial-user">
+                  <span
+                    className={`testimonial-avatar ${
+                      isCenter
+                        ? "testimonial-avatar-green"
+                        : position === 0
+                          ? "testimonial-avatar-gold"
+                          : "testimonial-avatar-blue"
+                    }`}
+                  >
+                    {item.initials}
+                  </span>
+
+                  <div>
+                    <div className={`${sans} testimonial-name`}>
+                      {item.name}
+                    </div>
+
+                    <div className={`${sans} testimonial-role`}>
+                      {item.role}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            )
+          })}
+
+        </div>
+
+        {/* Pagination dots */}
+        <div className="testimonial-dots" aria-label="Testimonial navigation">
+          {testimonials.map((item, index) => (
+            <button
+              key={`${item.name}-${index}`}
+              type="button"
+              aria-label={`Go to testimonial ${index + 1}`}
+              aria-current={activeIndex === index ? "true" : undefined}
+              className={`testimonial-dot ${
+                activeIndex === index ? "testimonial-dot-active" : ""
+              }`}
+              onClick={() => setActiveIndex(index)}
+            />
           ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+/* Partners                                                                   */
+/* -------------------------------------------------------------------------- */
+
+const partners = [
+  [partnerWipro, 'Wipro'],
+  [partnerAirtel, 'Airtel'],
+  [partnerAtm, 'ATM'],
+  [partnerXentrix, 'Xentrix'],
+  [partnerOmega, 'Omega'],
+  [partnerItc, 'ITC Limited'],
+  [partnerTata, 'Tata'],
+] as const
+
+function Partners() {
+  return (
+    <section id="placements" className="home-partners bg-white">
+      <div className={`${container} py-[46px]`}>
+        <div className="text-center">
+          <Eyebrow>Our Partners</Eyebrow>
+
+          <h2 className={`${serif} mt-[22px] text-[41px] leading-none text-black`}>
+            Meet Our Partners
+          </h2>
+
+          <MotionRail label="Partner logos" variant="partners">
+            {partners.map(([src, alt], index) => (
+              <div
+                key={alt}
+                className="flex h-[75px] min-w-[90px] flex-1 items-center justify-center"
+              >
+                <img
+                  src={src}
+                  alt={alt}
+                  loading="lazy"
+                  className={`w-auto object-contain ${
+                    index === 1
+                      ? 'h-[31px]'
+                      : index === 3
+                        ? 'h-[53px]'
+                        : index === 4
+                          ? 'h-[48px]'
+                          : 'h-[72px]'
+                  }`}
+                />
+              </div>
+            ))}
+          </MotionRail>
         </div>
       </div>
     </section>
@@ -615,74 +953,47 @@ function Testimonials() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Partners                                                                   */
+/* CTA                                                                        */
 /* -------------------------------------------------------------------------- */
 
-const partners = [
-  { src: partnerWipro, name: 'Wipro', w: 241, h: 240, cls: 'h-[84px]' },
-  { src: partnerAirtel, name: 'Airtel', w: 352, h: 88, cls: 'h-[28px]' },
-  { src: partnerAtm, name: 'ATM', w: 268, h: 240, cls: 'h-[80px]' },
-  { src: partnerXentrix, name: 'Xentrix', w: 572, h: 200, cls: 'h-[66px]' },
-  { src: partnerOmega, name: 'Omega', w: 286, h: 140, cls: 'h-[50px]' },
-  { src: partnerItc, name: 'ITC Limited', w: 231, h: 240, cls: 'h-[86px]' },
-  { src: partnerTata, name: 'Tata', w: 287, h: 240, cls: 'h-[64px]' },
-]
-
-function Partners() {
+function CTA() {
   return (
-    <section id="placements" className={`${wrap} py-14 text-center lg:pb-16 lg:pt-14`}>
-      <Eyebrow>Our Partners</Eyebrow>
-      <h2 className={`${h2} mb-10 lg:mb-12`}>Meet Our Partners</h2>
-      <ul className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 lg:justify-between">
-        {partners.map((p) => (
-          <li key={p.name} className="flex items-center">
-            <img
-              src={p.src}
-              alt={p.name}
-              width={p.w}
-              height={p.h}
-              loading="lazy"
-              decoding="async"
-              className={`${p.cls} w-auto max-w-none object-contain`}
-            />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
-
-/* -------------------------------------------------------------------------- */
-/*  CTA                                                                        */
-/* -------------------------------------------------------------------------- */
-
-function CallToAction() {
-  return (
-    <section className="relative overflow-hidden">
+    <section className="home-cta relative min-h-[430px] overflow-hidden">
       <img
         src={ctaLibrary}
         alt=""
-        width={1537}
-        height={1023}
         loading="lazy"
-        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/55" />
 
-      <div className="relative mx-auto flex max-w-[708px] flex-col items-center px-5 py-16 text-center sm:px-8 lg:py-[100px]">
-        <h2 className={`${serif} mb-5 text-[38px] font-medium leading-[1.1] text-white sm:text-[46px] lg:text-[52px]`}>
-          Start Your <em className="italic text-[#4C9A67]">Journey</em> Today
+      <div className="relative flex min-h-[430px] flex-col items-center justify-center px-5 text-center">
+        <h2 className={`${serif} text-[42px] leading-none text-white sm:text-[48px]`}>
+          Start Your{' '}
+          <em className={`${display} font-normal italic text-[#407F55]`}>
+            Journey
+          </em>{' '}
+          Today
         </h2>
-        <p className="mb-8 max-w-[640px] text-[14px] leading-[1.8] text-white">
-          Applications for the 2025-26 academic year are now open. Join over 12,500 alumni who have built
-          extraordinary careers with Oxford Institutions.
+
+        <p className={`${sans} mt-[26px] max-w-[650px] text-[13px] leading-[22px] text-white`}>
+          Applications for the 2025–26 academic year are now open. Join over
+          12,500 alumni who have built extraordinary careers with Oxford Institutions.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link to="/admissions" className={btnPrimary}>
-            Apply Now <ArrowRight size={16} aria-hidden="true" />
+
+        <div className="mt-[29px] flex flex-wrap justify-center gap-[14px]">
+          <Link
+            to="/admissions"
+            className={`${buttonBase} bg-[#407F55] text-white ${focus}`}
+          >
+            Apply Now
+            <ArrowRight size={15} />
           </Link>
-          <Link to="/admissions" className={btnGhostLight}>
+
+          <Link
+            to="/admissions"
+            className={`${buttonBase} border border-white bg-transparent text-white hover:bg-white hover:text-black ${focus}`}
+          >
             Request Information
           </Link>
         </div>
@@ -692,27 +1003,57 @@ function CallToAction() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Footer                                                                     */
+/* Footer                                                                     */
 /* -------------------------------------------------------------------------- */
 
-function SocialIcon({ label, children }: { label: string; children: ReactNode }) {
+const footerPrograms = [
+  ['BBA', '/bba-department'],
+  ['BCA', '/bca-department'],
+  ['B.Com', '/bcom-department'],
+  ['M.Com', '/mcom-department'],
+  ['MBA', '/mba-department'],
+  ['MCA', '/mca-department'],
+  ['PUC Science', '/departments#puc-science'],
+  ['PUC Commerce', '/departments#puc-commerce'],
+] as const
+
+const footerInstitution = [
+  ['About Us', '/about-us'],
+  ['Leadership', '/about-us#leadership'],
+  ['Faculty', '/faculty'],
+  ['Campus Life', '/campus'],
+  ['Alumni Network', '/student-welfare/alumni'],
+  ['Placements', '/placements'],
+  ['Admissions', '/admissions'],
+  ['Events', '/events'],
+] as const
+function Social({
+  label,
+  href,
+  children,
+}: {
+  label: string
+  href: string
+  children: ReactNode
+}) {
   return (
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
-      onClick={(e) => e.preventDefault()}
-      className={`text-white transition-opacity hover:opacity-70 ${focusRing} focus-visible:outline-white`}
+      title={`Visit Oxford Institutions on ${label}`}
+      className="text-white transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
     >
       <svg
-        width="28"
-        height="28"
         viewBox="0 0 24 24"
+        width="25"
+        height="25"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
-        aria-hidden="true"
       >
         {children}
       </svg>
@@ -720,135 +1061,177 @@ function SocialIcon({ label, children }: { label: string; children: ReactNode })
   )
 }
 
-const footerLinkCls = `text-[12.5px] text-white transition-opacity hover:opacity-70 ${focusRing} focus-visible:outline-white`
-
-const footerPrograms = ['Engineering', 'Business & MBA', 'Medical Sciences', 'Law', 'Data Science', 'Design']
-const footerInstitution = ['About Us', 'Leadership', 'Research', 'Campus Life', 'Alumni Network', 'Careers']
-
 export function Footer() {
   return (
-    <footer className="bg-black text-white">
-      <div className={`${wrap} pb-8 pt-8`}>
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[398px_231px_272px_minmax(0,1fr)]">
-          <div className="flex w-full max-w-[263px] flex-col items-center text-center">
-            <img src={logoCrest} alt="Oxford Institutions crest" width={105} height={122} className="h-[122px] w-[105px] object-contain" />
-            <p className="mt-4 text-[12px] leading-[1.75]">
-              Committed to academic excellence, holistic development, and shaping leaders who make a difference in the
-              world since 1998.
+    <footer className="oxford-footer bg-black text-white">
+      <div className={`${container} py-[45px]`}>
+        <div className="grid gap-[45px] sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.4fr] lg:gap-[75px]">
+          <div className="text-center sm:text-left">
+            <img
+              src={logoCrest}
+              alt="Oxford Institutions"
+              className="mx-auto h-[112px] w-auto object-contain sm:mx-0"
+            />
+
+            <p className={`${sans} mt-[23px] max-w-[255px] text-[11px] leading-[21px] sm:text-left`}>
+              Committed to academic excellence, holistic development, and
+              shaping leaders who make a difference in the world since 1998.
             </p>
           </div>
 
-          <nav aria-label="Programs">
-            <h3 className="mb-6 text-[12px] font-semibold uppercase tracking-[0.15em]">Programs</h3>
-            <ul className="space-y-3">
-              {footerPrograms.map((label) => (
-                <li key={label}>
-                  <Link to={label === 'Business & MBA' ? '/bba-department' : '/departments'} className={footerLinkCls}>
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div>
+            <h3 className={`${sans} text-[12px] font-semibold tracking-[0.17em]`}>
+              PROGRAMS
+            </h3>
 
-          <nav aria-label="Institution">
-            <h3 className="mb-6 text-[12px] font-semibold uppercase tracking-[0.15em]">Institution</h3>
-            <ul className="space-y-3">
-              {footerInstitution.map((label) => (
-                <li key={label}>
-                  <Link to={label === 'Campus Life' ? '/campus' : '/'} className={footerLinkCls}>
+            <ul className={`${sans} mt-[23px] space-y-[10px] text-[11px]`}>
+              {footerPrograms.map(([label, to]) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="transition-opacity hover:opacity-60"
+                  >
                     {label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </nav>
+          </div>
 
           <div>
-            <h3 className="mb-6 text-[12px] font-semibold uppercase tracking-[0.15em]">Contact</h3>
-            <ul className="space-y-[19px] text-[12.5px]">
-              <li className="flex items-center gap-3">
-                <MapPin size={16} aria-hidden="true" /> Oxford Road, Bangalore 560001
+            <h3 className={`${sans} text-[12px] font-semibold tracking-[0.17em]`}>
+              INSTITUTION
+            </h3>
+
+            <ul className={`${sans} mt-[23px] space-y-[10px] text-[11px]`}>
+              {footerInstitution.map(([label, to]) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="transition-opacity hover:opacity-60"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className={`${sans} text-[12px] font-semibold tracking-[0.17em]`}>
+              CONTACT
+            </h3>
+
+            <ul className={`${sans} mt-[23px] space-y-[14px] text-[11px]`}>
+              <li className="flex items-center gap-[13px]">
+                <MapPin size={16} />
+                <span>Kusugal Rd, Keshwapur, Hubli, Karnataka 580023</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={16} aria-hidden="true" /> <a href="tel:+918045678900">+91 80 4567 8900</a>
+              <li className="flex items-center gap-[13px]">
+                <Phone size={16} />
+                <a href="tel:+919845115557">+91-9845115557, +91-9606919991,   +91-9606919992</a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={16} aria-hidden="true" /> <a href="mailto:admissions@oxford.edu.in">admissions@oxford.edu.in</a>
+              <li className="flex items-center gap-[13px]">
+                <Mail size={16} />
+                <a href="mailto:oxfordcollege.online@gmail.com">oxfordcollege.online@gmail.com</a>
               </li>
-              <li className="flex items-center gap-3">
-                <Clock3 size={16} aria-hidden="true" /> Mon-Sat: 9 AM – 6 PM
+              <li className="flex items-center gap-[13px]">
+                <Clock3 size={16} />
+                <span>Mon–Sat: 9 AM – 6 PM</span>
               </li>
             </ul>
 
-            <div className="mt-9 flex items-center gap-8">
-              <SocialIcon label="Instagram">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-              </SocialIcon>
-              <SocialIcon label="Facebook">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-              </SocialIcon>
-              <SocialIcon label="YouTube">
-                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-                <path d="m10 15 5-3-5-3z" />
-              </SocialIcon>
-              <SocialIcon label="Twitter">
-                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-              </SocialIcon>
+            <div className="mt-[25px] flex gap-[23px]">
+              <Social label="Instagram" href="https://www.instagram.com/oxfordcollege.online/">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.4" cy="6.6" r=".6" fill="currentColor" />
+              </Social>
+
+              <Social label="Facebook" href="https://www.facebook.com/Oxford-College-events-117535441651943/?ref=ts">
+                <path d="M14 21v-8h3l.5-3H14V8.2c0-.9.3-1.5 1.5-1.5H18V4.1c-.4-.1-1.3-.2-2.5-.2C13 3.9 11.5 5.4 11.5 8v2H9v3h2.5v8" />
+              </Social>
+
+              <Social label="YouTube" href="https://www.youtube.com/channel/UCOB8BgsZ7Zcw5nqfFW-Cgow">
+                <rect x="2" y="5" width="20" height="14" rx="4" />
+                <path d="m10 9 5 3-5 3z" fill="currentColor" stroke="none" />
+              </Social>
+
+              <Social label="Twitter" href="https://twitter.com/OxfordOnline">
+                <path d="M22 5.8c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.7 1A4.2 4.2 0 0 0 11.5 8c0 .3 0 .6.1.9-3.5-.2-6.5-1.8-8.6-4.3-.4.6-.6 1.3-.6 2.1 0 1.5.8 2.8 2.1 3.5-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.7 3.4 4.1-.4.1-.8.2-1.2.2-.3 0-.6 0-.8-.1.6 1.7 2.2 2.9 4.1 2.9A8.4 8.4 0 0 1 2 18.7 11.9 11.9 0 0 0 8.5 20c7.8 0 12.1-6.5 12.1-12.1v-.6c.8-.6 1.4-1.2 1.9-2z" />
+              </Social>
             </div>
           </div>
         </div>
 
-        <p className="mt-10 border-t border-white/40 pt-5 text-center text-[12px]">
-          © 2025 Oxford Institutions. All rights reserved. Designed By Spitel
-        </p>
+        <div className="mt-[42px] border-t border-white/35 pt-[19px] text-center">
+          <p className={`${sans} text-[10px]`}>
+            © 2025 Oxford Institutions. All rights reserved. Designed by <a href="https://spitel.com" className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Spitel Pvt. Ltd.</a>
+          </p>
+        </div>
       </div>
     </footer>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Page                                                                       */
+/* Page                                                                       */
 /* -------------------------------------------------------------------------- */
 
-export function HomeSections() {
-  return (
-    <main>
-      <Hero />
-      <Marquee />
-      <Legacy />
-      <Programs />
-      <WhyOxford />
-      <CampusLife />
-      <Testimonials />
-      <Partners />
-      <CallToAction />
-    </main>
-  )
-}
+const globalCss = `
 
-const pageCss = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Serif+Display:ital@0;1&family=Montserrat:wght@400;500;600&family=Playball&display=swap');
-@keyframes oxford-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; }
+  * { box-sizing: border-box; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-33.333333%); }
+  }
 `
 
-/**
- * Standalone style injection for pages that reuse <Header /> / <Footer />
- * (e.g. Departments.tsx) without going through <HomePage />.
- */
-export function PageStyles() {
-  return <style>{pageCss}</style>
-}
 
-export default function HomePage() {
+export function PageStyles() {
+  return <style>{globalCss}</style>
+}
+export default function HomeSections({ showHeader = true, showFooter = true }: { showHeader?: boolean; showFooter?: boolean }) {
+  const pageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const page = pageRef.current
+    if (!page || !('IntersectionObserver' in window)) return
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-revealed')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.08 })
+    const sections = page.querySelectorAll('main > section')
+    sections.forEach((section) => observer.observe(section))
+    return () => {
+      observer.disconnect()
+      sections.forEach((section) => section.classList.remove('section-revealed'))
+    }
+  }, [])
+
   return (
-    <div className="overflow-x-clip bg-white font-['Montserrat',Arial,sans-serif] text-[14px] text-[#0A1628] antialiased">
-      <style>{pageCss}</style>
-      <Header />
-      <HomeSections />
-      <Footer />
+    <div ref={pageRef} className="home-design min-h-screen overflow-x-clip bg-white text-[#0A1628] antialiased">
+      <PageStyles />
+      {showHeader && <Header />}
+      <main>
+        <Hero />
+        <Marquee />
+        <Legacy />
+        <Programs />
+        <WhyOxford />
+        <CampusLife />
+        <Testimonials />
+        <Partners />
+        <CTA />
+      </main>
+      {showFooter && <Footer />}
     </div>
   )
 }
