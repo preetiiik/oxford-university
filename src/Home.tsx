@@ -217,8 +217,6 @@ export function Header() {
                   {[
                     ['All Departments', '/departments'],
                     ['BBA', '/bba-department'], ['BCA', '/bca-department'],
-                    ['PUC Science', '/departments#puc-science'],
-                    ['PUC Commerce', '/departments#puc-commerce'],
                     ['B.Com', '/bcom-department'], ['M.Com', '/mcom-department'],
                     ['MBA', '/mba-department'], ['MCA', '/mca-department'],
                   ].map(([label, to]) => <li key={to}><NavLink to={to} end
@@ -1013,8 +1011,6 @@ const footerPrograms = [
   ['M.Com', '/mcom-department'],
   ['MBA', '/mba-department'],
   ['MCA', '/mca-department'],
-  ['PUC Science', '/departments#puc-science'],
-  ['PUC Commerce', '/departments#puc-commerce'],
 ] as const
 
 const footerInstitution = [
@@ -1129,7 +1125,13 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-[13px]">
                 <Phone size={16} />
-                <a href="tel:+919845115557">+91-9845115557, +91-9606919991,   +91-9606919992</a>
+                <span className="flex flex-wrap gap-x-1">
+                  {['+91-9845115557', '+91-9606919991', '+91-9606919992'].map((num, i, arr) => (
+                    <a key={num} href={`tel:${num.replace(/-/g, '')}`} className="whitespace-nowrap">
+                      {num}{i < arr.length - 1 ? ',' : ''}
+                    </a>
+                  ))}
+                </span>
               </li>
               <li className="flex items-center gap-[13px]">
                 <Mail size={16} />
