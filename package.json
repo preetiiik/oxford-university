@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file-if-exists=.env server/dev.mjs",
-    "build": "tsc -b && vite build",
+    "build": "node node_modules/typescript/bin/tsc -b && node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "server": "node --env-file-if-exists=.env server/index.mjs",
     "test": "node --test server/app.test.mjs"
@@ -16,14 +16,14 @@
     "nodemailer": "^10.0.10",
     "react": "latest",
     "react-dom": "latest",
-    "react-router-dom": "latest",
-    "typescript": "latest",
-    "vite": "latest"
+    "react-router-dom": "latest"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
   }
 }
