@@ -1,7 +1,7 @@
 .bcom-section { padding-block: 65px; }
 .bcom-detail .bcom-intro-photo { aspect-ratio: auto; max-height: 520px; object-fit: contain; }
-.bcom-photo-gallery { align-items: start; }
-.bcom-photo-gallery img { aspect-ratio: auto; height: auto; }
+.bcom-activity-icon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; min-height: 180px; padding: 28px; border-radius: 12px; background: #f2f6f0; color: #407f55; text-align: center; }
+.bcom-activity-icon h3 { margin: 0; font-size: 24px; line-height: 1.2; }
 .bcom-copy h2 { margin: 0 0 30px; font-size: 40px; line-height: 1.15; }
 .bcom-copy h3 { margin: 30px 0 16px; font-size: 26px; line-height: 1.2; }
 .bcom-copy p + p { margin-top: 20px; }
@@ -36,11 +36,4 @@
   .bcom-copy h2 { font-size: 32px; }
   .bcom-stages { grid-template-columns: 1fr; gap: 28px; margin-top: 30px; }
   .bcom-contact { padding: 22px; }
-}
-@media (min-width: 768px) {
-  .bcom-stages > li:nth-child(5):last-child {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: calc((100% - 64px) / 2);
-  }
 }

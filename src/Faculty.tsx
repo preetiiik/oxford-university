@@ -1,3 +1,4 @@
+import facultyHero from './assets/faculty-hero.png'
 import { ArrowRight, BookOpen, BriefcaseBusiness, UsersRound } from 'lucide-react'
 
 type StaffMember = { name: string; designation: string }
@@ -28,7 +29,7 @@ function StaffTable({ members }: { members: StaffMember[] }) {
 
 export function FacultyPage() {
   return <main className="faculty-page">
-    <section className="faculty-hero"><div className="faculty-hero-content"><p className="eyebrow">People who make the difference</p><h1>Our <em>Faculty</em></h1><p>Meet the dedicated educators and support teams who guide every Oxford student towards academic and professional success.</p></div><div className="faculty-hero-orbit" aria-hidden="true"><span>EXCELLENCE</span><span>MENTORSHIP</span><span>IMPACT</span></div></section>
+    <section className="faculty-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${facultyHero})`}}><div className="faculty-hero-content"><p className="eyebrow">People who make the difference</p><h1>Our <em>Faculty</em></h1><p>Meet the dedicated educators and support teams who guide every Oxford student towards academic and professional success.</p></div><div className="faculty-hero-orbit" aria-hidden="true"><span>EXCELLENCE</span><span>MENTORSHIP</span><span>IMPACT</span></div></section>
 
     <section className="faculty-intro section-shell section-pad"><div><p className="eyebrow">A community of mentors</p><h2>Learning is stronger when people learn <em>together.</em></h2></div><p>Our faculty combines subject expertise, practical experience and a personal approach to help students discover their strengths. Explore each team below.</p></section>
 

@@ -1,3 +1,4 @@
+import eventsHero from './assets/events-hero.png'
 import CountUp from './CountUp'
 import { ArrowRight, CalendarDays, MapPin } from 'lucide-react'
 import { assets } from './assets'
@@ -11,7 +12,7 @@ const eventGroups = [
 
 export function EventsPage() {
   return <main className="events-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>Events</h1><p>Moments that bring learning, community and achievement to life.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${eventsHero})`}}><div><h1>Events</h1><p>Moments that bring learning, community and achievement to life.</p></div></section>
     <section className="events-intro section-shell section-pad"><div><p className="eyebrow">Life at Oxford</p><h2>Every experience becomes part of the journey.</h2></div><p>From community initiatives and industry visits to cultural celebrations and student achievements, Oxford events create space to learn, connect and grow together.</p></section>
     <section className="events-overview section-shell"><div><strong><CountUp value="04" /></strong><span>Event stories</span></div><div><strong><CountUp value="06+" /></strong><span>Campus experiences</span></div><div><strong><CountUp value="01" /></strong><span>Community spirit</span></div><a href="#event-stories">View stories <ArrowRight size={16}/></a></section>
     <section className="events-redesign section-shell" id="event-stories">

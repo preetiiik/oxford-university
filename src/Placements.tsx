@@ -1,8 +1,8 @@
+import placementsHero from './assets/placements-hero.png'
 import CountUp from './CountUp'
 import { useState } from 'react'
 import { BriefcaseBusiness, Building2, Search, UsersRound } from 'lucide-react'
 import './placements.css'
-import { assets } from './assets'
 
 const bcaPlacements = [
   ['Prajwal S Shetty', 'Antimony Laundry'], ['Chetan Parishwad', 'Accenture, Bangalore'], ['Imran Hanchinal', 'HDFC Bank, Hubli'],
@@ -57,7 +57,7 @@ export function PlacementsPage() {
   const rows = departmentRows[department]
   const filteredRows = rows.filter(([name, company]) => `${name} ${company}`.toLowerCase().includes(query.toLowerCase()))
   return <main className="placements-page">
-    <section className="page-hero placements-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1><span>Students placed</span><span><em>for what comes next.</em></span></h1><p>Explore the companies and career paths chosen by Oxford College graduates across departments.</p></div></section>
+    <section className="page-hero placements-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${placementsHero})`}}><div><h1><span>Students placed</span><span><em>for what comes next.</em></span></h1><p>Explore the companies and career paths chosen by Oxford College graduates across departments.</p></div></section>
     <section className="department-overview section-shell section-pad"><div className="department-overview-heading"><div><p className="eyebrow">Explore by Department</p><h2>Find placement outcomes for BCA and B.Com.</h2></div><p>Select a department to view its student and company directory.</p></div><div className="department-card-grid">{departmentOptions.map((item)=><button key={item} className={`department-card ${department===item?'active':''}`} onClick={()=>{setDepartment(item);setQuery('')}}><span>{item}</span><strong>{departmentRows[item].length}+</strong><small>students listed</small></button>)}</div></section>
     <section className="placement-stats section-shell"><div><BriefcaseBusiness/><strong><CountUp key={department} value={`${rows.length}+`} /></strong><span>{department} students listed</span></div><div><Building2/><strong><CountUp key={department} value={departmentCompanies[department]} /></strong><span>Hiring companies</span></div><div><UsersRound/><strong>{department}</strong><span>Selected department</span></div></section>
     <section id="placement-directory" className="placement-directory section-shell section-pad"><div className="directory-heading"><div><p className="eyebrow">Placement Directory</p><h2>{department} students placed in different companies</h2></div><label className="placement-search"><Search size={16}/><input value={query} placeholder="Search student or company" onChange={(event)=>setQuery(event.target.value)}/></label></div><div className="department-tabs" role="tablist">{departmentOptions.map((item)=><button key={item} className={department===item?'active':''} onClick={()=>{setDepartment(item);setQuery('')}}>{item} <span>{departmentRows[item].length}</span></button>)}</div><div className="placement-table"><div className="placement-table-head"><span>Sl. No.</span><span>Student name</span><span>Company / role</span></div>{filteredRows.length ? filteredRows.map(([name,company],index)=><div className="placement-row" key={`${department}-${name}-${index}`}><span>{String(index+1).padStart(2,'0')}</span><strong>{name}</strong><span>{company}</span></div>) : <div className="placement-empty"><strong>Placement records coming soon</strong><span>Add {department} placement details here to publish them in this shared directory.</span></div>}</div></section>

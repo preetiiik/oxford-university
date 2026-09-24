@@ -59,7 +59,7 @@
   letter-spacing:.34em;
   color:#407f55;
 }
-.integrated-pages .advisory-board-page .advisory-board-intro h1{
+.integrated-pages .advisory-board-page .advisory-board-intro h2{
   max-width:1100px;
   margin:0 0 20px;
   font-family:var(--serif);
@@ -149,7 +149,7 @@
   .integrated-pages .advisory-board-page .advisory-board-intro,
   .integrated-pages .advisory-board-page .advisory-board-grid{width:calc(100% - 32px)}
   .integrated-pages .advisory-board-page .advisory-board-intro{padding-top:42px;padding-bottom:32px}
-  .integrated-pages .advisory-board-page .advisory-board-intro h1{font-size:46px;line-height:1.02}
+  .integrated-pages .advisory-board-page .advisory-board-intro h2{font-size:46px;line-height:1.02}
   .integrated-pages .advisory-board-page .advisory-board-description{font-size:12px}
   .integrated-pages .advisory-board-page .advisory-board-grid article{min-height:138px;padding:24px 22px;grid-template-columns:52px 1fr;border-radius:15px}
   .integrated-pages .advisory-board-page .advisory-number{font-size:27px}

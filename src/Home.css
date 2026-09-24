@@ -356,20 +356,13 @@
 .home-partners .flex.flex-wrap { margin-top: 58px; gap: 34px; }
 .home-partners .flex.flex-wrap > div { height: 103px; min-width: 0; }
 .home-partners img { max-width: 100%; }
-.home-partners .flex.flex-wrap > div:nth-child(1) img { height: 92px; }
-.home-partners .flex.flex-wrap > div:nth-child(2) img { height: 40px; }
-.home-partners .flex.flex-wrap > div:nth-child(3) img { height: 103px; }
-.home-partners .flex.flex-wrap > div:nth-child(4) { flex: 1.6; }
-.home-partners .flex.flex-wrap > div:nth-child(4) img { height: 90px; }
-.home-partners .flex.flex-wrap > div:nth-child(5) img { height: 68px; }
-.home-partners .flex.flex-wrap > div:nth-child(6) img,
-.home-partners .flex.flex-wrap > div:nth-child(7) img { height: 100px; }
+
 
 .home-cta { min-height: 502px; }
 .home-cta > div.absolute { background: #0006; }
 .home-cta > div.relative { min-height: 502px; justify-content: flex-start; padding-top: 100px; padding-bottom: 70px; }
 .home-design .home-cta h2 { font-size: 56px; font-weight: 500; color: white; }
-.home-design .home-cta h2 em { color: #407f55; }
+.home-design .home-cta h2 em { color: white; }
 .home-cta p { max-width: 708px; font-size: 16px; line-height: 27px; }
 .home-cta p + div { margin-top: 42px; }
 .home-design .home-cta .home-button { height: 54px; }

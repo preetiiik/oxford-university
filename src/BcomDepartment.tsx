@@ -1,10 +1,7 @@
 import photo1 from './assets/bcom/bcom-img1.webp'
-import photo2 from './assets/bcom/bcom-img2.webp'
-import photo3 from './assets/bcom/bcom-img3.webp'
-import photo4 from './assets/bcom/bcom-img4.webp'
 import hero from './assets/departments/img6.webp'
 import { Fragment } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Trophy, CalendarDays, Music } from 'lucide-react'
 import content from './bcom-content.json'
 import './BbaDepartment.css'
 import './BcaDepartment.css'
@@ -57,7 +54,7 @@ export default function BcomDepartment() {
     {content.map(({ title, body }, index) => {
       if (index === 0) return <section className="bba-course home-container bcom-copy" key={title}><h2>{title}</h2><DocumentBody body={body} /></section>
       if (title.startsWith('Unlock')) return <section className="bba-introduction home-container" key={title}><div className="bba-introduction-copy"><p className="bba-eyebrow">B.Com Department</p><h2>Unlock Your Future in <em>Commerce &amp; Business</em></h2><DocumentBody body={body} /></div><img className="bcom-intro-photo" src={photo1} alt="Commerce students gathered outside a campus building" loading="lazy" decoding="async" /></section>
-      if (title.startsWith('How Oxford')) return <section className="bba-ocba home-container" key={title}><h2>{title}</h2><div className="bba-activity-gallery bcom-photo-gallery">{[[photo2, 'Students and faculty receiving the Yugas championship trophy'], [photo3, 'Guests lighting a ceremonial lamp at a college event'], [photo4, 'College cultural event and award presentation collage']].map(([src, alt]) => <div key={src}><img src={src} alt={alt} loading="lazy" decoding="async" /></div>)}</div><CommerceStages body={body} /></section>
+      if (title.startsWith('How Oxford')) return <section className="bba-ocba home-container" key={title}><h2>{title}</h2><div className="bba-activity-gallery bcom-activity-icons">{[{ Icon: Trophy, label: 'Student achievements' }, { Icon: CalendarDays, label: 'Campus events' }, { Icon: Music, label: 'Cultural activities' }].map(({ Icon, label }) => <div className="bcom-activity-icon" key={label}><Icon size={48} strokeWidth={1.5} aria-hidden="true" /><h3>{label}</h3></div>)}</div><CommerceStages body={body} /></section>
       if (title === 'Our Academic Achievements' || title === 'Result Analysis') return null
       return <section className={index % 2 ? 'bca-band' : 'bcom-section'} key={title}><div className="home-container bcom-copy">
         <h2>{title}</h2>

@@ -1,3 +1,9 @@
+import advisoryHero from './assets/aboutus/advisory-hero.png'
+import oxfordHero from './assets/aboutus/oxford-hero.png'
+import chairmanHero from './assets/aboutus/chairman-hero.png'
+import directorHero from './assets/aboutus/director-hero.png'
+import principalHero from './assets/aboutus/principal-hero.png'
+import visionHero from './assets/aboutus/vision-hero.png'
 import CountUp from './CountUp'
 import { assets } from './assets'
 import chairmanImage from './assets/aboutus/chairman-img.webp'
@@ -13,7 +19,7 @@ const advisors = ['Mr. Anjaneyappa V', 'Mr. Madan Desai', 'Dr. Ilamshian E', 'Mr
 
 export function AboutUsPage() {
   return <main className="about-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>About Us</h1><p>Discover the people, purpose and principles behind Oxford Institutions.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${oxfordHero})`}}><div><h1>About Us</h1><p>Discover the people, purpose and principles behind Oxford Institutions.</p></div></section>
     <section className="about-intro section-shell section-pad"><div className="about-intro-copy"><p className="eyebrow">About Us</p><h2>The Oxford Group <em>of Institutions</em></h2><p>Founded in 2006 under the leadership of Shri Vasant B. Horatti (Chairman), Oxford College, Hubli stands for Opportunity. From BBA, BCA and B.Com to today's MBA and MCA programs, our mission is to nurture minds that dare to question, create, and lead.</p><div className="about-stats"><span><strong><CountUp value="2006" /></strong>Year Founded</span><span><strong><CountUp value="25+" /></strong>Years of Excellence</span><span><strong><CountUp value="6" /></strong>Academic Programs</span><span><strong><CountUp value="1" /></strong>Guiding Chairman</span></div></div><div className="about-intro-visual" aria-label="Oxford campus moments"><figure className="about-intro-image-main"><img src={assets.campusPage.images[0]} alt="Oxford students learning together"/></figure><figure className="about-intro-image-top"><img src={assets.campusPage.images[1]} alt="Oxford student activity"/></figure><figure className="about-intro-image-bottom"><img src={assets.campusPage.images[2]} alt="Oxford campus learning"/></figure><span className="about-intro-badge">Since <strong>2006</strong></span></div></section>
     <section className="about-story"><div className="section-shell about-story-grid"><div className="story-image-placeholder"><span><CountUp value="20+" /><small>Years of Growth</small></span></div><div><p className="eyebrow">Our Story</p><h2>Opportunity, Since 2006</h2><p>Oxford College, Hubli began its relentless journey in 2006 with BBA (72 students), BCA (68 students) and, from 2008, B.Com (51 students). The Department of M.Com followed in 2013 with 40 students — and the numbers have grown steadily ever since.</p><p>Our aim goes beyond turning out successful graduates. We hone every aspect of a student's personality, imparting virtues that shape dynamic personalities who truly contribute to a better world — the mission behind the name OXFORD.</p><p>A judicious mix of theory and practice, world-class infrastructure and multi-tasking leadership development ensure every learner leaves as a globally adaptable professional with social sensitivity.</p><div className="story-years"><span><b>2006</b>BBA & BCA launched</span><span><b>2008</b>B.Com introduced</span><span><b>2013</b>M.Com department</span><span><b>2024</b>MBA & MCA launched</span></div></div></div></section>
     <section className="about-leadership section-shell section-pad"><p className="eyebrow">Leadership</p><h2>Voices That <em>Guide Us</em></h2><div className="leader-list">{leaders.map(([name,role,quote])=><article key={name}><div className="leader-avatar"/><div><h3>{name}</h3><strong>{role}</strong><p>“{quote}”</p></div></article>)}</div></section>
@@ -31,7 +37,7 @@ const chairmanMessage = [
 
 export function ChairmanMessagePage() {
   return <main className="chairman-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>Chairman’s Message</h1><p>A message of purpose, quality and opportunity from the Oxford Group.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${chairmanHero})`}}><div><h1>Chairman’s Message</h1><p>A message of purpose, quality and opportunity from the Oxford Group.</p></div></section>
     <section className="chairman-message section-shell section-pad"><div className="chairman-portrait"><img src={chairmanImage} alt="Shri Vasant B. Horatti, Chairman of Oxford Group of Institutions"/><span>Oxford Group<br/><strong>Leadership</strong></span></div><article className="chairman-copy"><p className="eyebrow">From the Chairman</p><h2>Building minds that lead with purpose.</h2>{chairmanMessage.map((paragraph)=><p key={paragraph}>{paragraph}</p>)}<div className="chairman-signature"><span>With warm regards,</span><strong>Shri Vasant B. Horatti</strong><small>Chairman, Oxford Group of Institutions</small></div></article></section>
   </main>
 }
@@ -46,7 +52,7 @@ const directorMessage = [
 
 export function DirectorMessagePage() {
   return <main className="director-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>Director’s Message</h1><p>Preparing ambitious minds for a changing world of business.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${directorHero})`}}><div><h1>Director’s Message</h1><p>Preparing ambitious minds for a changing world of business.</p></div></section>
     <section className="director-message section-shell section-pad"><div className="director-portrait"><img src={directorImage} alt="Dr. Manish Kothari, Director of Commerce and Management Studies"/><span>Commerce &<br/><strong>Management</strong></span></div><article className="director-copy"><p className="eyebrow">A Welcome from the Director</p><h2>Learn with ambition. Lead with confidence.</h2>{directorMessage.map((paragraph)=><p key={paragraph}>{paragraph}</p>)}<div className="director-signature"><span>Sincerely,</span><strong>Dr. Manish Kothari</strong><small>Director, Dept. of Commerce and Management Studies<br/>Oxford College of Business Administration</small></div></article></section>
   </main>
 }
@@ -61,7 +67,7 @@ const principalMessage = [
 
 export function PrincipalMessagePage() {
   return <main className="principal-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>Principal’s Message</h1><p>Learning beyond boundaries, with care for every student.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${principalHero})`}}><div><h1>Principal’s Message</h1><p>Learning beyond boundaries, with care for every student.</p></div></section>
     <section className="principal-message section-shell section-pad"><div className="principal-portrait"><img src={principalImage} alt="Prof. Manjunath Muthalgeri, Principal of Oxford College of Computer Applications"/><span>Student Growth<br/><strong>Beyond Boundaries</strong></span></div><article className="principal-copy"><p className="eyebrow">A Welcome from the Principal</p><h2>Every learner deserves the chance to grow.</h2>{principalMessage.map((paragraph)=><p key={paragraph}>{paragraph}</p>)}<div className="principal-signature"><span>Sincerely,</span><strong>Prof. Manjunath Muthalgeri</strong><small>Principal<br/>Oxford College of Computer Applications</small></div></article></section>
   </main>
 }
@@ -97,7 +103,7 @@ const missionPoints = [
 
 export function VisionMissionPage() {
   return <main className="vision-mission-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><h1>Vision & Mission</h1><p>The principles that guide Oxford’s learning community forward.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${visionHero})`}}><div><h1>Vision & Mission</h1><p>The principles that guide Oxford’s learning community forward.</p></div></section>
     <section className="vision-mission-intro section-shell section-pad"><p className="eyebrow">Guiding Principles</p><h2>Purpose with a clear direction.</h2><p>Our vision and mission shape the way we teach, support learners and serve the community.</p></section>
     <section className="vision-mission-grid section-shell"><article className="vision-card"><div className="vision-card-heading"><span>01</span><div><p className="eyebrow">Our Vision</p><h2>Vision</h2></div></div><ul>{visionPoints.map((point)=><li key={point}>{point}</li>)}</ul></article><article className="mission-card"><div className="vision-card-heading"><span>02</span><div><p className="eyebrow">Our Mission</p><h2>Mission</h2></div></div><ul>{missionPoints.map((point)=><li key={point}>{point}</li>)}</ul></article></section>
   </main>
@@ -118,9 +124,10 @@ const advisoryBoardMembers = [
 
 export function AdvisoryBoardPage() {
   return <main className="advisory-board-page">
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${advisoryHero})`}}><div><h1>Advisory Board</h1><p>Experience that guides every step.</p></div></section>
     <section className="advisory-board-intro section-shell">
       <p className="eyebrow">Our Advisors</p>
-      <h1>Experience that guides every step.</h1>
+      <h2>Experience that guides every step.</h2>
       <p className="advisory-board-description">Our advisory board brings together leaders from education, industry, law and public service to strengthen the Oxford learning experience.</p>
     </section>
     <section className="advisory-board-grid section-shell">
@@ -139,7 +146,7 @@ export function AdvisoryBoardPage() {
 
 export function OxfordGroupPage() {
   return <main className="oxford-group-page">
-    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${assets.admissions.hero})`}}><div><p className="eyebrow oxford-group-hero-label">About Us</p><h1>The Oxford Group</h1><p>Opportunity, learning and a future built together.</p></div></section>
+    <section className="page-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(5,12,10,.72),rgba(5,12,10,.5)),url(${oxfordHero})`}}><div><p className="eyebrow oxford-group-hero-label">About Us</p><h1>The Oxford Group</h1><p>Opportunity, learning and a future built together.</p></div></section>
     <section className="oxford-group-story section-shell section-pad"><div className="oxford-group-gallery"><figure className="oxford-group-gallery-main"><img src={assets.campusPage.images[0]} alt="Oxford students learning together"/></figure><figure><img src={assets.campusPage.images[1]} alt="Oxford student collaboration"/></figure><figure><img src={assets.campusPage.images[2]} alt="Oxford computer lab"/></figure></div><article className="oxford-group-copy"><p className="eyebrow">The Oxford Group</p><h2>Opportunity, learning and a future built together.</h2><p>Oxford College, Hubli stands for Opportunity, under the leadership of Shri. Vasant B. Horatti (Chairman). We are blissful to state that, we have grown immensely. There has been a clear focus and an adamant execution on the objectives of all departments; Oxford College began its relentless and perdurable journey in the year 2006 with the strength of BBA – 72 students, BCA – 68 Students and B.Com being 51 students in the year 2008.</p><p>We are happy to announce that, there has been a gradual increase in the strength. The Department of M.Com began in 2013 with the promising figure of 40 student. At Oxford College Hubli, our aim goes beyond turning out just successful graduates. Our determination is to hone and refine every aspect of the student’s personality and impart to them virtues that will shape them not just into fine graduates, but create dynamic personalities who will truly contribute to creating a better world around us. Oxford’s mission is to create and nurture an environment that kindles learning and inspires to build a career, an institution, a nation “OXFORD”.</p><p>The name itself speaks volumes in the field of education. The Oxford College, Hubli is a cherished dream which has turned into reality in our commercial city, Hubli. It is a very well established platform for students to launch themselves into their dream courses and realize the same.</p><p>Oxford College, Hubli sets standards which are apart from the rest. The infrastructure is one of its kinds. The academic focus at Oxford College is to develop a complete student and a globally adaptable professional with social sensitivity. A judicious mix of theory and practice comprises the teaching – learning loop.</p><p>We create multi tasking leaders, emphasizing potential in every student. At Oxford College Hubli, we ensure to deliver quality education because we believe that the power of a nation lies in its youth. Learning at Oxford College Hubli therefore is a privilege and a pride.</p><p>Oxford provides the support, skills, knowledge and experience to make successful transition from course to career, no matter how ambitious the targets are. Oxford offer various courses which include:</p><ul><li>Bachelor of Business Administration (BBA) 2006.</li><li>Bachelor of Computer Application (BCA) 2006.</li><li>Bachelor of Commerce (B. Com.) 2008.</li><li>Master of Commerce (M. Com.) 2013.</li><li>Master of Business Administration (MBA) (2024).</li><li>Master of Computer Application (MCA) (2024).</li></ul></article></section>
   </main>
 }

@@ -36,10 +36,10 @@ import campusCafeteria from './assets/home/img8.webp'
 import partnerWipro from './assets/home/img7.webp'
 import partnerAirtel from './assets/home/img6.webp'
 import partnerAtm from './assets/home/img5.webp'
-import partnerXentrix from './assets/home/img4.webp'
-import partnerOmega from './assets/home/img3.webp'
-import partnerItc from './assets/home/img1.webp'
-import partnerTata from './assets/home/img2.webp'
+import partnerXentrix from './assets/home/img2.webp'
+import partnerOmega from './assets/home/img4.webp'
+import partnerItc from './assets/home/img3.webp'
+import partnerTata from './assets/home/img1.webp'
 
 /*
   Figma reference:
@@ -329,7 +329,7 @@ function Hero() {
 
             <div className="absolute right-0 top-0 flex h-[70px] w-[70px] flex-col items-center justify-center rounded-bl-[8px] bg-[#407F55] text-white">
               <span className={`${display} text-[23px] italic leading-none`}>
-                25
+                25+
               </span>
               <span className={`${sans} mt-[4px] text-[7px] uppercase tracking-[0.1em]`}>
                 Years
@@ -974,10 +974,10 @@ const partners = [
   [partnerWipro, 'Wipro'],
   [partnerAirtel, 'Airtel'],
   [partnerAtm, 'ATM'],
-  [partnerXentrix, 'Xentrix'],
   [partnerOmega, 'Omega'],
   [partnerItc, 'ITC Limited'],
   [partnerTata, 'Tata'],
+  [partnerXentrix, 'Xentrix'],
 ] as const
 
 function Partners() {
@@ -992,7 +992,7 @@ function Partners() {
           </h2>
 
           <MotionRail label="Partner logos" variant="partners">
-            {partners.map(([src, alt], index) => (
+            {partners.map(([src, alt]) => (
               <div
                 key={alt}
                 className="flex h-[75px] min-w-[90px] flex-1 items-center justify-center"
@@ -1001,15 +1001,7 @@ function Partners() {
                   src={src}
                   alt={alt}
                   loading="lazy"
-                  className={`w-auto object-contain ${
-                    index === 1
-                      ? 'h-[31px]'
-                      : index === 3
-                        ? 'h-[53px]'
-                        : index === 4
-                          ? 'h-[48px]'
-                          : 'h-[72px]'
-                  }`}
+                  className={`partner-logo${alt === 'Xentrix' ? ' partner-logo-xentrix' : alt === 'Tata' ? ' partner-logo-tata' : ''}`}
                 />
               </div>
             ))}
@@ -1038,14 +1030,14 @@ function CTA() {
       <div className="relative flex min-h-[430px] flex-col items-center justify-center px-5 text-center">
         <h2 className={`${serif} text-[42px] leading-none text-white sm:text-[48px]`}>
           Start Your{' '}
-          <em className={`${display} font-normal italic text-[#407F55]`}>
+          <em className={`${serif} font-normal italic text-white`}>
             Journey
           </em>{' '}
           Today
         </h2>
 
         <p className={`${sans} mt-[26px] max-w-[650px] text-[13px] leading-[22px] text-white`}>
-          Applications for the 2025–26 academic year are now open. Join over
+          Applications for the 2026–27 academic year are now open. Join over
           12,500 alumni who have built extraordinary careers with Oxford Institutions.
         </p>
 
@@ -1246,7 +1238,7 @@ export function Footer() {
 
         <div className="mt-[42px] border-t border-white/35 pt-[19px] text-center">
           <p className={`${sans} text-[10px]`}>
-            © 2025 Oxford Institutions. All Rights Reserved. Designed by <a href="https://spitel.com" className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Spitel Pvt. Ltd.</a>
+            © 2025 Oxford Institutions. All Rights Reserved. Powered by <a href="https://spitel.com" className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Spitel Pvt. Ltd.</a>
           </p>
         </div>
       </div>

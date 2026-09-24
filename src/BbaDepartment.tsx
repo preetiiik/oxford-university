@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { ArrowUpRight } from 'lucide-react'
 import marketingIcon from './assets/bba/marketing.png'
 import financeIcon from './assets/bba/finance.png'
 import humanResourceIcon from './assets/bba/human-resource.png'
-import stageArrow from './assets/bba/img11.webp'
 import intro from './assets/bba/img9.webp'
 import gallery1 from './assets/bba/img5.webp'
 import gallery2 from './assets/bba/img6.webp'
@@ -83,7 +83,7 @@ export default function BbaDepartment() {
         </div>
         <ol className="bba-stages">
           {stages.map((text, index) => (
-            <li key={text}><img className="bba-stage-arrow" src={stageArrow} alt="" width={30} height={30} /><div><h3>Stage {index + 1}:</h3><p>{text}</p></div></li>
+            <li key={text}><ArrowUpRight className="bba-stage-arrow" size={24} aria-hidden="true" /><div><h3>Stage {index + 1}:</h3><p>{text}</p></div></li>
           ))}
         </ol>
       </section>

@@ -6,15 +6,11 @@
 .motion-rail-stories .motion-group > figure { flex: 0 0 calc((100% - 50px) / 3); min-width: 0; margin: 0; }
 .motion-rail-partners .motion-track { animation-duration: 26s; }
 .motion-rail-partners .motion-group { align-items: center; gap: 30px; padding-right: 30px; }
-.motion-rail-partners .motion-group > div { flex: 1 0 0; min-width: 0; height: 103px; }
-.motion-rail-partners .motion-group > div:nth-child(4) { flex-grow: 1.6; }
-.motion-rail-partners img { max-width: 100%; max-height: 100px; object-fit: contain; }
-.motion-rail-partners .motion-group > div:nth-child(1) img { height: 92px; }
-.motion-rail-partners .motion-group > div:nth-child(2) img { height: 40px; }
-.motion-rail-partners .motion-group > div:nth-child(3) img { height: 103px; }
-.motion-rail-partners .motion-group > div:nth-child(4) img { height: 90px; }
-.motion-rail-partners .motion-group > div:nth-child(5) img { height: 68px; }
-.motion-rail-partners .motion-group > div:nth-child(n+6) img { height: 100px; }
+.motion-rail-partners .motion-group > div { flex: 1 0 0; min-width: 0; height: 140px; }
+/* Edit width to resize a logo; automatic height preserves its proportions. */
+.motion-rail-partners img { width: 120px; height: auto; max-width: none; max-height: none; flex-shrink: 0; object-fit: contain; object-position: center; }
+.motion-rail-partners img.partner-logo-xentrix { width: 180px; }
+.motion-rail-partners img.partner-logo-tata { width: 100px; }
 .motion-rail:hover .motion-track,
 .motion-rail:focus-within .motion-track { animation-play-state: paused; }
 .motion-window:focus-visible { outline: 2px solid #407f55; outline-offset: 3px; }
