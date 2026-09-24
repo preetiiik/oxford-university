@@ -438,8 +438,13 @@
   .home-cta > div.relative { padding-block: 75px; }
   .home-design .home-cta h2 { font-size: 40px; }
   .home-cta p { font-size: 14px; line-height: 25px; }
-  .oxford-footer .home-container > .grid { grid-template-columns: 1fr 1fr; gap: 30px; }
-  .oxford-footer .grid > div:first-child { grid-column: 1 / -1; }
+  .oxford-footer .home-container > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+  .oxford-footer .grid > div:first-child { grid-column: 1 / -1; text-align: left; }
+  .oxford-footer .grid > div:first-child > a { margin-inline: 0; }
+  .oxford-footer .grid > div:first-child img { translate: none; transform: none; }
+  .oxford-footer .grid > div:first-child p { margin-inline: 0; text-align: left; }
+  .oxford-footer .grid > div { min-width: 0; }
+  .oxford-footer a[href^="mailto:"] { overflow-wrap: anywhere; min-width: 0; }
   .oxford-footer .grid > div:not(:first-child) { padding-top: 0; }
   .oxford-footer .grid > div:last-child { grid-column: 1 / -1; }
 }

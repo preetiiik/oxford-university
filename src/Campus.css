@@ -16,6 +16,15 @@
 .campus-page ul { margin: 0; padding: 0; list-style: none; }
 .campus-page figure { margin: 0; }
 
+@media (max-width: 639px) {
+  .campus-feature-layout .campus-about-card,
+  .campus-feature-layout .campus-classroom-card {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
 @media (min-width: 640px) {
   .campus-page h1 { font-size: 64px; }
 }
