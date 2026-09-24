@@ -441,7 +441,7 @@
   .oxford-footer .home-container > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
   .oxford-footer .grid > div:first-child { grid-column: 1 / -1; text-align: left; }
   .oxford-footer .grid > div:first-child > a { margin-inline: 0; }
-  .oxford-footer .grid > div:first-child img { translate: none; transform: none; }
+  .oxford-footer .grid > div:first-child img { margin-inline: 0; translate: none; transform: none; }
   .oxford-footer .grid > div:first-child p { margin-inline: 0; text-align: left; }
   .oxford-footer .grid > div { min-width: 0; }
   .oxford-footer a[href^="mailto:"] { overflow-wrap: anywhere; min-width: 0; }

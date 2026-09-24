@@ -1141,7 +1141,7 @@ export function Footer() {
     <img
       src={logoCrest}
       alt="Oxford Institutions"
-      className="block h-[112px] w-auto object-contain translate-x-[40px]"
+      className="block h-[112px] w-auto object-contain md:translate-x-[40px]"
     />
   </Link>
 
