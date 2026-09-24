@@ -1,8 +1,8 @@
-import photo1 from './assets/mca/mca-img1.png'
-import photo2 from './assets/mca/mca-img2.png'
-import photo3 from './assets/mca/mca-img3.png'
-import photo4 from './assets/mca/mca-img4.png'
-import hero from './assets/departments/mca.jpg'
+import photo1 from './assets/mca/mca-img1.webp'
+import photo2 from './assets/mca/mca-img2.webp'
+import photo3 from './assets/mca/mca-img3.webp'
+import photo4 from './assets/mca/mca-img4.webp'
+import hero from './assets/departments/img1.webp'
 
 import './BbaDepartment.css'
 import './BcaDepartment.css'

@@ -46,15 +46,15 @@
   .home-programs article a:hover svg, .home-button:hover svg { transform: translateX(4px); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .home-design .section-revealed > .home-container,
+  .home-design .section-revealed:not(.home-testimonials) > .home-container,
   .home-design .home-cta.section-revealed > div.relative { animation: home-reveal .75s ease-out both; }
-  .home-design .section-revealed article,
+  .home-design .section-revealed:not(.home-testimonials) article,
   .home-design .home-campus.section-revealed figure { animation: home-reveal .7s ease-out both; }
-  .home-design .section-revealed article:nth-child(2),
+  .home-design .section-revealed:not(.home-testimonials) article:nth-child(2),
   .home-design .home-campus.section-revealed figure:nth-child(2) { animation-delay: .1s; }
-  .home-design .section-revealed article:nth-child(3),
+  .home-design .section-revealed:not(.home-testimonials) article:nth-child(3),
   .home-design .home-campus.section-revealed figure:nth-child(3) { animation-delay: .2s; }
-  .home-design .section-revealed article:nth-child(n+4),
+  .home-design .section-revealed:not(.home-testimonials) article:nth-child(n+4),
   .home-design .home-campus.section-revealed figure:nth-child(n+4) { animation-delay: .3s; }
   .home-design .home-button { transition: transform .2s, box-shadow .2s, background-color .2s; }
   .home-design .home-button:hover { transform: translateY(-3px); box-shadow: 0 8px 18px #265f3d20; }

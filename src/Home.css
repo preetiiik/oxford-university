@@ -33,7 +33,7 @@
 .home-hero img ~ div:last-child > :first-child { font-size: 13px; }
 .home-hero img ~ div:last-child > :last-child { font-size: 10px; }
 .home-marquee > div { height: 49px; }
-.home-marquee > div > div { width: 1440px; justify-content: space-around; }
+.home-marquee > div > div { flex: 0 0 auto; min-width: 1440px; justify-content: space-around; }
 .home-marquee span { margin-inline: 50px; }
 
 .home-legacy > .home-container { grid-template-columns: minmax(0, 617px) minmax(0, 1fr); gap: 64px; padding-block: 88px 68px; }
@@ -91,16 +91,31 @@
   width: 100%;
   min-height: 325px;
 
-  display: grid;
-  grid-template-columns: 1fr 1.15fr 1fr;
+  overflow: hidden;
+  padding-block: 12px;
+}
+
+.testimonial-track {
+  position: relative;
+  display: flex;
   align-items: center;
   gap: 48px;
+  transition: transform 0.65s ease;
+}
 
-  overflow: hidden;
+.testimonial-track.no-transition {
+  transition: none;
+}
+
+.testimonial-slot {
+  flex: 0 0 calc((100% - 96px) / 3);
+  min-width: 0;
 }
 
 .testimonial-card {
   position: relative;
+  width: 100%;
+  min-width: 0;
 
   min-height: 285px;
   padding: 28px 28px 25px;
@@ -113,16 +128,13 @@
   flex-direction: column;
 
   transition:
-    opacity 0.65s ease,
-    transform 0.65s ease,
     box-shadow 0.65s ease;
 }
 
 /* Side cards */
 
 .testimonial-card-side {
-  opacity: 0.32;
-  transform: scale(0.96);
+  opacity: 1;
 }
 
 /* Center card */
@@ -131,7 +143,6 @@
   min-height: 322px;
 
   opacity: 1;
-  transform: scale(1);
 
   z-index: 2;
 
@@ -291,15 +302,17 @@
 
 @media (max-width: 950px) {
   .testimonial-slider {
-    grid-template-columns: 1fr;
-    gap: 18px;
-
     max-width: 620px;
     margin: 0 auto;
   }
 
-  .testimonial-card-side {
-    display: none;
+  .testimonial-slot {
+    flex-basis: 100%;
+  }
+
+  .testimonial-card {
+    width: 100%;
+    min-height: 300px;
   }
 
   .testimonial-card-center {
@@ -317,7 +330,7 @@
     min-height: 0;
   }
 
-  .testimonial-card-center {
+  .testimonial-card {
     min-height: 285px;
 
     padding: 25px 22px;
@@ -369,14 +382,14 @@
 .oxford-footer .home-container > .grid { grid-template-columns: 1.25fr 1fr 1.15fr 1.5fr; gap: 64px; }
 .oxford-footer .grid > div:first-child { text-align: center; }
 .oxford-footer .grid > div:first-child img { height: 124px; margin-inline: auto; }
-.oxford-footer .grid > div:first-child p { margin: 30px auto 0; max-width: 265px; font-size: 13px; line-height: 23px; text-align: center; color: white; }
+.oxford-footer .grid > div:first-child p { margin: 30px auto 0; max-width: 265px; font-size: 12px; line-height: 21px; text-align: left; color: white; }
 .oxford-footer .grid > div:not(:first-child) { padding-top: 30px; }
-.oxford-footer h3 { margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-size: 13px; font-weight: 600; line-height: 20px; color: white; }
-.oxford-footer ul { font-size: 14px; line-height: 23px; margin-top: 23px; }
+.oxford-footer h3 { margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-size: 12px; font-weight: 600; line-height: 20px; color: white; }
+.oxford-footer ul { font-size: 13px; line-height: 22px; margin-top: 23px; }
 .oxford-footer a { color: white; }
 .oxford-footer li svg { flex-shrink: 0; }
 .oxford-footer .home-container > div:last-child { margin-top: 32px; padding-top: 19px; }
-.oxford-footer .home-container > div:last-child p { margin: 0; color: white; font-size: 12px; }
+.oxford-footer .home-container > div:last-child p { margin: 0; color: white; font-size: 11px; }
 
 @media (max-width: 1199px) {
   .home-hero > .home-container { grid-template-columns: 1fr 1fr; gap: 35px; min-height: 0; padding-block: 50px 65px; }
@@ -435,3 +448,10 @@
   .home-marquee > div { animation: none; }
   .home-design img { transition: none; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-card, .testimonial-track { transition: none; }
+}
+
+.oxford-footer .footer-logo-link { display: inline-block; }
+.oxford-footer .footer-logo-link:focus-visible { outline: 2px solid #c9a84c; outline-offset: 5px; border-radius: 4px; }

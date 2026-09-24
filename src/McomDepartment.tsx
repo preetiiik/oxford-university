@@ -1,14 +1,14 @@
-import hero from './assets/departments/mcom.jpg'
-import classroom from './assets/mcom/1.png'
-import students from './assets/mcom/2.png'
-import trophies from './assets/mcom/3.png'
-import gathering from './assets/mcom/4.png'
+import hero from './assets/departments/img3.webp'
+import classroom from './assets/mcom/img1.webp'
+import students from './assets/mcom/img4.webp'
+import trophies from './assets/mcom/img3.webp'
+import gathering from './assets/mcom/img2.webp'
 import './BbaDepartment.css'
 import './BcaDepartment.css'
 import './McomDepartment.css'
 
 const objectives = [
-  'To create for the students of Oxford College, Hubballi an avenue for employment in the academics and also to benefit Industry by providing them with suitably trained persons in the field of Accounting & Finance.',
+  'To create for the students of Oxford College, Hubli an avenue for employment in the academics and also to benefit Industry by providing them with suitably trained persons in the field of Accounting & Finance.',
   'To prepare students to exploit ready created opportunities in the Commerce field.',
   'To give adequate exposure to the operational environment in the field of commerce.',
   'To inculcate training & practical approach by using modern technology amongst the students in the field of Commerce.',

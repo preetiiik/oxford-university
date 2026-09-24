@@ -1,4 +1,4 @@
-import hero from './assets/departments/mba.jpg'
+import hero from './assets/departments/img2.webp'
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Megaphone, LineChart, Users } from 'lucide-react'

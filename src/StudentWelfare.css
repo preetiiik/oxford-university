@@ -1,0 +1,49 @@
+/* One gap between sections prevents adjacent padding from doubling up. */
+.integrated-pages .student-welfare-page {
+  --welfare-gap: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--welfare-gap);
+  padding-bottom: var(--welfare-gap);
+}
+.integrated-pages .student-welfare-page > section:not(.page-hero) {
+  padding-block: 0;
+  margin-block: 0;
+  min-width: 0;
+}
+.integrated-pages .student-welfare-page :is(.admin-intro, .cocurricular-intro, .extra-intro, .scholarship-intro, .cells-intro, .sports-intro, .admin-anti, .management-scheme) {
+  align-items: start;
+  column-gap: clamp(28px, 4vw, 56px);
+}
+.integrated-pages .student-welfare-page :is(.admin-intro, .cocurricular-intro, .extra-intro, .scholarship-intro, .cells-intro, .sports-intro) > p {
+  margin: 0;
+  max-width: none;
+}
+.integrated-pages .student-welfare-page .section-heading {
+  align-items: start;
+  gap: 24px;
+}
+.integrated-pages .student-welfare-page .section-heading h2 { margin-bottom: 0; }
+.integrated-pages .student-welfare-page .section-heading > p { margin: 0; }
+.integrated-pages .student-welfare-page :is(.cocurricular-list > div, .extra-heading, .scholarship-grid, .cells-grid, .alumni-gallery-grid, .sports-gallery-grid) {
+  margin-top: 28px;
+}
+.integrated-pages .student-welfare-page .extra-heading {
+  margin-top: 0;
+  margin-bottom: 28px;
+  align-items: start;
+  gap: 16px;
+}
+.integrated-pages .student-welfare-page .admin-highlight { margin-bottom: 40px; }
+.integrated-pages .student-welfare-page .admin-anti { padding: 0 0 32px; }
+.integrated-pages .student-welfare-page .admin-steps { padding-top: 32px; }
+.integrated-pages .student-welfare-page :is(.cells-grid, .scholarship-grid, .extra-grid, .cocurricular-list > div) article > div { min-width: 0; }
+.integrated-pages .student-welfare-page > section:is(.alumni-connect, .cocurricular-cta, .extra-cta, .cells-cta, .management-scheme) {
+  padding: clamp(24px, 4vw, 48px);
+}
+.integrated-pages .student-welfare-page > section:is(.alumni-connect, .cocurricular-cta, .extra-cta, .cells-cta, .management-scheme) > :last-child { margin-bottom: 0; }
+@media (max-width: 820px) {
+  .integrated-pages .student-welfare-page { --welfare-gap: 40px; }
+  .integrated-pages .student-welfare-page :is(.admin-intro, .cocurricular-intro, .extra-intro, .scholarship-intro, .cells-intro, .sports-intro, .admin-anti, .management-scheme) { row-gap: 20px; }
+  .integrated-pages .student-welfare-page .admin-highlight { margin-bottom: 28px; }
+}

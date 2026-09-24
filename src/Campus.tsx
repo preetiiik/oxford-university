@@ -2,7 +2,7 @@
  * Oxford Institutions — Campus page (single file, Tailwind CSS)
  *
  * Reuses <Header />, <Footer /> and <PageStyles /> from ./Home.
- * Images: ./assets/campus/*.png  (see the imports below).
+ * Images: ./assets/campus/*.webp  (see the imports below).
  *
  * Exports:
  *   default  CampusPage     – header + hero + sections + footer
@@ -13,17 +13,17 @@ import './Campus.css'
 
 import { Footer, Header, PageStyles } from './Home'
 
-import heroImg from './assets/campus/hero.png'
-import aboutLabImg from './assets/campus/about-lab.png'
-import classroomImg from './assets/campus/classroom.png'
-import courtyardImg from './assets/campus/courtyard.png'
-import studentLaptopImg from './assets/campus/student-laptop.png'
-import gallery1 from './assets/campus/gallery-1.png'
-import gallery2 from './assets/campus/gallery-2.png'
-import gallery3 from './assets/campus/gallery-3.png'
-import gallery4 from './assets/campus/gallery-4.png'
-import gallery5 from './assets/campus/gallery-5.png'
-import gallery6 from './assets/campus/gallery-6.png'
+import heroImg from './assets/campus/img11.webp'
+import aboutLabImg from './assets/campus/img8.webp'
+import classroomImg from './assets/campus/img7.webp'
+import courtyardImg from './assets/campus/img9.webp'
+import studentLaptopImg from './assets/campus/img10.webp'
+import gallery1 from './assets/campus/img5.webp'
+import gallery2 from './assets/campus/img6.webp'
+import gallery3 from './assets/campus/img3.webp'
+import gallery4 from './assets/campus/img4.webp'
+import gallery5 from './assets/campus/img1.webp'
+import gallery6 from './assets/campus/img2.webp'
 
 /* -------------------------------------------------------------------------- */
 /*  Shared class strings (same tokens as Home.tsx)                             */
@@ -186,7 +186,7 @@ export function CampusSections() {
 
         <div className="mx-auto mt-12 max-w-[1257px] space-y-[22px] text-center text-[14px] font-normal leading-[22.4px] tracking-[0.28px] text-black lg:mt-16">
           <p>
-            Oxford Institutions Hubli, located in Hubballi, is a reputed educational group known for delivering quality
+            Oxford Institutions Hubli, located in Hubli, is a reputed educational group known for delivering quality
             higher education across multiple disciplines. The institution offers a wide range of undergraduate and
             postgraduate programs in fields such as engineering, management, commerce, and science. With modern
             infrastructure, well-equipped laboratories, and experienced faculty members, it focuses on providing both

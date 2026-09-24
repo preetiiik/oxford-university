@@ -1,13 +1,13 @@
 import { ArrowUpRight } from 'lucide-react'
 import './BbaDepartment.css'
 import './BcaDepartment.css'
-import hero from './assets/departments/bca.jpg'
-import recognition from './assets/bca/bca-img1.png'
-import workshop from './assets/bca/bca-img2.png'
+import hero from './assets/departments/img7.webp'
+import recognition from './assets/bca/bca-img1.webp'
+import workshop from './assets/bca/bca-img2.webp'
 import classroomSession from './assets/bca/5.png'
 import seminarGuests from './assets/bca/6.png'
-import industryVisit from './assets/bca/bca-img3.png'
-import studentGroup from './assets/bca/bca-img4.png'
+import industryVisit from './assets/bca/bca-img3.webp'
+import studentGroup from './assets/bca/bca-img4.webp'
 
 const objectives = [
   'Continuous up gradation of knowledge through innovative, curriculum design.',

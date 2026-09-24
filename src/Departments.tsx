@@ -2,7 +2,7 @@
  * Oxford Institutions — Departments page (single file, Tailwind CSS)
  *
  * Reuses <Header />, <Footer /> and <PageStyles /> from ./Home.
- * Images: ./assets/departments/*.jpg  (see the image list below).
+ * Images: ./assets/departments/*.webp  (see the image list below).
  *
  * Exports:
  *   default  DepartmentsPage     – header + department rows + footer
@@ -15,14 +15,14 @@ import { assets } from './assets'
 
 import { Footer, Header, PageStyles } from './Home'
 
-import bbaImg from './assets/departments/bba.jpg'
-import bcaImg from './assets/departments/bca.jpg'
-import bcomImg from './assets/departments/bcom.jpg'
-import pucScienceImg from './assets/departments/puc-science.jpg'
-import pucCommerceImg from './assets/departments/puc-commerce.jpg'
-import mcomImg from './assets/departments/mcom.jpg'
-import mbaImg from './assets/departments/mba.jpg'
-import mcaImg from './assets/departments/mca.jpg'
+import bbaImg from './assets/departments/img8.webp'
+import bcaImg from './assets/departments/img7.webp'
+import bcomImg from './assets/departments/img6.webp'
+import pucScienceImg from './assets/departments/img5.webp'
+import pucCommerceImg from './assets/departments/img4.webp'
+import mcomImg from './assets/departments/img3.webp'
+import mbaImg from './assets/departments/img2.webp'
+import mcaImg from './assets/departments/img1.webp'
 
 /* -------------------------------------------------------------------------- */
 /*  Shared class strings (same tokens as Home.tsx)                             */
@@ -32,7 +32,7 @@ import mcaImg from './assets/departments/mca.jpg'
 /*  Content                                                                    */
 /* -------------------------------------------------------------------------- */
 
-type Department = { name: string; text: string; img: string; alt: string; to: string }
+type Department = { name: string; text: string; img: string; alt: string; to?: string }
 
 const departments: Department[] = [
   {
@@ -60,14 +60,12 @@ const departments: Department[] = [
     name: 'PUC Science Department',
     img: pucScienceImg,
     alt: 'PUC Science students on stage at the Zenith valedictory event',
-    to: '/admissions',
     text: 'The PUC Science programme provides students with the necessary knowledge and skills to build a strong foundation in the field of science and technology. It also prepares students with the requisite background to proceed with confidence for higher studies in the form of Engineering, Medical, Pharmacy, B.Sc., Biotechnology, Nursing, etc., and thus acquire greater competency. The PUC Science course structure is spread across two years in four semesters and is a programme affiliated to the Pre-University Education Board.',
   },
   {
     name: 'PUC Commerce Department',
     img: pucCommerceImg,
     alt: 'PUC Commerce students seated in a lecture hall',
-    to: '/admissions',
     text: 'Oxford College of Commerce is one of the premier institutes rendering education in the realm of Commerce studies since 2008. It has played a key role in shaping and refining the students in the field of Commerce. The PUC Commerce program is a comprehensive 2-year pre-university program (4 semesters) affiliated to the Pre-University Education Board, providing students with essential skills and knowledge in areas such as Accountancy, Business Studies, Economics, Statistics, and Banking fundamentals, etc.',
   },
   {
@@ -113,9 +111,9 @@ function DepartmentRow({ dept, index }: { dept: Department; index: number }) {
       <div className="department-copy">
         <h2>{dept.name}</h2>
         <p>{dept.text}</p>
-        <Link to={dept.to} className="department-explore" aria-label={`Explore ${dept.name}`}>
+        {dept.to && <Link to={dept.to} className="department-explore" aria-label={`Explore ${dept.name}`}>
           Explore Program <ChevronRight size={16} aria-hidden="true" />
-        </Link>
+        </Link>}
       </div>
     </article>
   )

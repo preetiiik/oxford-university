@@ -27,11 +27,45 @@
 .bba-activity-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
 .bba-activity-gallery > div { overflow: hidden; border-radius: 10px; }
 .bba-activity-gallery img { width: 100%; height: auto; aspect-ratio: 411 / 286; object-fit: cover; }
-.bba-stages { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-template-columns: 1fr 1fr; gap: 8px 90px; list-style: none; margin: 35px 0 0; padding: 0; }
-.bba-stages li { display: flex; align-items: flex-start; gap: 12px; }
-.bba-stages .bba-stage-arrow { flex-shrink: 0; color: #407f55; margin-top: 6px; }
-.bba-stages h3 { margin: 0; font-size: 20px; line-height: 36px; font-style: italic; }
-.bba-stages p { font-size: 18px; line-height: 30px; font-weight: 500; }
+.bba-stages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 36px 64px;
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+}
+.bba-stages li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 14px;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.bba-stages .bba-stage-arrow {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  object-fit: contain;
+  color: #407f55;
+}
+.bba-stages h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 28px;
+  font-style: italic;
+}
+.bba-stages p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 500;
+  overflow-wrap: break-word;
+}
 @media (prefers-reduced-motion: no-preference) {
   .bba-course.bba-visible, .bba-ocba.bba-visible > h2, .bba-visible .bba-introduction-copy, .bba-visible .bba-subject { animation: bba-fade-up .8s ease-out both; }
   .bba-visible.bba-introduction > img { animation: bba-slide .9s ease-out both; }
@@ -65,8 +99,14 @@
   .bba-ocba > h2 { font-size: 32px; line-height: 1.2; margin-bottom: 35px; }
   .bba-desktop-break { display: none; }
   .bba-activity-gallery { grid-template-columns: 1fr; gap: 20px; }
-  .bba-stages { grid-template-columns: 1fr; grid-template-rows: auto; grid-auto-flow: row; gap: 22px; }
+  .bba-stages { grid-template-columns: 1fr; gap: 28px; margin-top: 30px; }
   .bba-stages p { font-size: 16px; line-height: 26px; }
 }
 
-.bba-stage-arrow { width: 30px; height: 30px; object-fit: contain; }
+@media (min-width: 768px) {
+  .bba-stages > li:nth-child(5):last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 64px) / 2);
+  }
+}

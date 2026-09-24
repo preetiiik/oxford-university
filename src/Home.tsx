@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import CountUp from './CountUp'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import WelfareNavigation from './WelfareNavigation'
 import {
@@ -22,23 +23,23 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-import logoCrest from './assets/home/logo-crest.png'
-import heroCampus from './assets/home/hero-campus.jpg'
-import legacyCampus from './assets/home/legacy-campus.jpg'
-import whyLibrary from './assets/home/why-library.jpg'
-import ctaLibrary from './assets/home/cta-library.jpg'
-import campusLibrary from './assets/home/campus-library.jpg'
-import campusLab from './assets/home/campus-lab.jpg'
-import campusCulture from './assets/home/campus-culture.jpg'
-import campusSports from './assets/home/campus-sports.jpg'
-import campusCafeteria from './assets/home/campus-cafeteria.jpg'
-import partnerWipro from './assets/home/partner-wipro.png'
-import partnerAirtel from './assets/home/partner-airtel.png'
-import partnerAtm from './assets/home/partner-atm.png'
-import partnerXentrix from './assets/home/partner-xentrix.png'
-import partnerOmega from './assets/home/partner-omega.png'
-import partnerItc from './assets/home/partner-itc.png'
-import partnerTata from './assets/home/partner-tata.png'
+import logoCrest from './assets/home/img17.webp'
+import heroCampus from './assets/home/img16.webp'
+import legacyCampus from './assets/home/img15.webp'
+import whyLibrary from './assets/home/img14.webp'
+import ctaLibrary from './assets/home/img13.webp'
+import campusLibrary from './assets/home/img12.webp'
+import campusLab from './assets/home/img11.webp'
+import campusCulture from './assets/home/img9.webp'
+import campusSports from './assets/home/img10.webp'
+import campusCafeteria from './assets/home/img8.webp'
+import partnerWipro from './assets/home/img7.webp'
+import partnerAirtel from './assets/home/img6.webp'
+import partnerAtm from './assets/home/img5.webp'
+import partnerXentrix from './assets/home/img4.webp'
+import partnerOmega from './assets/home/img3.webp'
+import partnerItc from './assets/home/img1.webp'
+import partnerTata from './assets/home/img2.webp'
 
 /*
   Figma reference:
@@ -299,7 +300,7 @@ function Hero() {
             {stats.map(([value, label]) => (
               <div key={label}>
                 <dd className={`${display} text-[34px] italic leading-none text-[#407F55]`}>
-                  {value}
+                  <CountUp value={value} />
                 </dd>
                 <dt className={`${sans} mt-[8px] whitespace-nowrap text-[11px] text-[#626262]`}>
                   {label}
@@ -339,7 +340,7 @@ function Hero() {
               <span className={`${sans} text-[11px] font-medium leading-none text-[#162033]`}>
                 Admissions Open
               </span>
-              <span className={`${sans} mt-[6px] text-[8px] text-[#8490A0]`}>
+              <span className={`${sans} mt-[10px] text-[12px] text-[#8490A0]`}>
                 2026–27 Batch
               </span>
             </div>
@@ -354,19 +355,11 @@ function Hero() {
 /* Green study marquee                                                        */
 /* -------------------------------------------------------------------------- */
 
-const marquee = [
-  'ENGINEERING',
-  'MANAGEMENT',
-  'LAW',
-  'MEDICINE',
-  'ARCHITECTURE',
-  'DATA SCIENCE',
-  'ECONOMICS',
-]
+const marquee = ['BBA', 'BCA', 'B.COM', 'PUC SCIENCE', 'PUC COMMERCE', 'M.COM', 'MBA', 'MCA']
 
 function Marquee() {
   return (
-    <div className="home-marquee overflow-hidden bg-[#407F55]" aria-label="Fields of study">
+    <div className="home-marquee overflow-hidden bg-[#407F55]" aria-label="Our departments">
       <div className="flex h-[47px] w-max animate-[marquee_34s_linear_infinite] motion-reduce:animate-none">
         {[0, 1, 2].map((copy) => (
           <div key={copy} aria-hidden={copy > 0} className="flex items-center">
@@ -403,7 +396,7 @@ function Legacy() {
 
           <div className="absolute -left-[1px] top-[73px] flex h-[79px] w-[148px] flex-col items-center justify-center rounded-r-[15px] bg-[#407F55] text-white shadow-[0_15px_35px_rgba(0,0,0,.16)] lg:-left-[62px]">
             <span className={`${display} text-[35px] italic leading-none`}>
-              25+
+              <CountUp value="25+" />
             </span>
             <span className={`${sans} mt-[3px] text-[9px]`}>
               Years of Excellence
@@ -749,7 +742,7 @@ const testimonials = [
 //   },
 //   {
 //     quote:
-//       "My 5 years of experience in Oxford College Hubballi has been tremendous and the best days of my life. The encouraging support shown by our beloved Chairman Shri Vasant BHoratti sir has laid a strong foundation in my student life. With the events and fests conducted by Oxford College, I brought out the hidden talents within me and became a successful student with good exposure to the outside world. I am grateful to the lectures, management, and friends who have shown true love and countless support to me. This college has provided the best facilities a student can ever get. I am honored and grateful to be a part of the Oxford family. These campus memories will always remain fresh in my mind forever.",
+//       "My 5 years of experience in Oxford College Hubli has been tremendous and the best days of my life. The encouraging support shown by our beloved Chairman Shri Vasant BHoratti sir has laid a strong foundation in my student life. With the events and fests conducted by Oxford College, I brought out the hidden talents within me and became a successful student with good exposure to the outside world. I am grateful to the lectures, management, and friends who have shown true love and countless support to me. This college has provided the best facilities a student can ever get. I am honored and grateful to be a part of the Oxford family. These campus memories will always remain fresh in my mind forever.",
 //     name: "Ron Regy",
 //     initials: "RR",
 //     role: "Student",
@@ -769,25 +762,88 @@ function MotionRail({ children, label, variant }: { children: ReactNode; label: 
   )
 }
 
+const TESTIMONIAL_TOTAL = testimonials.length
+const EXTENDED_TESTIMONIALS = [...testimonials, ...testimonials, ...testimonials]
+const TESTIMONIAL_ROTATE_MS = 4000
+
 function Testimonials() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [position, setPosition] = useState(TESTIMONIAL_TOTAL)
+  const [noTransition, setNoTransition] = useState(false)
+  const [timerVersion, setTimerVersion] = useState(0)
+  const [measurements, setMeasurements] = useState({ step: 0, viewportWidth: 0 })
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const slotRefs = useRef<(HTMLDivElement | null)[]>([])
+  const activeIndex = ((position % TESTIMONIAL_TOTAL) + TESTIMONIAL_TOTAL) % TESTIMONIAL_TOTAL
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % testimonials.length)
-    }, 4000)
+    const timer = window.setInterval(() => {
+      setNoTransition(false)
+      setPosition(current => current + 1)
+    }, TESTIMONIAL_ROTATE_MS)
+    return () => window.clearInterval(timer)
+  }, [timerVersion])
 
-    return () => window.clearInterval(interval)
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const measure = () => {
+      const [first, second] = slotRefs.current
+      if (!first || !second) return
+      setMeasurements({
+        step: second.offsetLeft - first.offsetLeft,
+        viewportWidth: viewport.offsetWidth,
+      })
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(viewport)
+    return () => observer.disconnect()
   }, [])
 
-  const getIndex = (offset: number) =>
-    (activeIndex + offset + testimonials.length) % testimonials.length
+  function resetLoop() {
+    if (position >= TESTIMONIAL_TOTAL * 2 || position < TESTIMONIAL_TOTAL) {
+      setNoTransition(true)
+      setPosition(TESTIMONIAL_TOTAL + activeIndex)
+    }
+  }
 
-  const visibleTestimonials = [
-    testimonials[getIndex(-1)],
-    testimonials[getIndex(0)],
-    testimonials[getIndex(1)],
-  ]
+  // Reduced motion does not emit transitionend; also recover interrupted transitions.
+  useEffect(() => {
+    if (position >= TESTIMONIAL_TOTAL && position < TESTIMONIAL_TOTAL * 2) return
+    const timer = window.setTimeout(() => {
+      setNoTransition(true)
+      setPosition(TESTIMONIAL_TOTAL + activeIndex)
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 700)
+    return () => window.clearTimeout(timer)
+  }, [position, activeIndex])
+
+  useEffect(() => {
+    if (!noTransition) return
+    let secondFrame = 0
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setNoTransition(false))
+    })
+    return () => {
+      window.cancelAnimationFrame(firstFrame)
+      window.cancelAnimationFrame(secondFrame)
+    }
+  }, [noTransition])
+
+  function goTo(index: number) {
+    let delta = index - activeIndex
+    if (delta > TESTIMONIAL_TOTAL / 2) delta -= TESTIMONIAL_TOTAL
+    if (delta < -TESTIMONIAL_TOTAL / 2) delta += TESTIMONIAL_TOTAL
+    if (delta !== 0) {
+      setNoTransition(false)
+      setPosition(current => current + delta)
+    }
+    setTimerVersion(current => current + 1)
+  }
+
+  const { step, viewportWidth } = measurements
+  const visibleCount = step ? Math.max(1, Math.round(viewportWidth / step)) : 1
+  const centerOffset = (visibleCount - 1) / 2
+  const translateX = step ? -((position - centerOffset) * step) : 0
 
   return (
     <section className="home-testimonials bg-[#F8F7F3]">
@@ -808,14 +864,27 @@ function Testimonials() {
         </div>
 
         {/* Animated testimonials */}
-        <div className="testimonial-slider">
+        <div className="testimonial-slider" ref={viewportRef}>
+          <div
+            className={`testimonial-track${noTransition ? " no-transition" : ""}`}
+            style={{ transform: `translateX(${translateX}px)` }}
+            onTransitionEnd={event => {
+              if (event.target === event.currentTarget && event.propertyName === 'transform') resetLoop()
+            }}
+          >
 
-          {visibleTestimonials.map((item, position) => {
-            const isCenter = position === 1
+          {EXTENDED_TESTIMONIALS.map((item, key) => {
+            const offset = key - position
+            const isCenter = offset === 0
 
             return (
+              <div
+                className="testimonial-slot"
+                key={key}
+                ref={element => { slotRefs.current[key] = element }}
+                aria-hidden={Math.abs(offset) > centerOffset || undefined}
+              >
               <article
-                key={`${item.name}-${activeIndex}-${position}`}
                 className={`testimonial-card ${
                   isCenter
                     ? "testimonial-card-center"
@@ -851,7 +920,7 @@ function Testimonials() {
                     className={`testimonial-avatar ${
                       isCenter
                         ? "testimonial-avatar-green"
-                        : position === 0
+                        : offset < 0
                           ? "testimonial-avatar-gold"
                           : "testimonial-avatar-blue"
                     }`}
@@ -870,9 +939,10 @@ function Testimonials() {
                   </div>
                 </div>
               </article>
+              </div>
             )
           })}
-
+          </div>
         </div>
 
         {/* Pagination dots */}
@@ -886,7 +956,7 @@ function Testimonials() {
               className={`testimonial-dot ${
                 activeIndex === index ? "testimonial-dot-active" : ""
               }`}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => goTo(index)}
             />
           ))}
         </div>
@@ -1015,7 +1085,7 @@ const footerPrograms = [
 
 const footerInstitution = [
   ['About Us', '/about-us'],
-  ['Leadership', '/about-us#leadership'],
+  // ['Leadership', '/about-us#leadership'],
   ['Faculty', '/faculty'],
   ['Campus Life', '/campus'],
   ['Alumni Network', '/student-welfare/alumni'],
@@ -1062,18 +1132,26 @@ export function Footer() {
     <footer className="oxford-footer bg-black text-white">
       <div className={`${container} py-[45px]`}>
         <div className="grid gap-[45px] sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.4fr] lg:gap-[75px]">
-          <div className="text-center sm:text-left">
-            <img
-              src={logoCrest}
-              alt="Oxford Institutions"
-              className="mx-auto h-[112px] w-auto object-contain sm:mx-0"
-            />
+          <div className="text-left">
+  <Link
+    to="/"
+    aria-label="Oxford Institutions home"
+    className="block w-fit"
+  >
+    <img
+      src={logoCrest}
+      alt="Oxford Institutions"
+      className="block h-[112px] w-auto object-contain translate-x-[40px]"
+    />
+  </Link>
 
-            <p className={`${sans} mt-[23px] max-w-[255px] text-[11px] leading-[21px] sm:text-left`}>
-              Committed to academic excellence, holistic development, and
-              shaping leaders who make a difference in the world since 1998.
-            </p>
-          </div>
+  <p
+    className={`${sans} mt-[23px] max-w-[255px] text-left text-[11px] leading-[21px]`}
+  >
+    Committed to academic excellence, holistic development, and
+    shaping leaders who make a difference in the world.
+  </p>
+</div>
 
           <div>
             <h3 className={`${sans} text-[12px] font-semibold tracking-[0.17em]`}>
@@ -1154,10 +1232,10 @@ export function Footer() {
                 <path d="M14 21v-8h3l.5-3H14V8.2c0-.9.3-1.5 1.5-1.5H18V4.1c-.4-.1-1.3-.2-2.5-.2C13 3.9 11.5 5.4 11.5 8v2H9v3h2.5v8" />
               </Social>
 
-              <Social label="YouTube" href="https://www.youtube.com/channel/UCOB8BgsZ7Zcw5nqfFW-Cgow">
+              {/* <Social label="YouTube" href="https://www.youtube.com/channel/UCOB8BgsZ7Zcw5nqfFW-Cgow">
                 <rect x="2" y="5" width="20" height="14" rx="4" />
                 <path d="m10 9 5 3-5 3z" fill="currentColor" stroke="none" />
-              </Social>
+              </Social> */}
 
               <Social label="Twitter" href="https://twitter.com/OxfordOnline">
                 <path d="M22 5.8c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.7 1A4.2 4.2 0 0 0 11.5 8c0 .3 0 .6.1.9-3.5-.2-6.5-1.8-8.6-4.3-.4.6-.6 1.3-.6 2.1 0 1.5.8 2.8 2.1 3.5-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.7 3.4 4.1-.4.1-.8.2-1.2.2-.3 0-.6 0-.8-.1.6 1.7 2.2 2.9 4.1 2.9A8.4 8.4 0 0 1 2 18.7 11.9 11.9 0 0 0 8.5 20c7.8 0 12.1-6.5 12.1-12.1v-.6c.8-.6 1.4-1.2 1.9-2z" />
@@ -1168,7 +1246,7 @@ export function Footer() {
 
         <div className="mt-[42px] border-t border-white/35 pt-[19px] text-center">
           <p className={`${sans} text-[10px]`}>
-            © 2025 Oxford Institutions. All rights reserved. Designed by <a href="https://spitel.com" className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Spitel Pvt. Ltd.</a>
+            © 2025 Oxford Institutions. All Rights Reserved. Designed by <a href="https://spitel.com" className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Spitel Pvt. Ltd.</a>
           </p>
         </div>
       </div>

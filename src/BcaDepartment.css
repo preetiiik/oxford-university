@@ -23,7 +23,6 @@
 .bca-contact dd { margin: 3px 0 0; font-size: 14px; overflow-wrap: anywhere; }
 .bca-contact a:hover { text-decoration: underline; }
 .bca-contact a:focus-visible { outline: 2px solid #407f55; outline-offset: 4px; }
-.bca-stages { grid-auto-flow: row; grid-template-rows: auto; gap: 28px 60px; }
 .bca-detail .bba-activity-gallery .bca-photo-placeholder { aspect-ratio: 411 / 286; }
 .bca-skill-grid, .bca-workshops { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .bca-skill-grid { list-style: none; margin: 0; padding: 0; font-size: 14px; }

@@ -3,7 +3,7 @@ import SubmissionPopup from './SubmissionPopup'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { assets } from './assets'
 
-const courses = ['BBA', 'BCA', 'B.Com', 'PUC Science', 'PUC Commerce', 'M.Com', 'MBA', 'MCA']
+import { courses } from './courses'
 
 export function ApplyNowPage() {
   const { submit, status, feedback, popupOpen, dismissPopup } = useContactForm()
