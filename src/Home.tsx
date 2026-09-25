@@ -1078,7 +1078,7 @@ const footerPrograms = [
 const footerInstitution = [
   ...nav.map(({ label, to }) => [label, to] as const),
   ['Student Welfare', '/student-welfare'],
-  ['Apply Now', '/apply-now'],
+  // ['Apply Now', '/apply-now'],
 ] as const
 
 function Social({
