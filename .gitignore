@@ -4,3 +4,5 @@ oxford-dist.zip
 data/
 .env
 *.tsbuildinfo
+.env.local
+.env.*.local

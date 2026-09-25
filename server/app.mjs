@@ -42,12 +42,26 @@ export function createContactServer(databasePath = resolve('data/enquiries.sqlit
   const insert = db.prepare('INSERT INTO enquiries VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
   const attempts = new Map();
   const courses = ['BBA', 'BCA', 'B.Com', 'PUC Science', 'PUC Commerce', 'M.Com', 'MBA', 'MCA'];
+  const allowedOrigins = new Set(['http://localhost:5173', 'https://oxforduniversityhubli.netlify.app']);
   const server = createServer(async (req, res) => {
+    const origin = req.headers.origin;
+    res.setHeader('Vary', 'Origin');
+    if (allowedOrigins.has(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    }
     const reply = (status, body) => {
       res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
       res.end(JSON.stringify(body));
     };
     if (req.url !== '/api/contact') return reply(404, { error: 'Not found.' });
+    const sameOrigin = origin === `http://${req.headers.host}` || origin === `https://${req.headers.host}`;
+    if (origin && !allowedOrigins.has(origin) && !sameOrigin) return reply(403, { error: 'Origin not allowed.' });
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      return res.end();
+    }
     if (req.method !== 'POST') return reply(405, { error: 'Use POST to submit an enquiry.' });
     const now = Date.now();
     for (const [ip, value] of attempts) if (now > value.until) attempts.delete(ip);
@@ -55,7 +69,8 @@ export function createContactServer(databasePath = resolve('data/enquiries.sqlit
     const bucket = attempts.get(ip) ?? { count: 0, until: now + 60000 };
     attempts.set(ip, bucket);
     if (++bucket.count > 10) return reply(429, { error: 'Too many attempts. Please wait a minute and try again.' });
-    if (!req.headers['content-type']?.startsWith('multipart/form-data;')) return reply(415, { error: 'Submit form data.' });
+    const isJson = req.headers['content-type']?.split(';')[0].trim().toLowerCase() === 'application/json';
+    if (!isJson && !req.headers['content-type']?.startsWith('multipart/form-data;')) return reply(415, { error: 'Submit form data.' });
     try {
       let size = 0;
       const chunks = [];
@@ -66,7 +81,15 @@ export function createContactServer(databasePath = resolve('data/enquiries.sqlit
       }
       let form;
       try {
-        form = await new Request('http://localhost/api/contact', { method: 'POST', headers: { 'Content-Type': req.headers['content-type'] }, body: Buffer.concat(chunks) }).formData();
+        if (isJson) {
+          const payload = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+          if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid JSON object');
+          form = new FormData();
+          for (const [key, value] of Object.entries(payload)) {
+            if (typeof value !== 'string') throw new Error('Fields must be strings');
+            form.set(key, value);
+          }
+        } else form = await new Request('http://localhost/api/contact', { method: 'POST', headers: { 'Content-Type': req.headers['content-type'] }, body: Buffer.concat(chunks) }).formData();
       } catch { return reply(400, { error: 'Invalid form data.' }); }
       const field = (name) => typeof form.get(name) === 'string' ? form.get(name).trim() : '';
       const name = field('name'), email = field('email'), phone = field('phone'), course = field('course'), message = field('message'), dob = field('dateOfBirth');

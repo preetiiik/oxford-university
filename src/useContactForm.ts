@@ -1,3 +1,4 @@
+import { submitEnquiry } from './api'
 import { useRef, useState, type FormEvent } from 'react'
 
 export function useContactForm() {
@@ -17,7 +18,7 @@ export function useContactForm() {
     busy.current = true
     setStatus('sending'); setFeedback(''); setPopupOpen(false)
     try {
-      const response = await fetch('/api/contact', { method: 'POST', body: data, signal: AbortSignal.timeout(30000) })
+      const response = await submitEnquiry(data)
       const result = await response.json().catch(() => null)
       if (!response.ok || !result?.id) throw new Error(result?.error || 'Unable to submit your enquiry. Please try again.')
       setStatus('success'); setFeedback('Thank you. Your enquiry has been received.'); form.reset()

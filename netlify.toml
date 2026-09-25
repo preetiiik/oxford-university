@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "26"
+
+# Set VITE_API_URL in Netlify environment variables (Builds scope).
+# Use the actual deployed backend HTTPS origin; no backend URL exists in this repo.

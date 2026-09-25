@@ -77,7 +77,7 @@ test('email success marks the queue sent; failures retain the enquiry for retry'
 
 test('malformed requests and excessive attempts are rejected', async t => {
   const f = await fixture(t);
-  assert.equal((await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })).status, 415);
+  assert.equal((await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: '{}' })).status, 415);
   assert.equal((await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'multipart/form-data; boundary=bad' }, body: 'invalid' })).status, 400);
   for (let i = 0; i < 8; i++) await f.post(enquiry({ name: '' }));
   assert.equal((await f.post(enquiry())).status, 429);
@@ -108,4 +108,28 @@ test('Gmail failures propagate to the retry queue', async () => {
   await assert.rejects(rejected(entry), /did not accept/);
   const failed = createEmailSender(env, () => ({ sendMail: async () => { throw new Error('Authentication failed'); } }));
   await assert.rejects(failed(entry), /Authentication failed/);
+});
+test('JSON submissions and CORS support localhost and Netlify, including error responses', async t => {
+  const f = await fixture(t);
+  for (const origin of ['http://localhost:5173', 'https://oxforduniversityhubli.netlify.app']) {
+    const preflight = await fetch(`${f.base}/api/contact`, { method: 'OPTIONS', headers: { Origin: origin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' } });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get('access-control-allow-origin'), origin);
+    assert.match(preflight.headers.get('access-control-allow-methods'), /POST/);
+    assert.match(preflight.headers.get('access-control-allow-headers'), /Content-Type/i);
+    const response = await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(enquiry())) });
+    assert.equal(response.status, 201);
+    assert.ok((await response.json()).id);
+    assert.equal(response.headers.get('access-control-allow-origin'), origin);
+    const invalid = await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: '{}' });
+    assert.equal(invalid.status, 400);
+    assert.equal(invalid.headers.get('access-control-allow-origin'), origin);
+  }
+  const blocked = await fetch(`${f.base}/api/contact`, { method: 'OPTIONS', headers: { Origin: 'https://untrusted.example' } });
+  assert.equal(blocked.status, 403);
+  assert.equal(blocked.headers.get('access-control-allow-origin'), null);
+  for (const body of ['{', 'null', '[]', '{"name":123}']) {
+    assert.equal((await fetch(`${f.base}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body })).status, 400);
+  }
+  assert.equal(f.read('SELECT * FROM enquiries').length, 2);
 });
