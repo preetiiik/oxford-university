@@ -1043,7 +1043,7 @@ function CTA() {
 
         <div className="mt-[29px] flex flex-wrap justify-center gap-[14px]">
           <Link
-            to="/admissions"
+            to="/apply-now"
             className={`${buttonBase} bg-[#407F55] text-white ${focus}`}
           >
             Apply Now
@@ -1076,15 +1076,11 @@ const footerPrograms = [
 ] as const
 
 const footerInstitution = [
-  ['About Us', '/about-us'],
-  // ['Leadership', '/about-us#leadership'],
-  ['Faculty', '/faculty'],
-  ['Campus Life', '/campus'],
-  ['Alumni Network', '/student-welfare/alumni'],
-  ['Placements', '/placements'],
-  ['Admissions', '/admissions'],
-  ['Events', '/events'],
+  ...nav.map(({ label, to }) => [label, to] as const),
+  ['Student Welfare', '/student-welfare'],
+  ['Apply Now', '/apply-now'],
 ] as const
+
 function Social({
   label,
   href,

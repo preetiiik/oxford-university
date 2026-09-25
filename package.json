@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --env-file-if-exists=.env server/dev.mjs",
+    "dev": "node server/dev.mjs",
     "build": "node node_modules/typescript/bin/tsc -b && node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "server": "node --env-file-if-exists=.env server/index.mjs",
-    "test": "node --test server/app.test.mjs"
+    "test": "node --test server/*.test.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
